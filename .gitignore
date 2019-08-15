@@ -14,9 +14,7 @@
 *.DS_Store
 *.DS_Store*
 *-condition.csv
-*-subject_information.csv
 *-system.csv
-*-trials.csv
 *-workerids.csv
 *.hits
 *mturk/
