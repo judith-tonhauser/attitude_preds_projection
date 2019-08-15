@@ -1,0 +1,23 @@
+# Latex files
+# .pdf .aux .toc .bbl . blg .synctex.gz
+
+# Other files */node_modules/
+*.RData
+*.config
+*.input
+*.properties
+*.question
+*.results
+*.success
+*_invoice.csv
+*.Rhistory
+*.DS_Store
+*.DS_Store*
+*-condition.csv
+*-subject_information.csv
+*-system.csv
+*-trials.csv
+*-workerids.csv
+*.hits
+*mturk/
+*.gitattributes
