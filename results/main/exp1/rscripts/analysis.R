@@ -25,9 +25,6 @@ t_nomc = droplevels(subset(t, short_trigger != "MC"))
 # center the block and at-issueness variables
 t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("block_ai","ai")]))
 
-# reorder trigger levels
-t_nomc$Trigger = factor(x=as.character(t_nomc$short_trigger),levels=c("only","discover","know","stop","stupid","NRRC","annoyed","NomApp","possNP"))
-
 # main analysis of interest: predict projectivity from at-issueness, while controlling for block (random effects by subject, lexical content, and target expression)
 
 # the model reported in the paper
@@ -47,19 +44,6 @@ summary(m.mr.0c)
 anova(m.mr.0a,m.mr.1) #p-value for interaction
 anova(m.mr.0b,m.mr.1) #p-value for block
 anova(m.mr.0c,m.mr.1) #p-value for at-issueness
-
-# get p-values for random effects
-m.0a = lmer(projective ~ cai * cblock_ai + (0+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
-m.0b = lmer(projective ~ cai * cblock_ai + (1|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
-m.0c = lmer(projective ~ cai * cblock_ai + (1+cai|workerid) + (1+cai|short_trigger), data=t_nomc, REML=F)
-m.0e = lmer(projective ~ cai * cblock_ai + (1+cai|workerid) + (0+cai|content) + (0+cai|short_trigger), data=t_nomc, REML=F)
-m.0f = lmer(projective ~ cai * cblock_ai + (1+cai|workerid) + (0+cai|content) + (1|short_trigger), data=t_nomc, REML=F)
-
-anova(m.0a,m.mr.1) # p-value for by-participant intercepts
-anova(m.0b,m.mr.1) # p-value for by-participant slopes for at-issueness
-anova(m.0c,m.mr.1) # p-value for by-content slopes for at-issueness (ns)
-anova(m.0e,m.mr.1) # p-value for by-trigger intercepts
-anova(m.0f,m.mr.1) # p-value for by-trigger slopes for at-issueness (ns)
 
 # simple effects for interaction interpretation
 m.mr.simple = lmer(projective ~ ai * block_ai - ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
