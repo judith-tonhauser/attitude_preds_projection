@@ -61,7 +61,6 @@ ds = read_csv("../data/experiment-subject_information.csv")
 length(unique(ds$workerid)) #289 (as above: 11 times no new workerid)
 nrow(ds) #300 
 head(ds)
-summary(d) # experiment took 9 minutes (median), 10 minutes (mean)
 
 # look at Turkers' comments
 unique(ds$comments)
