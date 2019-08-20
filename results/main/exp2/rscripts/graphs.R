@@ -170,15 +170,16 @@ tmp.proj
 toplot = tmp.ai %>%
   left_join(tmp.proj, by=c("short_trigger","prior","verb")) %>%
   mutate(prior = replace_na(prior, "")) %>%
-  mutate(prior=recode(prior,low_prior="L",high_prior="H")) %>%
-  unite("verb_prior",short_trigger,prior) %>%
-  mutate(verb_prior = recode(verb_prior,MC_ = "MC"))
+  mutate(prior=recode(prior,low_prior="L",high_prior="H")) #%>%
+  # unite("verb_prior",short_trigger,prior) %>%
+  # mutate(verb_prior = recode(verb_prior,MC_ = "MC"))
 
 head(toplot)
 toplot
 
 # toplot already has VeridicalityGroup, just need to define colors
-cols = data.frame(V=levels(as.factor(toplot$verb_prior)))
+# cols = data.frame(V=levels(as.factor(toplot$verb_prior)))
+cols = data.frame(V=levels(as.factor(toplot$verb)))
 cols
 
 cols$VeridicalityGroup = as.factor(
@@ -207,13 +208,14 @@ levels(cols$V)
 fill_cols = c("darkorchid","black","gray60","tomato1","dodgerblue","black")
               
 ggplot(toplot, aes(x=AIMean,y=ProjMean,fill=VeridicalityGroup)) +
-  geom_text_repel(aes(label=verb_prior),color=cols$Colors,alpha=1,size=4) +
   geom_point(shape=21,stroke=.5,size=2.5,color="black") +
   scale_fill_manual(values=fill_cols) +
   geom_abline(intercept=0,slope=1,linetype="dashed",color="gray60") +
   geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax)) +
   geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax)) +
   guides(fill=FALSE) +
+  facet_wrap(~prior) +
+  # geom_text_repel(aes(label=verb),color=rep(cols$Colors,each=2),alpha=1,size=4) + # fix this line for colors to match
   ylab("Mean not-at-issueness rating") +
   xlab("Mean projectivity rating") 
 ggsave("../graphs/mean-projectivity-by-at-issueness-and-prior.pdf",height=5,width=5)
