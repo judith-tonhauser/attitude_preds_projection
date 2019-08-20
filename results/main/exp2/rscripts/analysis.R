@@ -1,5 +1,5 @@
-# analysis file for experiment investigating whether at-issueness predicts projection
-# for the contents of the complements of 20 predicates
+# analysis file for experiment investigating the relationship between at-issueness and prior
+# in predicting projection for the contents of the complements of 20 predicates
 
 # set working directory to directory of script
 this.dir <- dirname(rstudioapi::getSourceEditorContext()$path)
@@ -17,43 +17,58 @@ source('../../helpers.R')
 
 # load data
 d = read.csv("../data/data_preprocessed.csv")
-nrow(d) #13520 / 260 Turkers = 52 trials
+nrow(d) #468 / 9 Turkers = 52 trials
 
 # spread responses over separate columns for projectivity and at-issueness
 t = d %>%
   mutate(block_ai = as.factor(ifelse(question_type == "ai", ifelse(block == "block1", "block1", "block2"), ifelse(block == "block1", "block2", "block1")))) %>%
-  select(workerid,content,short_trigger,question_type,response,block_ai) %>%
+  select(workerid,content,short_trigger,question_type,response,block_ai,prior) %>%
   spread(question_type,response)
-nrow(t) #6760 / 260 = 26 items per Turker
+nrow(t) #234 / 9 = 26 stimuli per Turker
 
 # exclude main clause controls
 t_nomc = droplevels(subset(t, short_trigger != "MC"))
-nrow(t_nomc) #5200 / 260 = 20 target items
+nrow(t_nomc) #180 / 9 = 20 target stimuli per Turker
 
-# center the block and at-issueness variables
-t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("block_ai","ai")]))
+# center the block, at-issueness and prior variables
+t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("block_ai","ai","prior")]))
 summary(t_nomc)
 
-# main analysis of interest: predict projectivity from at-issueness
-# while controlling for block; random effects by subject, lexical content, and target expression
+# main analysis of interest: predict projectivity from prior and at-issueness and their interaction
+# while controlling for the effect of block on proj and ai ratings
+# random effects by participant, lexical content and target expression
 
 # the model reported in the paper
-m.mr.1 = lmer(projective ~ cai * cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
+m.mr.1 = lmer(projective ~ cai * cprior + cai * cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
 summary(m.mr.1)
 
 # get p-values via likelihood ratio tests
-m.mr.0a = lmer(projective ~ cai + cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
-summary(m.mr.0a)
+m.mr.0a1 = lmer(projective ~ cai * cprior + cai + cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
+summary(m.mr.0a1)
 
-m.mr.0b = lmer(projective ~ cai + cai : cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
+m.mr.0a2 = lmer(projective ~ cai + cprior + cai * cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
+summary(m.mr.0a2)
+
+m.mr.0b = lmer(projective ~ cai * cprior + cai : cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
 summary(m.mr.0b)
 
-m.mr.0c = lmer(projective ~ cblock_ai + cai : cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
+m.mr.0c = lmer(projective ~ cai * cprior + cblock_ai + cai : cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
 summary(m.mr.0c)
 
-anova(m.mr.0a,m.mr.1) #p-value for interaction: .3901
-anova(m.mr.0b,m.mr.1) #p-value for block: .09019
-anova(m.mr.0c,m.mr.1) #p-value for at-issueness: .000002012
+m.mr.0d = lmer(projective ~ cai * cblock_ai + cai + cai : cprior + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
+summary(m.mr.0d)
+
+anova(m.mr.0a1,m.mr.1) #p-value for interaction between ai and block: .86
+
+anova(m.mr.0a2,m.mr.1) #p-value for interaction between ai and prior: .4
+
+anova(m.mr.0b,m.mr.1) #p-value for block: .09
+
+anova(m.mr.0c,m.mr.1) #p-value for at-issueness: 1
+
+anova(m.mr.0d,m.mr.1) #p-value for prior: .007417
+
+### JT stopped modifying here ----
 
 # simple effects for interaction interpretation
 m.mr.simple = lmer(projective ~ ai * block_ai - ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
