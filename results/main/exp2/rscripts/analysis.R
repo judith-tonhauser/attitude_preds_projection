@@ -34,7 +34,28 @@ nrow(t_nomc) #180 / 9 = 20 target stimuli per Turker
 t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("block_ai","ai","prior")]))
 summary(t_nomc)
 
-# main analysis of interest: predict projectivity from prior and at-issueness and their interaction
+# two main analyses of interest:
+
+# 1. predict at-issueness from prior, while controlling for the effect of block
+# random effects by participant and target expression
+m.1 = lmer(cai ~ cprior * cblock_ai + (1+cprior|workerid) + (1+cprior|short_trigger), data=t_nomc, REML=F)
+summary(m.1)
+
+# get p-values via likelihood ratio tests
+m.01a = lmer(cai ~ cprior + cblock_ai + (1+cprior|workerid) + (1+cprior|short_trigger), data=t_nomc, REML=F)
+summary(m.01a)
+
+m.01b = lmer(cai ~ cprior + cprior : cblock_ai + (1+cprior|workerid) + (1+cprior|short_trigger), data=t_nomc, REML=F)
+summary(m.01b)
+
+m.01c = lmer(cai ~ cblock_ai + cprior : cblock_ai + (1+cprior|workerid) + (1+cprior|short_trigger), data=t_nomc, REML=F)
+summary(m.01c)
+
+anova(m.1,m.01a) #p-value for interaction between prior and block: .7
+anova(m.1,m.01b) #p-value for block: .9
+anova(m.1,m.01c) #p-value for prior: .1
+
+# 2.predict projectivity from prior and at-issueness and their interaction
 # while controlling for the effect of block on proj and ai ratings
 # random effects by participant, lexical content and target expression
 
