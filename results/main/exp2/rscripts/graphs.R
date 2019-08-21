@@ -18,7 +18,7 @@ theme_set(theme_bw())
 source('../../helpers.R')
 
 d = read_csv("../data/data_preprocessed.csv")
-nrow(d) #468 / 9 Turkers = 52 trials
+nrow(d) #28340 / 52 Trials = 545 Turkers
 
 summary(d)
 table(d$prior)
@@ -161,31 +161,35 @@ ggsave("../graphs/means-projectivity-by-predicate-and-prior.pdf",height=4,width=
 
 # combine at-issueness and projection means
 tmp.ai = ai.means %>%
-  rename(AIMean="Mean",AIYMin="YMin",AIYMax="YMax",VG = "VeridicalityGroup")
+  rename(AIMean="Mean",AIYMin="YMin",AIYMax="YMax",VG = "VeridicalityGroup") %>%
+  select(-verb)
 tmp.ai
+
 tmp.proj = proj.means %>%
-  rename(ProjMean="Mean",ProjYMin="YMin",ProjYMax="YMax") 
+  rename(ProjMean="Mean",ProjYMin="YMin",ProjYMax="YMax") %>%
+  select(-verb)
 tmp.proj
 
+
 toplot = tmp.ai %>%
-  left_join(tmp.proj, by=c("short_trigger","prior","verb")) %>%
+  left_join(tmp.proj, by=c("short_trigger","prior")) %>%
   mutate(prior = replace_na(prior, "")) %>%
-  mutate(prior=recode(prior,low_prior="L",high_prior="H")) #%>%
+  mutate(prior=recode(prior,low_prior="L",high_prior="H")) 
   # unite("verb_prior",short_trigger,prior) %>%
   # mutate(verb_prior = recode(verb_prior,MC_ = "MC"))
 
-head(toplot)
+summary(toplot)
 toplot
 
 # toplot already has VeridicalityGroup, just need to define colors
 # cols = data.frame(V=levels(as.factor(toplot$verb_prior)))
-cols = data.frame(V=levels(as.factor(toplot$verb)))
+cols = data.frame(V=levels(as.factor(toplot$short_trigger)))
 cols
 
 cols$VeridicalityGroup = as.factor(
-  ifelse(cols$V %in% c("know_H", "discover_H", "reveal_H", "see_H", "be_annoyed_H","know_L", "discover_L", "reveal_L", "see_L", "be_annoyed_L"), "F", 
-         ifelse(cols$V %in% c("pretend_H", "think_H", "suggest_H", "say_H","pretend_L", "think_L", "suggest_L", "say_L"), "NF", 
-                ifelse(cols$V %in% c("be_right_H","demonstrate_H","be_right_L","demonstrate_L"),"VNF",
+  ifelse(cols$V %in% c("know", "discover", "reveal", "see", "be_annoyed","know", "discover", "reveal", "see", "be_annoyed"), "F", 
+         ifelse(cols$V %in% c("pretend", "think", "suggest", "say","pretend", "think", "suggest", "say"), "NF", 
+                ifelse(cols$V %in% c("be_right","demonstrate","be_right","demonstrate"),"VNF",
                        ifelse(cols$V %in% c("MC"),"MC","V")))))
 
 levels(cols$V)
@@ -200,29 +204,38 @@ cols$Colors =  ifelse(cols$VeridicalityGroup == "F", "darkorchid",
 cols$Colors
 # cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
 
+# remove black for MC
+cols2 <- droplevels(subset(cols,cols$V != "MC"))
+cols2$Colors
+
 levels(cols$V)
+
+
+toplot[toplot$short_trigger != "MC",]$short_trigger
 
 # toplot$short_trigger <- factor(toplot$short_trigger, levels = toplot[order(as.character(proj.means$verb)),]$short_trigger, ordered = TRUE)
 # levels(toplot$short_trigger)
 
-fill_cols = c("darkorchid","black","gray60","tomato1","dodgerblue","black")
-              
-ggplot(toplot, aes(x=AIMean,y=ProjMean,fill=VeridicalityGroup)) +
+#fill_cols = c("darkorchid","black","gray60","tomato1","dodgerblue","black")
+fill_cols = c("darkorchid","gray60","tomato1","dodgerblue")
+
+ggplot(toplot[toplot$short_trigger != "MC",], aes(x=AIMean,y=ProjMean,fill=VeridicalityGroup)) +
   geom_point(shape=21,stroke=.5,size=2.5,color="black") +
+  facet_wrap(~prior) +
   scale_fill_manual(values=fill_cols) +
   geom_abline(intercept=0,slope=1,linetype="dashed",color="gray60") +
   geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax)) +
   geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax)) +
   guides(fill=FALSE) +
-  facet_wrap(~prior) +
-  # geom_text_repel(aes(label=verb),color=rep(cols$Colors,each=2),alpha=1,size=4) + # fix this line for colors to match
-  ylab("Mean not-at-issueness rating") +
-  xlab("Mean projectivity rating") 
-ggsave("../graphs/mean-projectivity-by-at-issueness-and-prior.pdf",height=5,width=5)
+  geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors,each=2),alpha=1,size=4) +
+  #geom_text_repel(aes(label=short_trigger),color=rep(cols$Colors,each=2),alpha=1,size=4) +
+  ylab("Mean projectivity rating") +
+  xlab("Mean not-at-issueness rating") 
+ggsave("../graphs/mean-projectivity-by-at-issueness-and-prior.pdf",height=5,width=10)
   
 # correlation between at-issueness and projectivity by predicate
 # including main clauses
-cor(toplot$AIMean,toplot$ProjMean) #0.52
+cor(toplot$AIMean,toplot$ProjMean) #0.73
 
 # correlation between at-issueness and projectivity by predicate/content combination
 # including main clauses
@@ -230,4 +243,4 @@ means = cd %>%
   group_by(short_trigger, content) %>%
   summarize(AIMean = mean(ai), ProjMean = mean(projective))
 means
-cor(means$AIMean,means$ProjMean) #0.51
+cor(means$AIMean,means$ProjMean) #0.68

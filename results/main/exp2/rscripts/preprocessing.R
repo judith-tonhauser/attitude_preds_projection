@@ -13,27 +13,26 @@ theme_set(theme_bw())
 
 # read in the raw data
 d = read_csv("../data/experiment-trials.csv")
-nrow(d) #468 / 9 = 52 trials (the pilot was done 9 times, as planned)
+nrow(d) #31200 / 600 Turkers = 52 trials 
 head(d)
-summary(d) #9 unique workerids
+summary(d) #600 unique workerids, experiment took 10 min (median), 11 min (mean)
 
-length(unique(d$workerid)) #9 
+length(unique(d$workerid)) #600
 
 # count of how often each Turker did the experiment
 count = d %>%
   select(workerid) %>%
   group_by(workerid) %>%
   tally(sort=T)
-count
+count 
 View(count)
-# nobody did the pilot more than once (this was run with UniqueTurker)
+# nobody did the experiment more than once (this was run with UniqueTurker)
 
 # read in the subject information
 ds = read_csv("../data/experiment-subject_information.csv")
-length(unique(ds$workerid)) #9
-nrow(ds) #9
+length(unique(ds$workerid)) #600
+nrow(ds) #600
 head(ds)
-summary(d) # experiment took 10 minutes (median), 10 minutes (mean)
 
 # look at Turkers' comments
 unique(ds$comments)
@@ -42,7 +41,7 @@ unique(ds$comments)
 d = d %>%
   left_join(ds, by=c("workerid"))
 
-nrow(d) #468 / 9 Turkers = 52
+nrow(d) #31200
 
 # change the response for ai condition so that what was 0/not-at-issue is now 1/not-at-issue
 # by subtracting the ai responses from 1
@@ -57,26 +56,47 @@ d[d$trial > 26,]$trial = d[d$trial > 26,]$trial - 1
 unique(d$trial) # trials from 1 to 52
 
 ### exclude non-American English speakers
-length(unique(d$workerid)) #9
-length(which(is.na(d$language))) #no missing responses
+length(unique(d$workerid)) #600
+length(which(is.na(d$language))) #260 (= 5 missing responses)
 table(d$language) 
 
-# exclude anybody who didn't include English among languages spoken
-# d <- d %>%
-#   filter(language != "Spanish" & language != "Korean" & language != "romanian" 
-#          & language != "United States") %>%
-#   droplevels()
-# length(unique(d$workerid)) 
+d[d$workerid == "420",]$language
+d[d$workerid == "420",]$age
+d[d$workerid == "420",]$american
+
+# submitted via email to JT:
+# I completed your entire study thoughtfully and then I accidentally double clicked on the last page. 
+# I saw that it was demographic information but I was not able to fill it out. Please let me know the 
+# questions asked. Age 31 gender: male, first language learned: English only language: English, 
+# Nationality: American Race: White. Please let me know what to do I spent a lot of time on this 
+# and accidentally screwed up on the last page WORKERID REDACTED; corresponds to de-identified workerid 420
+
+d[d$workerid == "420",]$language <- "English"
+str(d$language)
+d[d$workerid == "420",]$age = 31
+d[d$workerid == "420",]$american <- "Yes"
+str(d$american)
+
+#exclude anybody who didn't include English among languages spoken
+d <- d %>%
+  filter(language != "Italian" & language != "Polish" & language != "Tamil"
+         & language != "Vietnamese" & language != "Bulgarian"
+         & language != "Hindi" & language != "Kannada"
+         & language != "Spanish" & language != "Telugu"
+         & language != "Nepali" & language != "United States"
+         & language != "khmer") %>%
+  droplevels()
+length(unique(d$workerid)) #582 (18 Turkers excluded)
 
 # exclude non-American English speakers
-length(unique(d$workerid))# 9
-length(which(is.na(d$american))) #0 (everybody responded)
+length(unique(d$workerid)) #582
+length(which(is.na(d$american))) #104 (2 didn't respond)
 table(d$american) 
 
-# d <- d %>%
-#   filter(american == "Yes") %>%
-#   droplevels()
-# length(unique(d$workerid)) #277 (data from 3 Turkers excluded)
+d <- d %>%
+  filter(american == "Yes") %>%
+  droplevels()
+length(unique(d$workerid)) #574 (data from 8 Turkers excluded)
 
 # exclude Turkers based on main clause controls (not done for pilot data)
 
@@ -85,17 +105,17 @@ names(d)
 d.MC <- d %>%
   filter(short_trigger == "MC") %>%
   droplevels()
-nrow(d.MC) #108 / 9 Turkers = 12 (6 main clause controls in each of the two blocks)
+nrow(d.MC) #6888 / 574 Turkers = 12 (6 main clause controls in each of the two blocks)
 
 # projection of main clause data
 table(d$question_type)
 d.MC.Proj <- d.MC %>%
   filter(question_type == "projective") %>%
   droplevels()
-nrow(d.MC.Proj) #54 / 9 Turkers = 6 main clause controls in projection block
+nrow(d.MC.Proj) #3444 / 574 Turkers = 6 main clause controls in projection block
 
 # group projection mean (all Turkers, all clauses)
-round(mean(d.MC.Proj$response),2) #.06
+round(mean(d.MC.Proj$response),2) #.13
 
 # calculate each Turkers mean response to the projection of main clauses
 p.means = d.MC.Proj %>%
@@ -114,10 +134,10 @@ ggplot(p.means, aes(x=workerid,y=Mean)) +
 d.MC.AI <- d.MC %>%
   filter(question_type == "ai") %>%
   droplevels()
-nrow(d.MC.AI) #54 / 9 Turkers = 6 main clause controls in ai block
+nrow(d.MC.AI) #3444 / 574 Turkers = 6 main clause controls in ai block
 
 # group not-at-issueness mean (all Turkers, all clauses)
-round(mean(d.MC.AI$response),2) #.03
+round(mean(d.MC.AI$response),2) #.06
 
 # calculate each Turkers mean response to the projection of main clauses
 ai.means = d.MC.AI %>%
@@ -137,23 +157,23 @@ ggplot(ai.means, aes(x=workerid,y=Mean)) +
 
 # get the Turkers who are more than 3 standard deviations above the mean on projection 
 p <- p.means[p.means$Mean > (mean(p.means$Mean) + 3*sd(p.means$Mean)),]
-p #0 Turkers
+p #15 Turkers
 
 # get the Turkers who are more than 3 standard deviations above the mean on ai 
 ai <- ai.means[ai.means$Mean > (mean(ai.means$Mean) + 3*sd(ai.means$Mean)),]
-ai #0 Turkers
+ai #16 Turkers
 
 # make data subset of just the outliers
 outliers <- d.MC %>%
   filter(workerid %in% p$workerid | workerid %in% ai$workerid)
 outliers = droplevels(outliers)
-nrow(outliers) #0 / 12 = 0 outlier Turkers
+nrow(outliers) #348 / 12 = 29 outlier Turkers
 
 # exclude all outlier Turkers identified above
 d <- d %>%
   filter(!(workerid %in% p$workerid | workerid %in% ai$workerid)) %>%
   droplevels()
-length(unique(d$workerid)) # 9 remaining Turkers (0 Turkers excluded)
+length(unique(d$workerid)) #545 remaining Turkers
 
 # write cleaned dataset to file
 write_csv(d, path="../data/data_preprocessed.csv")
