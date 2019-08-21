@@ -233,6 +233,24 @@ ggplot(toplot[toplot$short_trigger != "MC",], aes(x=AIMean,y=ProjMean,fill=Verid
   xlab("Mean not-at-issueness rating") 
 ggsave("../graphs/mean-projectivity-by-at-issueness-and-prior.pdf",height=5,width=10)
   
+# trying a plot in which both effect of ai and prior are better visualized
+ggplot(toplot[toplot$short_trigger != "MC",], aes(x=AIMean,y=ProjMean,fill=VeridicalityGroup)) +
+  geom_point(shape=21,stroke=.5,size=2.5,color="black") +
+  #facet_wrap(~prior) +
+  geom_line(aes(group = short_trigger, color = "blue")) +
+  scale_fill_manual(values=fill_cols) +
+  geom_abline(intercept=0,slope=1,linetype="dashed",color="gray60") +
+  geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax)) +
+  geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax)) +
+  guides(fill=FALSE) +
+  theme(legend.position = "none") +
+  geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors,each=2),alpha=1,size=4) +
+  #geom_text_repel(aes(label=short_trigger),color=rep(cols$Colors,each=2),alpha=1,size=4) +
+  ylab("Mean projectivity rating") +
+  xlab("Mean not-at-issueness rating") 
+ggsave("../graphs/mean-projectivity-by-at-issueness-and-prior2.pdf",height=5,width=5)
+
+
 # correlation between at-issueness and projectivity by predicate
 # including main clauses
 cor(toplot$AIMean,toplot$ProjMean) #0.73

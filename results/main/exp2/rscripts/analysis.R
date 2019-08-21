@@ -97,6 +97,12 @@ summary(m.proj)
 # cprior      0.000  0.000       
 # cai:cprior -0.001 -0.002  0.002
 
+# simplistic model without interaction
+m.proj.b = lmer(projective ~ cai + cprior + (1+cai|workerid) + (1+cai|item), data=t_nomc)
+summary(m.proj.b)
+
+anova(m.proj,m.proj.b) # p=0.174
+
 # if too much of the variance in at-issueness is explained by the prior 
 # so that collinearity is too high: 
 # regress prior onto ai and enter residuals as new predictor
