@@ -55,12 +55,16 @@ summary(t)
 
 length(unique(t$item)) #400
 
+
 # two main analyses of interest:
 
 # 1. predict at-issueness from prior, while controlling for the effect of block
 # random effects by participant and item. get p-values via lmerTest (Satterthwaite's approximation)
 m.ai.prior_S = lmer(cai ~ cPriorMean + (1+cPriorMean|workerid) + (1+cPriorMean|item), data=t)
 summary(m.ai.prior_S) # cPriorMean not significant
+out <- capture.output(summary(m.ai.prior_S))
+cat("Predict at-issueness from prior", out, file="../models/predict-ai-from-prior.txt", 
+    sep="\n", append=TRUE)
 
 m.ai.prior = lmer(cai ~ cPriorMean * cblock_ai + (1+cPriorMean*cblock_ai|workerid) + (1+cPriorMean*cblock_ai|item), data=t)
 summary(m.ai.prior) # haven't tried this yet
@@ -75,20 +79,22 @@ m.proj = lmer(projective ~ cai * cPriorMean * cblock_ai + (1+cai * cPriorMean * 
 
 
 # models that do not converge (haven't tried this one yet)
-m.proj = lmer(projective ~ cai * cPriorMean * cblock_ai + (1+cai * cPriorMean + cblock_ai|workerid) + (1+cai * cPriorMean + cblock_ai|item), data=t)
+m.proj.0 = lmer(projective ~ cai * cPriorMean * cblock_ai + (1+cai * cPriorMean + cblock_ai|workerid) + (1+cai * cPriorMean + cblock_ai|item), data=t)
 
+# model that converges
 m.proj = lmer(projective ~ cai * cPriorMean + (1+cai + cPriorMean|workerid) + (1+cai + cPriorMean|item), data=t)
-summary(m.proj) # this converges! (took a while) interaction is marginally significant (.1)
+summary(m.proj) 
+out <- capture.output(summary(m.proj))
+cat("Predict projection from ai and prior", out, file="../models/predict-proj-from-ai-and-prior.txt", 
+    sep="\n", append=TRUE)
 
-# simplistic model
-m.proj = lmer(projective ~ cai * cPriorMean + (1+cai|workerid) + (1+cai|item), data=t)
-summary(m.proj)
-
-# simplistic model without interaction
-m.proj.b = lmer(projective ~ cai + cPriorMean + (1+cai|workerid) + (1+cai|item), data=t)
+m.proj.b = lmer(projective ~ cai + cPriorMean + (1+cai + cPriorMean|workerid) + (1+cai + cPriorMean|item), data=t)
 summary(m.proj.b)
+out <- capture.output(summary(m.proj.b))
+cat("Predict projection from ai and prior", out, file="../models/predict-proj-from-ai-and-prior.txt", 
+    sep="\n", append=TRUE)
 
-anova(m.proj,m.proj.b) # p=0.331
+anova(m.proj,m.proj.b) # p=xx
 
 # if too much of the variance in at-issueness is explained by the prior 
 # so that collinearity is too high: 

@@ -1,0 +1,83 @@
+Predict projection from ai and prior
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+projective ~ cai * cPriorMean + (1 + cai + cPriorMean | workerid) +  
+    (1 + cai + cPriorMean | item)
+   Data: t
+
+REML criterion at convergence: 3615.5
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.7227 -0.6172 -0.0069  0.6100  3.4742 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr       
+ workerid (Intercept) 0.016889 0.12996             
+          cai         0.027014 0.16436   0.00      
+          cPriorMean  0.038335 0.19579  -0.06 -0.42
+ item     (Intercept) 0.031926 0.17868             
+          cai         0.021176 0.14552   0.92      
+          cPriorMean  0.006042 0.07773  -0.24 -0.50
+ Residual             0.064044 0.25307             
+Number of obs: 10088, groups:  workerid, 545; item, 380
+
+Fixed effects:
+                Estimate Std. Error        df t value Pr(>|t|)    
+(Intercept)    4.483e-01  1.112e-02 5.920e+02  40.314   <2e-16 ***
+cai            2.067e-01  1.402e-02 5.251e+02  14.750   <2e-16 ***
+cPriorMean     1.557e-01  1.350e-02 3.788e+02  11.534   <2e-16 ***
+cai:cPriorMean 4.546e-02  2.737e-02 3.478e+03   1.661   0.0968 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) cai    cPrrMn
+cai          0.415              
+cPriorMean  -0.082 -0.220       
+cai:cPrirMn -0.020  0.003  0.011
+
+Predict projection from ai and prior
+Linear mixed model fit by REML. t-tests use
+  Satterthwaite's method [lmerModLmerTest]
+Formula: 
+projective ~ cai + cPriorMean + (1 + cai + cPriorMean | workerid) +  
+    (1 + cai + cPriorMean | item)
+   Data: t
+
+REML criterion at convergence: 3612.6
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.7251 -0.6187 -0.0054  0.6083  3.4941 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr       
+ workerid (Intercept) 0.016857 0.12983             
+          cai         0.026974 0.16424   0.01      
+          cPriorMean  0.038230 0.19552  -0.07 -0.41
+ item     (Intercept) 0.031938 0.17871             
+          cai         0.021147 0.14542   0.92      
+          cPriorMean  0.005756 0.07587  -0.17 -0.47
+ Residual             0.064076 0.25313             
+Number of obs: 10088, groups:  
+workerid, 545; item, 380
+
+Fixed effects:
+             Estimate Std. Error        df t value
+(Intercept)   0.44859    0.01112 590.97697   40.35
+cai           0.20658    0.01401 524.99764   14.74
+cPriorMean    0.15542    0.01346 378.67653   11.55
+            Pr(>|t|)    
+(Intercept)   <2e-16 ***
+cai           <2e-16 ***
+cPriorMean    <2e-16 ***
+---
+Signif. codes:  
+0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+           (Intr) cai   
+cai         0.416       
+cPriorMean -0.067 -0.211

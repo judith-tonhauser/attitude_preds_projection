@@ -1,0 +1,30 @@
+Predict at-issueness from prior
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: cai ~ cPriorMean + (1 + cPriorMean | workerid) + (1 + cPriorMean |  
+    item)
+   Data: t
+
+REML criterion at convergence: 4933
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.4422 -0.6463  0.0830  0.6891  3.2658 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr
+ workerid (Intercept) 0.033728 0.18365      
+          cPriorMean  0.008791 0.09376  0.04
+ item     (Intercept) 0.031069 0.17626      
+          cPriorMean  0.002484 0.04984  0.04
+ Residual             0.076505 0.27660      
+Number of obs: 10088, groups:  workerid, 545; item, 380
+
+Fixed effects:
+              Estimate Std. Error         df t value Pr(>|t|)
+(Intercept) -4.362e-04  1.232e-02  7.594e+02  -0.035    0.972
+cPriorMean   2.098e-03  1.143e-02  2.335e+02   0.183    0.855
+
+Correlation of Fixed Effects:
+           (Intr)
+cPriorMean 0.012 
