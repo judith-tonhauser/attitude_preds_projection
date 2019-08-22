@@ -16,92 +16,79 @@ source('../../helpers.R')
 # load data
 d = read.csv("../data/data_preprocessed.csv")
 nrow(d) #28340 / 52 Trials =545 Turkers 
+head(d)
+
+# exclude the main clause controls
+d_nomc = droplevels(subset(d, short_trigger != "MC"))
+nrow(d_nomc) #21800 / 545 = 40 target stimuli per Turker
+
+## merge prior means from norming study into cd
+head(d_nomc)
+table(d_nomc$prior_fact)
+# here "content" is the name of the CC and "prior_fact" is the fact
+
+# load prior means from norming study (moved to this repo, for accessibility)
+pmeans = read.csv("../data/prior_means.csv")
+pmeans$fact = gsub(".","",as.character(pmeans$fact),fixed=T)
+pmeans
+head(pmeans)
+# here "event" is the CC and "fact" is the fact, PriorMean is the info we need
+pmeans$prior_fact <- pmeans$fact
+table(pmeans$prior_fact)
+
+# merge prior means into cd
+d = left_join(d_nomc,pmeans,by=c("prior_fact"))
+nrow(d) #21800
 
 # spread responses over separate columns for projectivity and at-issueness
 t = d %>%
   mutate(block_ai = as.factor(ifelse(question_type == "ai", ifelse(block == "block1", "block1", "block2"), ifelse(block == "block1", "block2", "block1")))) %>%
-  select(workerid,content,short_trigger,question_type,response,block_ai,prior) %>%
+  select(workerid,content,short_trigger,question_type,response,block_ai,prior,PriorMean,event) %>%
   spread(question_type,response) %>%
   unite(item,short_trigger,content,remove=F)
-nrow(t) #14170 / 26 stimuli per Turker = 545 Turkers
-
-# exclude main clause controls
-t_nomc = droplevels(subset(t, short_trigger != "MC"))
-nrow(t_nomc) #10900 / 545 = 20 target stimuli per Turker
+nrow(t) #10900 / 20 stimuli per Turker = 545 Turkers
+head(t)
 
 # center the block, at-issueness and prior variables
-t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("block_ai","ai","prior")]))
-summary(t_nomc)
+t = cbind(t,myCenter(t[,c("block_ai","ai","PriorMean")]))
+summary(t)
 
-length(unique(t_nomc$item)) #400
+length(unique(t$item)) #400
 
 # two main analyses of interest:
 
 # 1. predict at-issueness from prior, while controlling for the effect of block
 # random effects by participant and item. get p-values via lmerTest (Satterthwaite's approximation)
-m.ai.prior_S = lmer(cai ~ cprior + (1+cprior|workerid) + (1+cprior|item), data=t_nomc)
-summary(m.ai.prior_S) # prior not significant
+m.ai.prior_S = lmer(cai ~ cPriorMean + (1+cPriorMean|workerid) + (1+cPriorMean|item), data=t)
+summary(m.ai.prior_S) # cPriorMean not significant
 
-m.ai.prior = lmer(cai ~ cprior * cblock_ai + (1+cprior*cblock_ai|workerid) + (1+cprior*cblock_ai|item), data=t_nomc)
-summary(m.ai.prior) # does not converge
+m.ai.prior = lmer(cai ~ cPriorMean * cblock_ai + (1+cPriorMean*cblock_ai|workerid) + (1+cPriorMean*cblock_ai|item), data=t)
+summary(m.ai.prior) # haven't tried this yet
 
 # 2.predict projectivity from prior and at-issueness and their interaction
 # while controlling for the effect of block on proj and ai ratings
 # random effects by participant and item (lexical content+target expression). 
 # get p-values via lmerTest (Satterthwaite's approximation)
 
-# the model reported in the paper
-m.proj = lmer(projective ~ cai * cprior * cblock_ai + (1+cai * cprior * cblock_ai|workerid) + (1+cai * cprior * cblock_ai|item), data=t_nomc)
+# the model reported in the paper (didn't converge after 3h)
+m.proj = lmer(projective ~ cai * cPriorMean * cblock_ai + (1+cai * cPriorMean * cblock_ai|workerid) + (1+cai * cPriorMean * cblock_ai|item), data=t)
 
 
-# models that do not converge
-m.proj = lmer(projective ~ cai * cprior * cblock_ai + (1+cai * cprior + cblock_ai|workerid) + (1+cai * cprior + cblock_ai|item), data=t_nomc)
-m.proj = lmer(projective ~ cai * cprior + (1+cai + cprior|workerid) + (1+cai + cprior|item), data=t_nomc)
+# models that do not converge (haven't tried this one yet)
+m.proj = lmer(projective ~ cai * cPriorMean * cblock_ai + (1+cai * cPriorMean + cblock_ai|workerid) + (1+cai * cPriorMean + cblock_ai|item), data=t)
 
+m.proj = lmer(projective ~ cai * cPriorMean + (1+cai + cPriorMean|workerid) + (1+cai + cPriorMean|item), data=t)
+summary(m.proj) # this converges! (took a while) interaction is marginally significant (.1)
 
 # simplistic model
-m.proj = lmer(projective ~ cai * cprior + (1+cai|workerid) + (1+cai|item), data=t_nomc)
+m.proj = lmer(projective ~ cai * cPriorMean + (1+cai|workerid) + (1+cai|item), data=t)
 summary(m.proj)
 
-# Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-# Formula: projective ~ cai * cprior + (1 + cai | workerid) + (1 + cai |      item)
-# Data: t_nomc
-# 
-# REML criterion at convergence: 4085.6
-# 
-# Scaled residuals: 
-# Min      1Q  Median      3Q     Max 
-# -3.7124 -0.6344 -0.0112  0.6334  3.3543 
-# 
-# Random effects:
-# Groups   Name        Variance Std.Dev. Corr
-# workerid (Intercept) 0.01711  0.1308       
-# cai         0.02706  0.1645   0.02
-# item     (Intercept) 0.03174  0.1782       
-# cai         0.02003  0.1415   0.93
-# Residual             0.06834  0.2614       
-# Number of obs: 10900, groups:  workerid, 545; item, 400
-# 
-# Fixed effects:
-# Estimate Std. Error         df t value Pr(>|t|)    
-# (Intercept)  4.444e-01  1.090e-02  6.353e+02   40.77   <2e-16 ***
-# cai          2.010e-01  1.366e-02  5.367e+02   14.71   <2e-16 ***
-# cprior      -8.891e-02  5.176e-03  9.976e+03  -17.18   <2e-16 ***
-# cai:cprior  -1.890e-02  1.390e-02  9.884e+03   -1.36    0.174    
-# ---
-# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-# 
-# Correlation of Fixed Effects:
-# (Intr) cai    cprior
-# cai         0.408              
-# cprior      0.000  0.000       
-# cai:cprior -0.001 -0.002  0.002
-
 # simplistic model without interaction
-m.proj.b = lmer(projective ~ cai + cprior + (1+cai|workerid) + (1+cai|item), data=t_nomc)
+m.proj.b = lmer(projective ~ cai + cPriorMean + (1+cai|workerid) + (1+cai|item), data=t)
 summary(m.proj.b)
 
-anova(m.proj,m.proj.b) # p=0.174
+anova(m.proj,m.proj.b) # p=0.331
 
 # if too much of the variance in at-issueness is explained by the prior 
 # so that collinearity is too high: 

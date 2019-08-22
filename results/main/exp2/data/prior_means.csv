@@ -1,0 +1,41 @@
+event,itemType,fact,PriorMean
+ Charley speaks Spanish,factH,Charley lives in Mexico.,0.869487179487179
+ Charley speaks Spanish,factL,Charley lives in Korea.,0.2775
+ Danny ate the last cupcake,factH,Danny loves cake.,0.688333333333333
+ Danny ate the last cupcake,factL,Danny is a diabetic.,0.254102564102564
+ Emily bought a car yesterday,factH,Emily has been saving for a year.,0.482820512820513
+ Emily bought a car yesterday,factL,Emily never has any money.,0.127222222222222
+ Emma studied on Saturday morning,factH,Emma is in law school.,0.7575
+ Emma studied on Saturday morning,factL,Emma is in first grade.,0.255897435897436
+ Frank got a cat,factH,Frank has always wanted a pet.,0.619230769230769
+ Frank got a cat,factL,Frank is allergic to cats.,0.1
+ Grace visited her sister,factH,Grace loves her sister.,0.843611111111111
+ Grace visited her sister,factL,Grace hates her sister.,0.226153846153846
+ Isabella ate a steak on Sunday,factH,Isabella is from Argentina.,0.509166666666667
+ Isabella ate a steak on Sunday,factL,Isabella is a vegetarian.,0.0576923076923077
+ Jackson ran 10 miles,factH,Jackson is training for a marathon.,0.840833333333333
+ Jackson ran 10 miles,factL,Jackson is obese.,0.110769230769231
+ Jayden rented a car,factH,Jayden&quotechars car is in the shop.,0.665384615384615
+ Jayden rented a car,factL,Jayden doesn&quotechart have a driver&quotechars license.,0.0980555555555555
+ Jon walks to work,factH,Jon lives 2 blocks away from work.,0.800833333333333
+ Jon walks to work,factL,Jon lives 10 miles away from work.,0.118717948717949
+ Josh learned to ride a bike yesterday,factH,Josh is a 5-year old boy.,0.508205128205128
+ Josh learned to ride a bike yesterday,factL,Josh is a 75-year old man.,0.208888888888889
+ Josie went on vacation to France,factH,Josie loves France.,0.703076923076923
+ Josie went on vacation to France,factL,Josie doesn&quotechart have a passport.,0.0758333333333333
+ Julian dances salsa,factH,Julian is Cuban.,0.58948717948718
+ Julian dances salsa,factL,Julian is German.,0.330833333333333
+ Mary is pregnant,factH,Mary is taking a prenatal yoga class.,0.883333333333333
+ Mary is pregnant,factL,Mary is a middle school student.,0.106153846153846
+ Mia drank 2 cocktails last night,factH,Mia is a college student.,0.525384615384615
+ Mia drank 2 cocktails last night,factL,Mia is a nun.,0.128055555555556
+ Olivia sleeps until noon,factH,Olivia works the third shift.,0.732051282051282
+ Olivia sleeps until noon,factL,Olivia has two small children.,0.0827777777777778
+ Owen shoveled snow last winter,factH,Owen lives in Chicago.,0.820833333333333
+ Owen shoveled snow last winter,factL,Owen lives in New Orleans.,0.164102564102564
+ Sophia got a tattoo,factH,Sophia is a hipster.,0.604444444444444
+ Sophia got a tattoo,factL,Sophia is a high end fashion model.,0.277948717948718
+ Tony had a drink last night,factH,Tony really likes to party with his friends.,0.718055555555556
+ Tony had a drink last night,factL,Tony has been sober for 20 years.,0.11
+ Zoe calculated the tip,factH,Zoe is a math major.,0.774615384615385
+ Zoe calculated the tip,factL,Zoe is 5 years old.,0.0825
