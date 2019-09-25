@@ -26,7 +26,7 @@ table(d$prior)
 # spread responses over separate columns for projectivity and at-issueness
 cd = d %>%
   mutate(block_ai = ifelse(question_type == "ai", ifelse(block == "block1", "block1", "block2"), ifelse(block == "block1", "block2", "block1"))) %>%
-  select(workerid,content,short_trigger,question_type,response,block_ai,prior) %>%
+  dplyr :: select(workerid,content,short_trigger,question_type,response,block_ai,prior) %>%
   spread(question_type,response)
 
 # change cd verb names to match veridicality names
@@ -162,12 +162,12 @@ ggsave("../graphs/means-projectivity-by-predicate-and-prior.pdf",height=4,width=
 # combine at-issueness and projection means
 tmp.ai = ai.means %>%
   rename(AIMean="Mean",AIYMin="YMin",AIYMax="YMax",VG = "VeridicalityGroup") %>%
-  select(-verb)
+  dplyr :: select(-verb)
 tmp.ai
 
 tmp.proj = proj.means %>%
   rename(ProjMean="Mean",ProjYMin="YMin",ProjYMax="YMax") %>%
-  select(-verb)
+  dplyr :: select(-verb)
 tmp.proj
 
 
@@ -253,7 +253,7 @@ ggsave("../graphs/mean-projectivity-by-at-issueness-and-prior2.pdf",height=5,wid
 
 # correlation between at-issueness and projectivity by predicate
 # including main clauses
-cor(toplot$AIMean,toplot$ProjMean) #0.73
+cor(toplot$AIMean,toplot$ProjMean, method = c("pearson")) #0.73
 
 # correlation between at-issueness and projectivity by predicate/content combination
 # including main clauses
@@ -261,4 +261,4 @@ means = cd %>%
   group_by(short_trigger, content) %>%
   summarize(AIMean = mean(ai), ProjMean = mean(projective))
 means
-cor(means$AIMean,means$ProjMean) #0.68
+cor(means$AIMean,means$ProjMean, method = c("pearson")) #0.68

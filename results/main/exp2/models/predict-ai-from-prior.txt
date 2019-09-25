@@ -1,30 +1,37 @@
 Predict at-issueness from prior
-Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-lmerModLmerTest]
-Formula: cai ~ cPriorMean + (1 + cPriorMean | workerid) + (1 + cPriorMean |  
-    item)
+Linear mixed model fit by REML. t-tests use
+  Satterthwaite's method [lmerModLmerTest]
+Formula: 
+cai ~ cPriorMean + cblock_ai + (1 + cPriorMean | workerid) +  
+    (1 + cPriorMean | item)
    Data: t
 
-REML criterion at convergence: 4933
+REML criterion at convergence: 4937.3
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--3.4422 -0.6463  0.0830  0.6891  3.2658 
+-3.4478 -0.6475  0.0835  0.6916  3.2699 
 
 Random effects:
  Groups   Name        Variance Std.Dev. Corr
- workerid (Intercept) 0.033728 0.18365      
-          cPriorMean  0.008791 0.09376  0.04
- item     (Intercept) 0.031069 0.17626      
-          cPriorMean  0.002484 0.04984  0.04
+ workerid (Intercept) 0.033655 0.18345      
+          cPriorMean  0.008790 0.09376  0.03
+ item     (Intercept) 0.031070 0.17627      
+          cPriorMean  0.002472 0.04972  0.04
  Residual             0.076505 0.27660      
 Number of obs: 10088, groups:  workerid, 545; item, 380
 
 Fixed effects:
-              Estimate Std. Error         df t value Pr(>|t|)
-(Intercept) -4.362e-04  1.232e-02  7.594e+02  -0.035    0.972
-cPriorMean   2.098e-03  1.143e-02  2.335e+02   0.183    0.855
+              Estimate Std. Error         df t value
+(Intercept) -4.311e-04  1.232e-02  7.585e+02  -0.035
+cPriorMean   2.099e-03  1.143e-02  2.335e+02   0.184
+cblock_ai   -2.389e-02  1.669e-02  5.423e+02  -1.431
+            Pr(>|t|)
+(Intercept)    0.972
+cPriorMean     0.854
+cblock_ai      0.153
 
 Correlation of Fixed Effects:
-           (Intr)
-cPriorMean 0.012 
+           (Intr) cPrrMn
+cPriorMean 0.009        
+cblock_ai  0.000  0.000 

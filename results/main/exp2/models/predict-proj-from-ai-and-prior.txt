@@ -1,6 +1,6 @@
 Predict projection from ai and prior
-Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-lmerModLmerTest]
+Linear mixed model fit by REML. t-tests use
+  Satterthwaite's method [lmerModLmerTest]
 Formula: 
 projective ~ cai * cPriorMean + (1 + cai + cPriorMean | workerid) +  
     (1 + cai + cPriorMean | item)
@@ -24,20 +24,25 @@ Random effects:
 Number of obs: 10088, groups:  workerid, 545; item, 380
 
 Fixed effects:
-                Estimate Std. Error        df t value Pr(>|t|)    
-(Intercept)    4.483e-01  1.112e-02 5.920e+02  40.314   <2e-16 ***
-cai            2.067e-01  1.402e-02 5.251e+02  14.750   <2e-16 ***
-cPriorMean     1.557e-01  1.350e-02 3.788e+02  11.534   <2e-16 ***
-cai:cPriorMean 4.546e-02  2.737e-02 3.478e+03   1.661   0.0968 .  
+                Estimate Std. Error        df t value
+(Intercept)    4.483e-01  1.112e-02 5.920e+02  40.314
+cai            2.067e-01  1.402e-02 5.251e+02  14.750
+cPriorMean     1.557e-01  1.350e-02 3.788e+02  11.534
+cai:cPriorMean 4.546e-02  2.737e-02 3.478e+03   1.661
+               Pr(>|t|)    
+(Intercept)      <2e-16 ***
+cai              <2e-16 ***
+cPriorMean       <2e-16 ***
+cai:cPriorMean   0.0968 .  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  
+0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
             (Intr) cai    cPrrMn
 cai          0.415              
 cPriorMean  -0.082 -0.220       
 cai:cPrirMn -0.020  0.003  0.011
-
 Predict projection from ai and prior
 Linear mixed model fit by REML. t-tests use
   Satterthwaite's method [lmerModLmerTest]
@@ -61,8 +66,7 @@ Random effects:
           cai         0.021147 0.14542   0.92      
           cPriorMean  0.005756 0.07587  -0.17 -0.47
  Residual             0.064076 0.25313             
-Number of obs: 10088, groups:  
-workerid, 545; item, 380
+Number of obs: 10088, groups:  workerid, 545; item, 380
 
 Fixed effects:
              Estimate Std. Error        df t value

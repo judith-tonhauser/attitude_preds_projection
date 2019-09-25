@@ -21,7 +21,7 @@ length(unique(d$workerid)) #600
 
 # count of how often each Turker did the experiment
 count = d %>%
-  select(workerid) %>%
+  dplyr :: select(workerid) %>%
   group_by(workerid) %>%
   tally(sort=T)
 count 
@@ -69,7 +69,7 @@ d[d$workerid == "420",]$american
 # I saw that it was demographic information but I was not able to fill it out. Please let me know the 
 # questions asked. Age 31 gender: male, first language learned: English only language: English, 
 # Nationality: American Race: White. Please let me know what to do I spent a lot of time on this 
-# and accidentally screwed up on the last page WORKERID REDACTED; corresponds to de-identified workerid 420
+# and accidentally screwed up on the last page [WORKERID REDACTED; corresponds to de-identified workerid 420]
 
 d[d$workerid == "420",]$language <- "English"
 str(d$language)
@@ -98,7 +98,7 @@ d <- d %>%
   droplevels()
 length(unique(d$workerid)) #574 (data from 8 Turkers excluded)
 
-# exclude Turkers based on main clause controls (not done for pilot data)
+# exclude Turkers based on main clause controls
 
 # main clauses
 names(d)
@@ -177,3 +177,4 @@ length(unique(d$workerid)) #545 remaining Turkers
 
 # write cleaned dataset to file
 write_csv(d, path="../data/data_preprocessed.csv")
+

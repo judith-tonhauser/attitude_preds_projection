@@ -1,7 +1,6 @@
 # graphs file for experiment investigating whether at-issueness predicts projection
 # for the contents of the complements of 20 predicates
 
-
 # set working directory to directory of script
 this.dir <- dirname(rstudioapi::getSourceEditorContext()$path)
 setwd(this.dir)
@@ -23,7 +22,7 @@ nrow(d) #13520 / 260 Turkers = 52 trials
 # spread responses over separate columns for projectivity and at-issueness
 cd = d %>%
   mutate(block_ai = ifelse(question_type == "ai", ifelse(block == "block1", "block1", "block2"), ifelse(block == "block1", "block2", "block1"))) %>%
-  select(workerid,content,short_trigger,question_type,response,block_ai) %>%
+  dplyr :: select(workerid,content,short_trigger,question_type,response,block_ai) %>%
   spread(question_type,response)
 
 # change cd verb names to match veridicality names
@@ -73,7 +72,7 @@ ai.subjmeans$verb <- factor(ai.subjmeans$short_trigger, levels = unique(levels(a
 levels(ai.subjmeans$verb)
 
 
-# plot of means, 95% bootstrapped CIs and participants' ratings 
+# plot of nai means, 95% bootstrapped CIs and participants' ratings 
 ggplot(ai.means, aes(x=verb, y=Mean, fill=VeridicalityGroup)) +
   geom_point(shape=21,fill="gray60",data=ai.subjmeans, alpha=.1, color="gray40") +
   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=0.1,color="black") +
@@ -127,7 +126,7 @@ proj.means$VeridicalityGroup = as.factor(
                 ifelse(proj.means$verb  %in% c("be_right","demonstrate"),"VNF",
                        ifelse(proj.means$verb  %in% c("MC"),"MC","V")))))
 
-# by-participant projectino responses for their items, including main clause controls 
+# by-participant projection responses for their items, including main clause controls 
 proj.subjmeans = cd %>%
   group_by(short_trigger,workerid) %>%
   summarize(Mean = mean(projective)) 
@@ -135,7 +134,7 @@ proj.subjmeans$verb <- factor(proj.subjmeans$short_trigger, levels = unique(leve
 levels(proj.subjmeans$verb)
 
 
-# plot of means, 95% bootstrapped CIs and participants' ratings 
+# plot of projection means, 95% bootstrapped CIs and participants' ratings 
 ggplot(proj.means, aes(x=verb, y=Mean, fill=VeridicalityGroup)) +
   geom_point(shape=21,fill="gray60",data=proj.subjmeans, alpha=.1, color="gray40") +
   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=0.1,color="black") +
@@ -211,12 +210,12 @@ ggsave("../graphs/mean-projectivity-by-at-issueness.pdf",height=5,width=5)
   
 # correlation between at-issueness and projectivity by predicate
 # including main clauses
-cor(toplot$AIMean,toplot$ProjMean) #0.7987381 (so .8)
+cor(toplot$AIMean,toplot$ProjMean, method = c("pearson")) #0.7987381 (so .8)
 
 # correlation between at-issueness and projectivity by predicate/content combination
 # including main clauses
-means = t %>%
+means = cd %>%
   group_by(short_trigger, content) %>%
   summarize(AIMean = mean(ai), ProjMean = mean(projective))
 means
-cor(means$AIMean,means$ProjMean) #0.6970511 (so .7)
+cor(means$AIMean,means$ProjMean, method = c("pearson")) #0.6917738 (so .7)

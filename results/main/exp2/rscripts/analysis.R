@@ -43,7 +43,7 @@ nrow(d) #21800
 # spread responses over separate columns for projectivity and at-issueness
 t = d %>%
   mutate(block_ai = as.factor(ifelse(question_type == "ai", ifelse(block == "block1", "block1", "block2"), ifelse(block == "block1", "block2", "block1")))) %>%
-  select(workerid,content,short_trigger,question_type,response,block_ai,prior,PriorMean,event) %>%
+  dplyr :: select(workerid,content,short_trigger,question_type,response,block_ai,prior,PriorMean,event) %>%
   spread(question_type,response) %>%
   unite(item,short_trigger,content,remove=F)
 nrow(t) #10900 / 20 stimuli per Turker = 545 Turkers
@@ -56,18 +56,18 @@ summary(t)
 length(unique(t$item)) #400
 
 
-# two main analyses of interest:
+# two main analyses of interest ----
 
 # 1. predict at-issueness from prior, while controlling for the effect of block
 # random effects by participant and item. get p-values via lmerTest (Satterthwaite's approximation)
-m.ai.prior_S = lmer(cai ~ cPriorMean + (1+cPriorMean|workerid) + (1+cPriorMean|item), data=t)
-summary(m.ai.prior_S) # cPriorMean not significant
-out <- capture.output(summary(m.ai.prior_S))
+m.ai.prior = lmer(cai ~ cPriorMean + cblock_ai + (1+cPriorMean|workerid) + (1+cPriorMean|item), data=t)
+summary(m.ai.prior) # cPriorMean not significant
+out <- capture.output(summary(m.ai.prior))
 cat("Predict at-issueness from prior", out, file="../models/predict-ai-from-prior.txt", 
     sep="\n", append=TRUE)
 
 m.ai.prior = lmer(cai ~ cPriorMean * cblock_ai + (1+cPriorMean*cblock_ai|workerid) + (1+cPriorMean*cblock_ai|item), data=t)
-summary(m.ai.prior) # haven't tried this yet
+summary(m.ai.prior) # doesn't converge after 20 min
 
 # 2.predict projectivity from prior and at-issueness and their interaction
 # while controlling for the effect of block on proj and ai ratings
@@ -94,7 +94,21 @@ out <- capture.output(summary(m.proj.b))
 cat("Predict projection from ai and prior", out, file="../models/predict-proj-from-ai-and-prior.txt", 
     sep="\n", append=TRUE)
 
-anova(m.proj,m.proj.b) # p=xx
+anova(m.proj,m.proj.b) # p=.12 (so interaction is not significant)
+
+# refitting model(s) with ML (instead of REML)
+# Data: t
+# Models:
+#   m.proj.b: projective ~ cai + cPriorMean + (1 + cai + cPriorMean | workerid) + 
+#   m.proj.b:     (1 + cai + cPriorMean | item)
+# m.proj: projective ~ cai * cPriorMean + (1 + cai + cPriorMean | workerid) + 
+#   m.proj:     (1 + cai + cPriorMean | item)
+# Df    AIC    BIC  logLik deviance  Chisq Chi Df Pr(>Chisq)
+# m.proj.b 16 3623.7 3739.2 -1795.8   3591.7                         
+# m.proj   17 3623.2 3745.9 -1794.6   3589.2 2.4657      1     0.1164
+
+
+
 
 # if too much of the variance in at-issueness is explained by the prior 
 # so that collinearity is too high: 

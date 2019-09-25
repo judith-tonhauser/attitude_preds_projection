@@ -22,7 +22,7 @@ nrow(d) #13520 / 260 Turkers = 52 trials
 # spread responses over separate columns for projectivity and at-issueness
 t = d %>%
   mutate(block_ai = as.factor(ifelse(question_type == "ai", ifelse(block == "block1", "block1", "block2"), ifelse(block == "block1", "block2", "block1")))) %>%
-  select(workerid,content,short_trigger,question_type,response,block_ai) %>%
+  dplyr :: select(workerid,content,short_trigger,question_type,response,block_ai) %>%
   spread(question_type,response)
 nrow(t) #6760 / 260 = 26 items per Turker
 
@@ -37,7 +37,7 @@ summary(t_nomc)
 # main analysis of interest: predict projectivity from at-issueness
 # while controlling for block; random effects by subject, lexical content, and target expression
 
-# the model reported in the paper
+# the model reported 
 m.mr.1 = lmer(projective ~ cai * cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
 summary(m.mr.1)
 

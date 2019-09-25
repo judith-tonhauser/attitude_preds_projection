@@ -17,18 +17,12 @@ nrow(d) #15600 / 300 = 52 trials (the experiment was done 300 times, as planned)
 head(d)
 summary(d) #289 unique workerids
 
-# age info
-median(ds$age) #35
-mean(ds$age) #38
-ggplot(ds, aes(x=age)) +
-  geom_histogram()
-
 length(unique(d$workerid)) #289 
 # so 11 of the 300 trials were done by Turkers who had already done the exp
 
 # count of how often each Turker did the experiment
 count = d %>%
-  select(workerid) %>%
+  dplyr :: select(workerid) %>%
   group_by(workerid) %>%
   tally(sort=T)
 count
@@ -49,12 +43,6 @@ d = d %>%
 
 length(unique(d$workerid)) #284 
 nrow(d) #14768 / 52 = 284 (5 Turkers did the experiment more than once, for a total of 16 times)
-
-# age info
-median(ds$age) #35
-mean(ds$age) #38
-ggplot(ds, aes(x=age)) +
-  geom_histogram()
 
 # read in the subject information
 ds = read_csv("../data/experiment-subject_information.csv")
@@ -83,6 +71,12 @@ nrow(ds) #284
 # merge subject information into data
 d = d %>%
   left_join(ds, by=c("workerid"))
+
+# age info (for all 284 unique Turkers that participated)
+median(d$age) #35
+mean(d$age) #38
+ggplot(d, aes(x=age)) +
+  geom_histogram()
 
 nrow(d) #14768 / 52 = 284 
 
@@ -176,6 +170,8 @@ ggplot(ai.means, aes(x=workerid,y=Mean)) +
 
 # look at Turkers whose response mean on projection and ainess of main clauses is more than 3
 # standard deviations away from the overall mean
+# 3sd is what we did in JoS paper
+# 2sd is what we did for XPRAG 2019 talk
 
 # get the Turkers who are more than 3 standard deviations above the mean on projection 
 p <- p.means[p.means$Mean > (mean(p.means$Mean) + 3*sd(p.means$Mean)),]
