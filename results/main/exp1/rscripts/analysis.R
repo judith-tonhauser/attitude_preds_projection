@@ -36,6 +36,12 @@ summary(t_nomc)
 
 # main analysis of interest: predict projectivity from at-issueness
 # while controlling for block; random effects by subject, lexical content, and target expression
+# RE for content and predicate rather than item (pred+content) so that we can look at how much variability is introduced
+# by the predicate and the content; also, this way we can identify variability introduced by predicates
+# only slope for content, no intercept because of convergence issues: by-content intercept has least variability, 
+# so we removed them (for JoS paper; now we should try to fit the model with them)
+
+# use lmerTest instead of model comparison
 
 # the model reported 
 m.mr.1 = lmer(projective ~ cai * cblock_ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
@@ -55,8 +61,9 @@ anova(m.mr.0a,m.mr.1) #p-value for interaction: .3901
 anova(m.mr.0b,m.mr.1) #p-value for block: .09019
 anova(m.mr.0c,m.mr.1) #p-value for at-issueness: .000002012
 
-# simple effects for interaction interpretation
-m.mr.simple = lmer(projective ~ ai * block_ai - ai + (1+cai|workerid) + (0+cai|content) + (1+cai|short_trigger), data=t_nomc, REML=F)
+# simple effects for interaction interpretation (when interaction is significant)
+# - ai removes main effect of at-issueness, so that we can see what the slope of ai is in the two blocks
+m.mr.simple = lmer(projective ~ ai * block_ai - ai + (1+ai|workerid) + (0+ai|content) + (1+ai|short_trigger), data=t_nomc, REML=F)
 summary(m.mr.simple)
 
 # pairwise comparisons of projectivity of the predicates using tukey 
