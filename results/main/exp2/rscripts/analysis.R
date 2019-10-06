@@ -64,10 +64,10 @@ names(t_nomc)
 
 t_nomc$short_trigger <- relevel(t_nomc$short_trigger, ref = "be_right")
 
-model = lmer(projective ~ cai * cPriorMean * short_trigger + (1+cai|workerid), data = t_nomc, REML=F)
+model = lmer(projective ~ cai * short_trigger + short_trigger * cPriorMean + (1+cai|workerid), data = t_nomc, REML=F)
 summary(model)
 
-model.b = lmer(projective ~ cai * cPriorMean + short_trigger + (1+cai|workerid), data = t_nomc, REML=F)
+model.b = lmer(projective ~ cai + short_trigger * cPriorMean + (1+cai|workerid), data = t_nomc, REML=F)
 summary(model.b)
 
 model.c = lmer(projective ~ cai * short_trigger + cPriorMean + (1+cai|workerid), data = t_nomc, REML=F)
@@ -75,7 +75,6 @@ summary(model.c)
 
 anova(model,model.b) # model with interaction between at-issueness and predicate is better
 anova(model,model.c) # model with interaction between at-issueness and prior is better
-
 
 # predict projection from at-issueness and verb (with block now) ----
 names(t_nomc)
