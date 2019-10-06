@@ -49,12 +49,50 @@ t = d %>%
 nrow(t) #10900 / 20 stimuli per Turker = 545 Turkers
 head(t)
 
+# exclude main clause controls
+t_nomc = droplevels(subset(t, short_trigger != "MC"))
+nrow(t_nomc) #10900 / 545 Turkers = 20 target items
+
 # center the block, at-issueness and prior variables
-t = cbind(t,myCenter(t[,c("block_ai","ai","PriorMean")]))
-summary(t)
+t_nomc = cbind(t_nomc,myCenter(t[,c("block_ai","ai","PriorMean")]))
+summary(t_nomc)
 
-length(unique(t$item)) #400
+length(unique(t_nomc$item)) #400
 
+# predict projection from at-issueness and verb (no block here) --- 
+names(t_nomc)
+
+t_nomc$short_trigger <- relevel(t_nomc$short_trigger, ref = "be_right")
+
+model = lmer(projective ~ cai * cPriorMean * short_trigger + (1+cai|workerid), data = t_nomc, REML=F)
+summary(model)
+
+model.b = lmer(projective ~ cai * cPriorMean + short_trigger + (1+cai|workerid), data = t_nomc, REML=F)
+summary(model.b)
+
+model.c = lmer(projective ~ cai * short_trigger + cPriorMean + (1+cai|workerid), data = t_nomc, REML=F)
+summary(model.c)
+
+anova(model,model.b) # model with interaction between at-issueness and predicate is better
+anova(model,model.c) # model with interaction between at-issueness and prior is better
+
+
+# predict projection from at-issueness and verb (with block now) ----
+names(t_nomc)
+
+t_nomc$short_trigger <- relevel(t_nomc$short_trigger, ref = "be_right")
+
+model = lmer(projective ~ cai * cblock_ai * short_trigger + (1+cai|workerid) + (1|content), data = t_nomc, REML=F)
+summary(model)
+
+model.b = lmer(projective ~ cai * cblock_ai + short_trigger + (1+cai|workerid) + (1|content), data = t_nomc, REML=F)
+summary(model.b)
+
+model.c = lmer(projective ~ cai * short_trigger + cblock_ai + (1+cai|workerid) + (1|content), data = t_nomc, REML=F)
+summary(model.c)
+
+anova(model,model.b) # model with interaction between at-issueness and predicate is better
+anova(model,model.c) # model with interaction between at-issueness and block is better
 
 # two main analyses of interest ----
 
