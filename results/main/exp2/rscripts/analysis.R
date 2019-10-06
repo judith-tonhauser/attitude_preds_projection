@@ -67,6 +67,24 @@ t_nomc$short_trigger <- relevel(t_nomc$short_trigger, ref = "be_right")
 model = lmer(projective ~ cai * short_trigger + short_trigger * cPriorMean + (1+cai|workerid), data = t_nomc, REML=F)
 summary(model)
 
+####################
+# START JD's MODELS
+
+# model with predicate as main effect (to be reported)
+model = lmer(projective ~ cai * cPriorMean + short_trigger + (1+cai+cPriorMean|workerid) + (1|content), data = t_nomc, REML=F)
+summary(model)
+
+# model with predicate as random effect (only to be reported if it comes up in Q&A. cai*priormean interaction significant, but the fact that it isnt when predicate is included as main effect suggests that this interaction is driven by the outlier predicates think, suggest,..)
+model = lmer(projective ~ cai * cPriorMean + (1+cai+cPriorMean|workerid) + (1|content) + (1+ cPriorMean|short_trigger), data = t_nomc, REML=F)
+summary(model)
+
+# simple effects analysis for the interaction between prior and at-issueness (CAN IGNORE BECAUSE YOU'RE NOT REPORTING THE MODEL WITH PREDICATE AS RANDOM EFFECT, JUST LEAVING IN FOR COMPLETENESS)
+model = lmer(projective ~ prior*ai - ai + (1+ai+prior|workerid) + (1|content) + (1+ prior|short_trigger), data = t_nomc, REML=F)
+summary(model)
+
+# END JD'S MODELS
+####################
+
 model.b = lmer(projective ~ cai + short_trigger * cPriorMean + (1+cai|workerid), data = t_nomc, REML=F)
 summary(model.b)
 
