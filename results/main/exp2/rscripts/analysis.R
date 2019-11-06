@@ -69,8 +69,25 @@ summary(model)
 
 ####################
 # START JD's MODELS
+t_nomc$VeridicalityGroup = as.factor(
+  ifelse(t_nomc$short_trigger %in% c("know", "discover", "reveal", "see", "be_annoyed","know"), "F", 
+         ifelse(t_nomc$short_trigger %in% c("pretend", "think", "suggest", "say"), "NF", "OF")))
 
-# model with predicate as main effect (to be reported)
+# model with predicate group as interaction effect:
+# main effect of at-issueness, prior, predicate group (ie, compared to factives, non-factives and opt-factives have lower proj ratings)
+# significant interactions between at-issueness and predicate group (see simple effects analysis below for interpretation)
+# significant 3way interaction between at-issueness, prior, and predicate group (see simple effects analysis below for interpretation)
+model = lmer(projective ~ cai * cPriorMean * VeridicalityGroup + (1+cai+cPriorMean|workerid) + (1|content) + (1|short_trigger), data = t_nomc, REML=F)
+summary(model)
+
+# simple effects:
+# at-issueness only significant for factive and optionaly factive predicates
+# prior significant for all three groups
+# in only the opt-factive group, there's a 2way interaction between at-issueness and prior that i don't know how to interpret, but that we can probably ignore for the time being because this is starting to feel a little esoteric
+model = lmer(projective ~ VeridicalityGroup * ai * PriorMean - ai - PriorMean - ai:PriorMean + (1+cai+cPriorMean|workerid) + (1|content) + (1|short_trigger), data = t_nomc, REML=F)
+summary(model)
+
+# model with predicate as main effect (to be reported as per skype conversation)
 model = lmer(projective ~ cai * cPriorMean + short_trigger + (1+cai+cPriorMean|workerid) + (1|content), data = t_nomc, REML=F)
 summary(model)
 
