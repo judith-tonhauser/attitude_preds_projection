@@ -162,9 +162,9 @@ function make_slides(f) {
     	var inst1 = "That was the first of the three parts!  ";
 //    	console.log(block_order);
     	if (exp.stims_block1[0].block == "ai") {
-    		inst1 = inst1 + "Now you'll answer questions about what the people at the party are asking about."
+    		inst1 = inst1 + "<br><br>Now imagine you are at a party. <br><br> You walk into the kitchen and overhear somebody ask something. You'll answer questions about what the people are asking about."
     	} else {
-    		inst1 = inst1 + "Now you'll answer questions about what the people at the party are certain about."    		
+    		inst1 = inst1 + "<br><br>Now imagine you are at a party. <br><br> You walk into the kitchen and overhear somebody ask something. You'll answer questions about what the people are certain about."    		
     		}
     	$("#inst1").html(inst1);
     },
@@ -356,7 +356,7 @@ function init() {
 
 // added this for UniqueTurker
 $(document).ready(function(){
-   var ut_id = "judith-tonhauser-attitude_preds_projection-pilot-exp2";
+   var ut_id = "judith-tonhauser-attitude_preds_projection-exp3";
    if (UTWorkerLimitReached(ut_id)) {
      $(".slide").hide();
      $("body").html("You have already completed the maximum number of HITs allowed by this requester. Please click 'Return HIT' to avoid any impact on your approval rating.");
