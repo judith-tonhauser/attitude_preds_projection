@@ -1,0 +1,41 @@
+eventItemNr,prior_type,prior_fact,PriorMean
+10: Zoe calculated the tip,high_prior,Zoe is a math major,0.82
+10: Zoe calculated the tip,low_prior,Zoe is 5 years old,0.27
+11: Danny ate the last cupcake,high_prior,Danny loves cake,0.73
+11: Danny ate the last cupcake,low_prior,Danny is a diabetic,0.1025
+12: Frank got a cat,high_prior,Frank has always wanted a pet,0.8
+12: Frank got a cat,low_prior,Frank is allergic to cats,0.0233333333333333
+13: Jackson ran 10 miles,high_prior,Jackson is training for a marathon,0.9175
+13: Jackson ran 10 miles,low_prior,Jackson is obese,0.208
+14: Jayden rented a car,high_prior,Jayden's car is in the shop,0.5625
+14: Jayden rented a car,low_prior,Jayden doesn't have a driver's license,0.028
+15: Tony had a drink last night,high_prior,Tony really likes to party with his friends,0.711666666666667
+15: Tony had a drink last night,low_prior,Tony has been sober for 20 years,0.25
+16: Josh learned to ride a bike yesterday,high_prior,Josh is a 5-year old boy,0.595
+16: Josh learned to ride a bike yesterday,low_prior,Josh is a 75-year old man,0.232857142857143
+17: Owen shoveled snow last winter,high_prior,Owen lives in Chicago,0.677142857142857
+17: Owen shoveled snow last winter,low_prior,Owen lives in New Orleans,0.175
+18: Julian dances salsa,high_prior,Julian is Cuban,0.653333333333333
+18: Julian dances salsa,low_prior,Julian is German,0.47
+19: Jon walks to work,high_prior,Jon lives 2 blocks away from work,0.68
+19: Jon walks to work,low_prior,Jon lives 10 miles away from work,0.138333333333333
+1: Mary is pregnant,high_prior,Mary is taking a prenatal yoga class,0.831666666666667
+1: Mary is pregnant,low_prior,Mary is a middle school student,0.0766666666666667
+20: Charley speaks Spanish,high_prior,Charley lives in Mexico,0.73875
+20: Charley speaks Spanish,low_prior,Charley lives in Korea,0.03
+2: Josie went on vacation to France,high_prior,Josie loves France,0.784
+2: Josie went on vacation to France,low_prior,Josie doesn't have a passport,0.0425
+3: Emma studied on Saturday morning,high_prior,Emma is in law school,0.643333333333333
+3: Emma studied on Saturday morning,low_prior,Emma is in first grade,0.366666666666667
+4: Olivia sleeps until noon,high_prior,Olivia works the third shift,0.865
+4: Olivia sleeps until noon,low_prior,Olivia has two small children,0.255714285714286
+5: Sophia got a tattoo,high_prior,Sophia is a hipster,0.652
+5: Sophia got a tattoo,low_prior,Sophia is a high end fashion model,0.5575
+6: Mia drank 2 cocktails last night,high_prior,Mia is a college student,0.666666666666667
+6: Mia drank 2 cocktails last night,low_prior,Mia is a nun,0.183333333333333
+7: Isabella ate a steak on Sunday,high_prior,Isabella is from Argentina,0.552
+7: Isabella ate a steak on Sunday,low_prior,Isabella is a vegetarian,0.035
+8: Emily bought a car yesterday,high_prior,Emily has been saving for a year,0.508333333333333
+8: Emily bought a car yesterday,low_prior,Emily never has any money,0.0666666666666667
+9: Grace visited her sister,high_prior,Grace loves her sister,0.852
+9: Grace visited her sister,low_prior,Grace hates her sister,0.105

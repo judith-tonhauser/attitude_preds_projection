@@ -8,12 +8,12 @@ setwd(this.dir)
 source('../../helpers.R')
 
 # load required packages for pre-processing data
-require(tidyverse)
+library(tidyverse)
 theme_set(theme_bw())
 
 # read in the raw data
 d = read_csv("../data/experiment-trials.csv")
-nrow(d) #468 / 9 = 52 trials (the pilot was done 9 times, as planned)
+nrow(d) #702 / 9 = 78 trials (the pilot was done 9 times, as planned)
 head(d)
 summary(d) #9 unique workerids
 
@@ -25,7 +25,7 @@ count = d %>%
   group_by(workerid) %>%
   tally(sort=T)
 count
-View(count)
+# View(count)
 # nobody did the pilot more than once (this was run with UniqueTurker)
 
 # read in the subject information
@@ -33,16 +33,20 @@ ds = read_csv("../data/experiment-subject_information.csv")
 length(unique(ds$workerid)) #9
 nrow(ds) #9
 head(ds)
-summary(d) # experiment took 10 minutes (median), 10 minutes (mean)
+summary(d) # experiment took 11 minutes (median), 13 minutes (mean)
 
 # look at Turkers' comments
 unique(ds$comments)
+
+# look at age
+mean(ds$age) #37.3
+median(ds$age) #35
 
 # merge subject information into data
 d = d %>%
   left_join(ds, by=c("workerid"))
 
-nrow(d) #468 / 9 Turkers = 52
+nrow(d) #702 / 9 Turkers = 78
 
 # change the response for ai condition so that what was 0/not-at-issue is now 1/not-at-issue
 # by subtracting the ai responses from 1
@@ -50,11 +54,12 @@ table(d$question_type,d$response)
 d[d$question_type == "ai",]$response = 1 - d[d$question_type == "ai",]$response
 
 # make a trial number
-unique(d$slide_number_in_experiment) #slide numbers from 5 to 57
+unique(d$slide_number_in_experiment) #slide numbers from 5 to 84
 d$trial = d$slide_number_in_experiment - 4
-unique(d$trial) # trial numbers from 1 to 53 (27 missing because instruction)
+unique(d$trial) # trial numbers from 1 to 80 (27 and 54 missing because instruction)
 d[d$trial > 26,]$trial = d[d$trial > 26,]$trial - 1
-unique(d$trial) # trials from 1 to 52
+d[d$trial > 52,]$trial = d[d$trial > 52,]$trial - 1
+unique(d$trial) # trials from 1 to 78
 
 ### exclude non-American English speakers
 length(unique(d$workerid)) #9
@@ -79,23 +84,25 @@ table(d$american)
 # length(unique(d$workerid)) #277 (data from 3 Turkers excluded)
 
 # exclude Turkers based on main clause controls (not done for pilot data)
+table(d$short_trigger,d$question_type)
 
 # main clauses
 names(d)
 d.MC <- d %>%
   filter(short_trigger == "MC") %>%
   droplevels()
-nrow(d.MC) #108 / 9 Turkers = 12 (6 main clause controls in each of the two blocks)
+nrow(d.MC) #162 / 9 Turkers = 18 (6 main clause controls in each of the three blocks)
 
 # projection of main clause data
 table(d$question_type)
+
 d.MC.Proj <- d.MC %>%
   filter(question_type == "projective") %>%
   droplevels()
 nrow(d.MC.Proj) #54 / 9 Turkers = 6 main clause controls in projection block
 
 # group projection mean (all Turkers, all clauses)
-round(mean(d.MC.Proj$response),2) #.06
+round(mean(d.MC.Proj$response),2) #0.35
 
 # calculate each Turkers mean response to the projection of main clauses
 p.means = d.MC.Proj %>%
@@ -103,6 +110,7 @@ p.means = d.MC.Proj %>%
   summarize(Mean = mean(response), CI.Low=ci.low(response), CI.High=ci.high(response)) %>%
   ungroup() %>%
   mutate(YMin = Mean-CI.Low, YMax = Mean+CI.High)
+p.means
 
 ggplot(p.means, aes(x=workerid,y=Mean)) +
   geom_point() +
@@ -117,7 +125,7 @@ d.MC.AI <- d.MC %>%
 nrow(d.MC.AI) #54 / 9 Turkers = 6 main clause controls in ai block
 
 # group not-at-issueness mean (all Turkers, all clauses)
-round(mean(d.MC.AI$response),2) #.03
+round(mean(d.MC.AI$response),2) #0.14
 
 # calculate each Turkers mean response to the projection of main clauses
 ai.means = d.MC.AI %>%
@@ -154,6 +162,10 @@ d <- d %>%
   filter(!(workerid %in% p$workerid | workerid %in% ai$workerid)) %>%
   droplevels()
 length(unique(d$workerid)) # 9 remaining Turkers (0 Turkers excluded)
+
+# look at age again (and gender!)
+mean(ds$age) #37.3
+median(ds$age) #35
 
 # write cleaned dataset to file
 write_csv(d, path="../data/data_preprocessed.csv")

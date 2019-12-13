@@ -91,7 +91,9 @@ summary(model)
 model = lmer(projective ~ cai * cPriorMean + short_trigger + (1+cai+cPriorMean|workerid) + (1|content), data = t_nomc, REML=F)
 summary(model)
 
-# model with predicate as random effect (only to be reported if it comes up in Q&A. cai*priormean interaction significant, but the fact that it isnt when predicate is included as main effect suggests that this interaction is driven by the outlier predicates think, suggest,..)
+# model with predicate as random effect (only to be reported if it comes up in Q&A. 
+# cai*priormean interaction significant, but the fact that it isnt when predicate is included as 
+# main effect suggests that this interaction is driven by the outlier predicates think, suggest,..)
 model = lmer(projective ~ cai * cPriorMean + (1+cai+cPriorMean|workerid) + (1|content) + (1+ cPriorMean|short_trigger), data = t_nomc, REML=F)
 summary(model)
 
