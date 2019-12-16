@@ -66,26 +66,15 @@ summary(model)
 
 # the model we want to fit to test whether prior and at-issueness predict projection and whether the two
 # factors are independent from one another
-model = lmer(projective ~ cprior  *  cai + (1+cprior+cai|workerid) + (1+cprior+cai|content) + (1+cprior+cai|short_trigger)), data = t_nomc, REML=F)
+# the interaction with block is included as a control
+model = lmer(projective ~ cprior  *  cai * cblock_ai + (1+cprior+cai|workerid) + (1+cprior+cai|content) + (1+cprior+cai|short_trigger), data = t_nomc, REML=F)
 summary(model)
 
 # if this model does not converge, remove slopes, starting with those that, per the random effects part of the output of the non-converging
 # model have the smallest variance
 
-# we want to investigate whether there is an interaction between prior and at-issueness:
-model.1b = lmer(projective ~ cprior  +  cai + (1+cprior+cai|workerid) + (1+cprior+cai|content) + (1+cprior+cai|short_trigger)), data = t_nomc, REML=F)
-summary(model.1b)
 
-anova(model,model.1b)
-
-# we also want to investigate whether block order mattered:
-model.2 = lmer(projective ~ cprior  *  cai * cblock_ai + (1+cprior+cai|workerid) + (1+cprior+cai|content) + (1+cprior+cai|short_trigger)), data = t_nomc, REML=F)
-summary(model.2)
-
-anova(model,model.2)
-
-
-# if too much of the variance in at-issueness is explained by the prior 
+# if too much of the variance in at-issueness is explained by the prior
 # so that collinearity is too high: 
 # regress prior onto ai and enter residuals as new predictor
 
