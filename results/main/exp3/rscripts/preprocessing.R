@@ -3,14 +3,15 @@
 # whether participants' prior probability and at-issueness ratings predict projectivity, and whether the
 # two factors are independent
 
+# load required packages for pre-processing data
+library(tidyverse)
+
 # set working directory to directory of script
 this.dir <- dirname(rstudioapi::getSourceEditorContext()$path)
 setwd(this.dir)
 
 source('../../helpers.R')
 
-# load required packages for pre-processing data
-library(tidyverse)
 theme_set(theme_bw()) # ggplot2 provides functions that create a theme that can be added to a plot: ggplot() + ... + theme_bw(); you can override some options with opts(...) - but make sure to add it after the theme!
 
 
@@ -73,20 +74,19 @@ table(d$language)
 
 # exclude anybody who didn't include English among languages spoken
 d <- d %>%
-  filter(language != "Spanish" & language != "Korean" & language != "romanian"
-         & language != "United States") %>% # just take the data from 'table'
+  filter(language != "Spanish" & language != "Korean" & language != "romanian" & language != "Chinese" & language != "Arabic" & language != "Female" & language != "Turkish" & language != "Italian" & language != "United States") %>% # just take the data from 'table'
   droplevels()
-length(unique(d$workerid)) # [9] (data from [0] Turkers excluded)
+length(unique(d$workerid)) # [589] (data from [11] Turkers excluded)
 
 # exclude non-American English speakers
-length(unique(d$workerid)) # [9]
-length(which(is.na(d$american))) # [0] missing responses
-table(d$american) # [702] / 78 = [9] Turkers
+length(unique(d$workerid)) # [589]
+length(which(is.na(d$american))) # [156] missing responses
+table(d$american) # [45552] / 78 = [584] Turkers
 
 d <- d %>%
   filter(american == "Yes") %>%
   droplevels()
-length(unique(d$workerid)) # [9] (data from [0] Turkers excluded)
+length(unique(d$workerid)) # [584] (data from [5] Turkers excluded)
 
 # exclude Turkers based on main clause controls
 
@@ -95,17 +95,17 @@ names(d)
 d.MC <- d %>%
   filter(short_trigger == "MC") %>%
   droplevels()
-nrow(d.MC) # [162] / [9] Turkers = 18 (6 main clause controls in each of the three blocks)
+nrow(d.MC) # [10512] / [584] Turkers = 18 (6 main clause controls in each of the three blocks)
 
 # projection of main clause data
 table(d$question_type)
 d.MC.Proj <- d.MC %>%
   filter(question_type == "projective") %>%
   droplevels()
-nrow(d.MC.Proj) # [54] / [9] Turkers = 6 main clause controls in projection block
+nrow(d.MC.Proj) # [3504] / [584] Turkers = 6 main clause controls in projection block
 
 # group projection mean (all Turkers, all clauses)
-round(mean(d.MC.Proj$response),2) # [0.35]
+round(mean(d.MC.Proj$response),2) # [0.21]
 
 # calculate each Turkers mean response to the projection of main clauses
 p.means = d.MC.Proj %>%
@@ -124,10 +124,10 @@ ggplot(p.means, aes(x=workerid,y=Mean)) +
 d.MC.AI <- d.MC %>%
   filter(question_type == "ai") %>%
   droplevels
-nrow(d.MC.AI) # [54] / [9] Turkers = 6 main clause controls in ai block
+nrow(d.MC.AI) # [3504] / [584] Turkers = 6 main clause controls in ai block
 
 # group not-at-issueness mean (all Turkers, all clauses)
-round(mean(d.MC.AI$response),2) # [0.14]
+round(mean(d.MC.AI$response),2) # [0.09]
 
 # calculate each Turkers mean response to the ai of main clauses
 ai.means = d.MC.AI %>%
@@ -164,17 +164,17 @@ ai # [0] Turkers
 outliers <- d.MC %>%
   filter(workerid %in% p$workerid | workerid %in% ai$workerid) # | indicates logical or
 outliers = droplevels(outliers)
-nrow(outliers) # [0] / 18 = [0] outlier Turkers
+nrow(outliers) # [288] / 18 = [16] outlier Turkers
 
 # exclude all outlier Turkers identified above
 d <- d %>%
   filter(!(workerid %in% p$workerid | workerid %in% ai$workerid)) %>% # selects all worker IDs except for those that appear in p or ai
   droplevels()
-length(unique(d$workerid)) # [9] remaining Turkers ([0] Turkers excluded)
+length(unique(d$workerid)) # [568] remaining Turkers ([16] Turkers excluded)
 
 # age info (for all remaining Turkers)
-median(d$age) # [35]
-mean(d$age) # [37.33]
+median(d$age) # [36]
+mean(d$age) # [38.66]
 ggplot(d, aes(x=age)) +
   geom_histogram()
 #table(d$gender) # gender info was not available in pilot

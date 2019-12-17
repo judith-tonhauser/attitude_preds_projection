@@ -3,21 +3,22 @@
 # whether participants' prior probability and at-issueness ratings predict projectivity, and whether the
 # two factors are independent
 
-# set working directory to directory of script
-this.dir <- dirname(rstudioapi::getSourceEditorContext()$path)
-setwd(this.dir)
-
 # load required packages
 library(tidyverse)
 library(lme4)
 library(lmerTest)
+library(optimx)
+
+# set working directory to directory of script
+this.dir <- dirname(rstudioapi::getSourceEditorContext()$path)
+setwd(this.dir)
 
 # load helper functions
 source('../../helpers.R')
 
 # load data
 d = read.csv("../data/data_preprocessed.csv")
-nrow(d) # [702] / 78 trials = [9] Turkers
+nrow(d) # [44304] / 78 trials = [568] Turkers
 
 # prepare for spreading: rename the 'prior' column into 'prior_type'
 colnames(d)[colnames(d)=="prior"] = "prior_type"
@@ -25,22 +26,24 @@ colnames(d)[colnames(d)=="prior"] = "prior_type"
 # doing this step before spreading solves the problem with prior_type in MC trials
 # exclude main clause controls
 d_nomc = droplevels(subset(d, short_trigger != "MC"))
-nrow(d_nomc) # [540] / [9] = 60 target stimuli per Turker
+nrow(d_nomc) # [34080] / [568] = 60 target stimuli per Turker
 
 # spread responses over separate columns for projectivity, at-issueness and prior probability
 t_nomc = d_nomc %>%
-  mutate(block_ai = ifelse(question_type=="ai"&block=="block1", "block1",
+  mutate(block_ai = as.factor(ifelse(question_type=="ai"&block=="block1", "block1",
                            ifelse(question_type=="ai"&block=="block2", "block2",
                                   ifelse(question_type=="projective"&block=="block1", "block2",
-                                         ifelse(question_type=="projective"&block=="block2", "block1", NA))))) %>%
+                                         ifelse(question_type=="projective"&block=="block2", "block1", NA)))))) %>%
   na.locf(fromLast = TRUE) %>%   # replaces NA with the nearest non-NA; fromLast causes observations to be carried backward 
-  select(workerid,content,short_trigger,question_type,response,prior_type) %>%     # 'event' (CC) is missing... (?)
+  select(workerid,content,short_trigger,question_type,response,prior_type,block_ai) %>%     # 'event' (CC) is missing... (?)
   spread(question_type,response) %>%
   unite(item,short_trigger,content,remove=F)
-nrow(t_nomc) # [180] / [9] Turkers = 20 rows per Turker
+nrow(t_nomc) # [11360] / [568] Turkers = 20 rows per Turker
+
+contrasts(t_nomc$block_ai)
 
 # center prior probability, projectivity, and at-issueness
-t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("prior","projective","ai")]))
+t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("prior","projective","ai","block_ai")]))
 summary(t_nomc)
 
 # Lehnhardt analysis ----
@@ -67,12 +70,13 @@ summary(model)
 # the model we want to fit to test whether prior and at-issueness predict projection and whether the two
 # factors are independent from one another
 # the interaction with block is included as a control
-model = lmer(projective ~ cprior  *  cai * cblock_ai + (1+cprior+cai|workerid) + (1+cprior+cai|content) + (1+cprior+cai|short_trigger), data = t_nomc, REML=F)
+model = lmer(projective ~ cprior  *  cai * cblock_ai + (1+cprior+cai|workerid) + (1|content) + (1+cprior+cai|short_trigger), data = t_nomc, REML=F,control = lmerControl(
+  optimizer ='optimx', optCtrl=list(method='L-BFGS-B')))
 summary(model)
 
 # if this model does not converge, remove slopes, starting with those that, per the random effects part of the output of the non-converging
 # model have the smallest variance
-
+# JD: changed optimizer to make sure model converges even with complex random effects structure
 
 # if too much of the variance in at-issueness is explained by the prior
 # so that collinearity is too high: 
