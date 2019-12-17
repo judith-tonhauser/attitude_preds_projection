@@ -37,10 +37,16 @@ t_nomc = d_nomc %>%
   na.locf(fromLast = TRUE) %>%   # replaces NA with the nearest non-NA; fromLast causes observations to be carried backward 
   select(workerid,content,short_trigger,question_type,response,prior_type,block_ai) %>%     # 'event' (CC) is missing... (?)
   spread(question_type,response) %>%
-  unite(item,short_trigger,content,remove=F)
+  unite(item,short_trigger,content,remove=F) %>%
+  mutate(predicate_type = as.factor(case_when(
+    short_trigger %in% c("know", "discover", "reveal", "see", "be_annoyed") ~ "factive", 
+    short_trigger %in% c("pretend", "think", "suggest", "say") ~ "non-factive",
+    TRUE ~ "optionally factive"))) %>%
+  mutate(predicate_type = fct_relevel(predicate_type,"non-factive","optionally factive"))
 nrow(t_nomc) # [11360] / [568] Turkers = 20 rows per Turker
 
 contrasts(t_nomc$block_ai)
+contrasts(t_nomc$predicate_type)
 
 # center prior probability, projectivity, and at-issueness
 t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("prior","projective","ai","block_ai")]))
@@ -77,6 +83,12 @@ summary(model)
 # if this model does not converge, remove slopes, starting with those that, per the random effects part of the output of the non-converging
 # model have the smallest variance
 # JD: changed optimizer to make sure model converges even with complex random effects structure
+
+# additionally add interaction with predicate type (remove block for the time being since it's not doing much)
+model = lmer(projective ~ cprior  *  cai * predicate_type + cblock_ai + (1+cprior+cai|workerid) + (1|content) + (1+cai+cprior|short_trigger), data = t_nomc, REML=F,control = lmerControl(
+  optimizer ='optimx', optCtrl=list(method='L-BFGS-B')))
+summary(model)
+
 
 # if too much of the variance in at-issueness is explained by the prior
 # so that collinearity is too high: 
