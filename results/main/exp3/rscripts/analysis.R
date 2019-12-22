@@ -89,6 +89,14 @@ model = lmer(projective ~ cprior  *  cai * predicate_type + cblock_ai + (1+cprio
   optimizer ='optimx', optCtrl=list(method='L-BFGS-B')))
 summary(model)
 
+t_nomc = t_nomc %>%
+  mutate(short_trigger=fct_relevel(short_trigger,"pretend"))
+
+# additionally add interaction with predicate (remove block for the time being since it's not doing much)
+model.pred.simple = lmer(projective ~  short_trigger * cprior * cai - cai + cblock_ai + (1+cprior+cai|workerid) + (1|content), data = t_nomc, REML=F,control = lmerControl(
+  optimizer ='optimx', optCtrl=list(method='L-BFGS-B')))
+summary(model.pred.simple)
+
 
 # if too much of the variance in at-issueness is explained by the prior
 # so that collinearity is too high: 

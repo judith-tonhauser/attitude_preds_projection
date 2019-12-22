@@ -558,6 +558,127 @@ ggplot(toplot[toplot$short_trigger != "MC",], aes(x=AIMean,y=ProjMean,fill=Verid
 ggsave("../graphs/mean-projectivity-by-at-issueness-and-prior2.pdf",height=5,width=5)
 
 
+#### plot projection by at-issueness and prior_type, facetting by predicate (PDF called ) ----
+
+# mean projectivity by predicate, with main clause controls
+proj.means = cd %>%
+  group_by(short_trigger,prior_type,content) %>%
+  summarize(Mean = mean(projective), CILow = ci.low(projective), CIHigh = ci.high(projective)) %>%
+  ungroup() %>%
+  mutate(YMin = Mean - CILow, YMax = Mean + CIHigh, verb = fct_reorder(as.factor(short_trigger),Mean))  # the levels of "short_trigger" are reordered by their mean projectivity rating
+proj.means
+
+proj.means$VeridicalityGroup = as.factor(
+  ifelse(proj.means$verb %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", 
+         ifelse(proj.means$verb  %in% c("pretend", "think", "suggest", "say"), "NF", 
+                ifelse(proj.means$verb  %in% c("be_right","demonstrate"),"VNF",
+                       ifelse(proj.means$verb  %in% c("MC"),"MC","V")))))
+
+# mean projectivity by predicate and content, with main clause controls
+ai.means = cd %>%
+  group_by(short_trigger,content,prior_type) %>%
+  summarize(Mean = mean(ai), CILow = ci.low(ai), CIHigh = ci.high(ai)) %>%
+  ungroup() %>%
+  mutate(YMin = Mean - CILow, YMax = Mean + CIHigh, verb = fct_reorder(as.factor(short_trigger),Mean))  
+ai.means
+
+ai.means$VeridicalityGroup = as.factor(
+  ifelse(ai.means$verb %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", 
+         ifelse(ai.means$verb  %in% c("pretend", "think", "suggest", "say"), "NF", 
+                ifelse(ai.means$verb  %in% c("be_right","demonstrate"),"VNF",
+                       ifelse(ai.means$verb  %in% c("MC"),"MC","V")))))
+
+
+### plot mean at-issueness ratings against mean projectivity ratings by prior, facetting by predicate ----
+
+ai.means
+proj.means
+
+# combine at-issueness and projection means
+tmp.ai = ai.means %>%
+  rename(AIMean="Mean",AIYMin="YMin",AIYMax="YMax",VG = "VeridicalityGroup") %>%
+  select(-verb)
+tmp.ai
+
+tmp.proj = proj.means %>%
+  rename(ProjMean="Mean",ProjYMin="YMin",ProjYMax="YMax") %>%
+  select(-verb)
+tmp.proj
+
+
+toplot = tmp.ai %>%
+  left_join(tmp.proj, by=c("short_trigger","content","prior_type")) %>%
+  mutate(prior_type = replace_na(prior_type, "")) %>%
+  mutate(content = replace_na(content, "")) %>%
+  mutate(prior_type=recode(prior_type,low_prior="L",high_prior="H")) 
+# unite("verb_prior",short_trigger,prior) %>%
+# mutate(verb_prior = recode(verb_prior,MC_ = "MC"))
+
+summary(toplot)
+toplot
+
+# toplot already has VeridicalityGroup, just need to define colors
+# cols = data.frame(V=levels(as.factor(toplot$verb_prior)))
+cols = data.frame(V=levels(as.factor(toplot$short_trigger)))
+cols
+
+cols$VeridicalityGroup = as.factor(
+  ifelse(cols$V %in% c("know", "discover", "reveal", "see", "be_annoyed","know", "discover", "reveal", "see", "be_annoyed"), "F", 
+         ifelse(cols$V %in% c("pretend", "think", "suggest", "say","pretend", "think", "suggest", "say"), "NF", 
+                ifelse(cols$V %in% c("be_right","demonstrate","be_right","demonstrate"),"VNF",
+                       ifelse(cols$V %in% c("MC"),"MC","V")))))
+
+levels(cols$V)
+# cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+
+cols$Colors =  ifelse(cols$VeridicalityGroup == "F", "darkorchid", 
+                      ifelse(cols$VeridicalityGroup == "NF", "gray60", 
+                             ifelse(cols$VeridicalityGroup == "VNF","dodgerblue",
+                                    ifelse(cols$VeridicalityGroup == "MC","black","tomato1"))))
+
+
+cols$Colors
+# cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+
+# remove black for MC
+cols2 <- droplevels(subset(cols,cols$V != "MC"))
+cols2$Colors
+
+levels(cols$V)
+
+
+toplot[toplot$short_trigger != "MC",]$short_trigger
+
+# toplot$short_trigger <- factor(toplot$short_trigger, levels = toplot[order(as.character(proj.means$verb)),]$short_trigger, ordered = TRUE)
+# levels(toplot$short_trigger)
+
+#fill_cols = c("darkorchid","black","gray60","tomato1","dodgerblue","black")
+fill_cols = c("darkorchid","gray60","tomato1","dodgerblue")
+
+ggplot(toplot[toplot$short_trigger != "MC",], aes(x=AIMean,y=ProjMean,fill=VeridicalityGroup,shape=prior_type,linetype=prior_type,color=VeridicalityGroup)) +
+  geom_point() +
+  geom_smooth(method="lm",fill="gray60",alpha=.5) +
+  facet_wrap(~short_trigger) +
+  scale_alpha_discrete(range(.5,1)) +
+  scale_fill_manual(values=fill_cols) +
+  scale_color_manual(values=fill_cols) +
+  geom_abline(intercept=0,slope=1,linetype="dashed",color="gray60") +
+  # geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax)) +
+  # geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax)) +
+  # guides(fill=FALSE) +
+  # geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors,each=4),alpha=1,size=4) +
+  #geom_text_repel(aes(label=short_trigger),color=rep(cols$Colors,each=2),alpha=1,size=4) +
+  ylab("Mean projectivity rating") +
+  xlab("Mean not-at-issueness rating") 
+ggsave("../graphs/mean-projectivity-by-at-issueness-and-prior-predicate.pdf",height=7,width=10)
+
+
+
+
+
+
+
+
 #### plot projectivity by prior probability on a by-participant level ----
 # these graphs are relevant for Lehnhardt's thesis, which explores the hypothesis that some projection variability
 # is due to by-participant in prior content probability
