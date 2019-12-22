@@ -79,6 +79,7 @@ summary(model)
 model = lmer(projective ~ cprior  *  cai * cblock_ai + (1+cprior+cai|workerid) + (1|content) + (1+cprior+cai|short_trigger), data = t_nomc, REML=F,control = lmerControl(
   optimizer ='optimx', optCtrl=list(method='L-BFGS-B')))
 summary(model)
+# 
 
 # if this model does not converge, remove slopes, starting with those that, per the random effects part of the output of the non-converging
 # model have the smallest variance
