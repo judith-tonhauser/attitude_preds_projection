@@ -1,0 +1,469 @@
+question_type,slide_number_in_experiment,rt,trigger,workerid,content,trigger_class,short_trigger,prior_fact,block,response,Answer.time_in_minutes,prior
+projective,5,5274,MC,0,pizza,MC,MC,Pizza is sold at the pizzeria,block1,0.1,2.8126,
+projective,6,2395,confirm,0,frank,C,confirm,Frank is allergic to cats,block1,0.76,2.8126,low_prior
+projective,7,4266,see,0,josh,C,see,Josh is a 5-year old boy,block1,0.89,2.8126,high_prior
+projective,8,3232,announce,0,emma,C,announce,Emma is in law school,block1,0.39,2.8126,high_prior
+projective,9,2058,MC,0,hat,MC,MC,Hats are worn on the head,block1,0.05,2.8126,
+projective,10,2208,reveal,0,zoe,C,reveal,Zoe is 5 years old,block1,0.89,2.8126,low_prior
+projective,11,4923,be_annoyed,0,isabella,C,be_annoyed,Isabella is a vegetarian,block1,0.93,2.8126,low_prior
+projective,12,2854,be_right,0,emily,C,be_right,Emily never has any money,block1,0.5,2.8126,low_prior
+projective,13,2360,MC,0,ballet,MC,MC,Ballet is a type of dance,block1,0.07,2.8126,
+projective,14,3048,MC,0,muffins,MC,MC,Muffins are sold at the bakery,block1,0.06,2.8126,
+projective,15,1983,prove,0,mia,C,prove,Mia is a nun,block1,0.76,2.8126,low_prior
+projective,16,2432,confess,0,danny,C,confess,Danny loves cake,block1,0.87,2.8126,high_prior
+projective,17,2082,demonstrate,0,tony,C,demonstrate,Tony has been sober for 20 years,block1,0.94,2.8126,low_prior
+projective,18,1925,inform,0,josie,C,inform,Josie loves France,block1,0.93,2.8126,high_prior
+projective,19,2890,MC,0,kids,MC,MC,Many children like ice cream,block1,0.06,2.8126,
+projective,20,4931,think,0,charley,C,think,Charley lives in Mexico,block1,0.18,2.8126,high_prior
+projective,21,2972,hear,0,grace,C,hear,Grace hates her sister,block1,0.81,2.8126,low_prior
+projective,22,3064,suggest,0,jayden,C,suggest,Jayden's car is in the shop,block1,0.28,2.8126,high_prior
+projective,23,3362,know,0,jon,C,know,Jon lives 10 miles away from work,block1,0.8,2.8126,low_prior
+projective,24,2384,establish,0,olivia,C,establish,Olivia has two small children,block1,0.7,2.8126,low_prior
+projective,25,1913,say,0,mary,C,say,Mary is a middle school student,block1,0.04,2.8126,low_prior
+projective,26,2245,MC,0,garage,MC,MC,Garages are used to store cars and other things,block1,0.02,2.8126,
+projective,27,4078,pretend,0,sophia,C,pretend,Sophia is a hipster,block1,0.74,2.8126,high_prior
+projective,28,2811,acknowledge,0,owen,C,acknowledge,Owen lives in Chicago,block1,0.87,2.8126,high_prior
+projective,29,2669,discover,0,jackson,C,discover,Jackson is training for a marathon,block1,0.9,2.8126,high_prior
+projective,30,2157,admit,0,julian,C,admit,Julian is Cuban,block1,0.87,2.8126,high_prior
+prior,32,3874,confess,0,danny,C,confess,Danny loves cake,block2,0.75,2.8126,high_prior
+prior,33,2188,see,0,josh,C,see,Josh is a 5-year old boy,block2,0.8,2.8126,high_prior
+prior,34,4429,MC,0,hat,MC,MC,Hats are worn on the head,block2,0.56,2.8126,
+prior,35,2381,admit,0,julian,C,admit,Julian is Cuban,block2,0.74,2.8126,high_prior
+prior,36,2468,say,0,mary,C,say,Mary is a middle school student,block2,0.14,2.8126,low_prior
+prior,37,2861,inform,0,josie,C,inform,Josie loves France,block2,0.91,2.8126,high_prior
+prior,38,2952,be_annoyed,0,isabella,C,be_annoyed,Isabella is a vegetarian,block2,0.1,2.8126,low_prior
+prior,39,2349,prove,0,mia,C,prove,Mia is a nun,block2,0,2.8126,low_prior
+prior,40,2552,announce,0,emma,C,announce,Emma is in law school,block2,0.86,2.8126,high_prior
+prior,41,2790,hear,0,grace,C,hear,Grace hates her sister,block2,0.1,2.8126,low_prior
+prior,42,2517,acknowledge,0,owen,C,acknowledge,Owen lives in Chicago,block2,0.93,2.8126,high_prior
+prior,43,2948,MC,0,muffins,MC,MC,Muffins are sold at the bakery,block2,0.63,2.8126,
+prior,44,2760,know,0,jon,C,know,Jon lives 10 miles away from work,block2,0.11,2.8126,low_prior
+prior,45,2901,MC,0,ballet,MC,MC,Ballet is a type of dance,block2,0.5,2.8126,
+prior,46,2500,think,0,charley,C,think,Charley lives in Mexico,block2,0.98,2.8126,high_prior
+prior,47,2141,confirm,0,frank,C,confirm,Frank is allergic to cats,block2,0,2.8126,low_prior
+prior,48,4143,MC,0,garage,MC,MC,Garages are used to store cars and other things,block2,0.16,2.8126,
+prior,49,4280,be_right,0,emily,C,be_right,Emily never has any money,block2,0.04,2.8126,low_prior
+prior,50,2691,establish,0,olivia,C,establish,Olivia has two small children,block2,0.06,2.8126,low_prior
+prior,51,3659,MC,0,kids,MC,MC,Many children like ice cream,block2,0.51,2.8126,
+prior,52,2661,MC,0,pizza,MC,MC,Pizza is sold at the pizzeria,block2,0.51,2.8126,
+prior,53,2111,demonstrate,0,tony,C,demonstrate,Tony has been sober for 20 years,block2,0,2.8126,low_prior
+prior,54,2279,discover,0,jackson,C,discover,Jackson is training for a marathon,block2,0.75,2.8126,high_prior
+prior,55,2594,pretend,0,sophia,C,pretend,Sophia is a hipster,block2,0.79,2.8126,high_prior
+prior,56,2868,suggest,0,jayden,C,suggest,Jayden's car is in the shop,block2,0.16,2.8126,high_prior
+prior,57,2401,reveal,0,zoe,C,reveal,Zoe is 5 years old,block2,0,2.8126,low_prior
+prior,5,15911,prove,1,jon,C,prove,Jon lives 10 miles away from work,block1,0.15,11.615533333333333,low_prior
+prior,6,9896,suggest,1,josie,C,suggest,Josie loves France,block1,0.96,11.615533333333333,high_prior
+prior,7,9265,know,1,mary,C,know,Mary is a middle school student,block1,0.01,11.615533333333333,low_prior
+prior,8,16180,confirm,1,julian,C,confirm,Julian is German,block1,0.49,11.615533333333333,low_prior
+prior,9,12779,see,1,josh,C,see,Josh is a 5-year old boy,block1,0.85,11.615533333333333,high_prior
+prior,10,14466,admit,1,tony,C,admit,Tony has been sober for 20 years,block1,0.5,11.615533333333333,low_prior
+prior,11,9655,MC,1,muffins,MC,MC,Muffins are sold at the bakery,block1,0.77,11.615533333333333,
+prior,12,16923,discover,1,olivia,C,discover,Olivia has two small children,block1,0.22,11.615533333333333,low_prior
+prior,13,11914,reveal,1,jayden,C,reveal,Jayden's car is in the shop,block1,0.56,11.615533333333333,high_prior
+prior,14,6624,think,1,grace,C,think,Grace loves her sister,block1,0.86,11.615533333333333,high_prior
+prior,15,13498,MC,1,garage,MC,MC,Garages are used to store cars and other things,block1,0.62,11.615533333333333,
+prior,16,12049,be_right,1,emma,C,be_right,Emma is in first grade,block1,0.46,11.615533333333333,low_prior
+prior,17,7466,say,1,charley,C,say,Charley lives in Korea,block1,0.22,11.615533333333333,low_prior
+prior,18,7896,be_annoyed,1,zoe,C,be_annoyed,Zoe is 5 years old,block1,0.12,11.615533333333333,low_prior
+prior,19,7729,demonstrate,1,mia,C,demonstrate,Mia is a college student,block1,0.67,11.615533333333333,high_prior
+prior,20,7825,establish,1,frank,C,establish,Frank has always wanted a pet,block1,0.76,11.615533333333333,high_prior
+prior,21,14898,inform,1,owen,C,inform,Owen lives in New Orleans,block1,0.09,11.615533333333333,low_prior
+prior,22,9586,MC,1,ballet,MC,MC,Ballet is a type of dance,block1,0.54,11.615533333333333,
+prior,23,7136,announce,1,sophia,C,announce,Sophia is a hipster,block1,0.74,11.615533333333333,high_prior
+prior,24,10090,pretend,1,jackson,C,pretend,Jackson is training for a marathon,block1,0.94,11.615533333333333,high_prior
+prior,25,10498,acknowledge,1,danny,C,acknowledge,Danny is a diabetic,block1,0.12,11.615533333333333,low_prior
+prior,26,13177,MC,1,kids,MC,MC,Many children like ice cream,block1,0.5,11.615533333333333,
+prior,27,9113,MC,1,pizza,MC,MC,Pizza is sold at the pizzeria,block1,0.84,11.615533333333333,
+prior,28,6466,MC,1,hat,MC,MC,Hats are worn on the head,block1,0.5,11.615533333333333,
+prior,29,9441,hear,1,isabella,C,hear,Isabella is from Argentina,block1,0.48,11.615533333333333,high_prior
+prior,30,8119,confess,1,emily,C,confess,Emily has been saving for a year,block1,0.82,11.615533333333333,high_prior
+projective,32,20106,discover,1,olivia,C,discover,Olivia has two small children,block2,0.05,11.615533333333333,low_prior
+projective,33,37118,prove,1,jon,C,prove,Jon lives 10 miles away from work,block2,0.05,11.615533333333333,low_prior
+projective,34,11763,MC,1,garage,MC,MC,Garages are used to store cars and other things,block2,0.04,11.615533333333333,
+projective,35,16207,say,1,charley,C,say,Charley lives in Korea,block2,0.21,11.615533333333333,low_prior
+projective,36,16544,inform,1,owen,C,inform,Owen lives in New Orleans,block2,0.88,11.615533333333333,low_prior
+projective,37,11570,confess,1,emily,C,confess,Emily has been saving for a year,block2,0.96,11.615533333333333,high_prior
+projective,38,22693,know,1,mary,C,know,Mary is a middle school student,block2,0.03,11.615533333333333,low_prior
+projective,39,7739,acknowledge,1,danny,C,acknowledge,Danny is a diabetic,block2,0.96,11.615533333333333,low_prior
+projective,40,17241,establish,1,frank,C,establish,Frank has always wanted a pet,block2,0.03,11.615533333333333,high_prior
+projective,41,14674,pretend,1,jackson,C,pretend,Jackson is training for a marathon,block2,0.03,11.615533333333333,high_prior
+projective,42,12386,think,1,grace,C,think,Grace loves her sister,block2,0.07,11.615533333333333,high_prior
+projective,43,6689,MC,1,hat,MC,MC,Hats are worn on the head,block2,0.04,11.615533333333333,
+projective,44,5504,MC,1,pizza,MC,MC,Pizza is sold at the pizzeria,block2,0.04,11.615533333333333,
+projective,45,10546,demonstrate,1,mia,C,demonstrate,Mia is a college student,block2,0.04,11.615533333333333,high_prior
+projective,46,8288,MC,1,kids,MC,MC,Many children like ice cream,block2,0.03,11.615533333333333,
+projective,47,7618,MC,1,ballet,MC,MC,Ballet is a type of dance,block2,0.03,11.615533333333333,
+projective,48,7327,MC,1,muffins,MC,MC,Muffins are sold at the bakery,block2,0.01,11.615533333333333,
+projective,49,10355,admit,1,tony,C,admit,Tony has been sober for 20 years,block2,0.77,11.615533333333333,low_prior
+projective,50,8554,suggest,1,josie,C,suggest,Josie loves France,block2,0.08,11.615533333333333,high_prior
+projective,51,9104,be_right,1,emma,C,be_right,Emma is in first grade,block2,0.59,11.615533333333333,low_prior
+projective,52,8762,hear,1,isabella,C,hear,Isabella is from Argentina,block2,0.58,11.615533333333333,high_prior
+projective,53,8531,reveal,1,jayden,C,reveal,Jayden's car is in the shop,block2,0.3,11.615533333333333,high_prior
+projective,54,7830,announce,1,sophia,C,announce,Sophia is a hipster,block2,0.88,11.615533333333333,high_prior
+projective,55,6977,see,1,josh,C,see,Josh is a 5-year old boy,block2,0.97,11.615533333333333,high_prior
+projective,56,9121,confirm,1,julian,C,confirm,Julian is German,block2,0.88,11.615533333333333,low_prior
+projective,57,11155,be_annoyed,1,zoe,C,be_annoyed,Zoe is 5 years old,block2,0.97,11.615533333333333,low_prior
+prior,5,5012,announce,2,sophia,C,announce,Sophia is a hipster,block1,0.63,7.493516666666666,high_prior
+prior,6,8270,confess,2,frank,C,confess,Frank has always wanted a pet,block1,0.7,7.493516666666666,high_prior
+prior,7,5025,MC,2,muffins,MC,MC,Muffins are sold at the bakery,block1,0.7,7.493516666666666,
+prior,8,5759,MC,2,ballet,MC,MC,Ballet is a type of dance,block1,0.5,7.493516666666666,
+prior,9,4676,confirm,2,olivia,C,confirm,Olivia has two small children,block1,0.31,7.493516666666666,low_prior
+prior,10,8104,reveal,2,isabella,C,reveal,Isabella is a vegetarian,block1,0,7.493516666666666,low_prior
+prior,11,6415,hear,2,mary,C,hear,Mary is taking a prenatal yoga class,block1,1,7.493516666666666,high_prior
+prior,12,7920,discover,2,owen,C,discover,Owen lives in Chicago,block1,0.76,7.493516666666666,high_prior
+prior,13,8027,establish,2,emma,C,establish,Emma is in first grade,block1,0.6,7.493516666666666,low_prior
+prior,14,5524,pretend,2,charley,C,pretend,Charley lives in Korea,block1,0.22,7.493516666666666,low_prior
+prior,15,6585,be_annoyed,2,tony,C,be_annoyed,Tony really likes to party with his friends,block1,0.79,7.493516666666666,high_prior
+prior,16,4851,say,2,jon,C,say,Jon lives 10 miles away from work,block1,0.16,7.493516666666666,low_prior
+prior,17,5795,know,2,jayden,C,know,Jayden doesn't have a driver's license,block1,0,7.493516666666666,low_prior
+prior,18,4911,demonstrate,2,grace,C,demonstrate,Grace loves her sister,block1,0.82,7.493516666666666,high_prior
+prior,19,4429,MC,2,hat,MC,MC,Hats are worn on the head,block1,0.5,7.493516666666666,
+prior,20,5598,MC,2,kids,MC,MC,Many children like ice cream,block1,0.46,7.493516666666666,
+prior,21,10563,MC,2,garage,MC,MC,Garages are used to store cars and other things,block1,0.51,7.493516666666666,
+prior,22,6579,acknowledge,2,mia,C,acknowledge,Mia is a college student,block1,0.5,7.493516666666666,high_prior
+prior,23,4626,inform,2,josie,C,inform,Josie doesn't have a passport,block1,0,7.493516666666666,low_prior
+prior,24,5637,be_right,2,danny,C,be_right,Danny loves cake,block1,0.56,7.493516666666666,high_prior
+prior,25,5445,MC,2,pizza,MC,MC,Pizza is sold at the pizzeria,block1,0.61,7.493516666666666,
+prior,26,5796,see,2,zoe,C,see,Zoe is a math major,block1,0.64,7.493516666666666,high_prior
+prior,27,4852,admit,2,julian,C,admit,Julian is Cuban,block1,0.5,7.493516666666666,high_prior
+prior,28,25216,prove,2,emily,C,prove,Emily never has any money,block1,0.15,7.493516666666666,low_prior
+prior,29,6460,suggest,2,josh,C,suggest,Josh is a 75-year old man,block1,0.24,7.493516666666666,low_prior
+prior,30,5514,think,2,jackson,C,think,Jackson is obese,block1,0.17,7.493516666666666,low_prior
+projective,32,13932,inform,2,josie,C,inform,Josie doesn't have a passport,block2,0.2,7.493516666666666,low_prior
+projective,33,5902,announce,2,sophia,C,announce,Sophia is a hipster,block2,0.2,7.493516666666666,high_prior
+projective,34,5230,think,2,jackson,C,think,Jackson is obese,block2,0.22,7.493516666666666,low_prior
+projective,35,5326,see,2,zoe,C,see,Zoe is a math major,block2,0.22,7.493516666666666,high_prior
+projective,36,7166,say,2,jon,C,say,Jon lives 10 miles away from work,block2,0.28,7.493516666666666,low_prior
+projective,37,7464,be_annoyed,2,tony,C,be_annoyed,Tony really likes to party with his friends,block2,0.49,7.493516666666666,high_prior
+projective,38,6926,MC,2,garage,MC,MC,Garages are used to store cars and other things,block2,0.25,7.493516666666666,
+projective,39,5578,MC,2,pizza,MC,MC,Pizza is sold at the pizzeria,block2,0.18,7.493516666666666,
+projective,40,4010,MC,2,ballet,MC,MC,Ballet is a type of dance,block2,0.2,7.493516666666666,
+projective,41,6214,be_right,2,danny,C,be_right,Danny loves cake,block2,0.23,7.493516666666666,high_prior
+projective,42,5502,prove,2,emily,C,prove,Emily never has any money,block2,0.25,7.493516666666666,low_prior
+projective,43,6001,acknowledge,2,mia,C,acknowledge,Mia is a college student,block2,0.23,7.493516666666666,high_prior
+projective,44,6133,demonstrate,2,grace,C,demonstrate,Grace loves her sister,block2,0.23,7.493516666666666,high_prior
+projective,45,5753,suggest,2,josh,C,suggest,Josh is a 75-year old man,block2,0.24,7.493516666666666,low_prior
+projective,46,6612,discover,2,owen,C,discover,Owen lives in Chicago,block2,0.3,7.493516666666666,high_prior
+projective,47,7345,MC,2,hat,MC,MC,Hats are worn on the head,block2,0.17,7.493516666666666,
+projective,48,6582,know,2,jayden,C,know,Jayden doesn't have a driver's license,block2,0.24,7.493516666666666,low_prior
+projective,49,5849,reveal,2,isabella,C,reveal,Isabella is a vegetarian,block2,0.29,7.493516666666666,low_prior
+projective,50,7480,pretend,2,charley,C,pretend,Charley lives in Korea,block2,0.11,7.493516666666666,low_prior
+projective,51,9885,hear,2,mary,C,hear,Mary is taking a prenatal yoga class,block2,0.34,7.493516666666666,high_prior
+projective,52,12171,admit,2,julian,C,admit,Julian is Cuban,block2,0.23,7.493516666666666,high_prior
+projective,53,9704,MC,2,muffins,MC,MC,Muffins are sold at the bakery,block2,0.17,7.493516666666666,
+projective,54,6522,MC,2,kids,MC,MC,Many children like ice cream,block2,0.19,7.493516666666666,
+projective,55,6990,confess,2,frank,C,confess,Frank has always wanted a pet,block2,0.22,7.493516666666666,high_prior
+projective,56,7354,establish,2,emma,C,establish,Emma is in first grade,block2,0.19,7.493516666666666,low_prior
+projective,57,10788,confirm,2,olivia,C,confirm,Olivia has two small children,block2,0.18,7.493516666666666,low_prior
+projective,5,18410,be_right,3,emma,C,be_right,Emma is in first grade,block1,0.4,5.568966666666666,low_prior
+projective,6,7977,prove,3,frank,C,prove,Frank is allergic to cats,block1,0.48,5.568966666666666,low_prior
+projective,7,7381,see,3,isabella,C,see,Isabella is a vegetarian,block1,0.96,5.568966666666666,low_prior
+projective,8,8339,confess,3,josie,C,confess,Josie doesn't have a passport,block1,0.71,5.568966666666666,low_prior
+projective,9,4204,be_annoyed,3,danny,C,be_annoyed,Danny is a diabetic,block1,0.94,5.568966666666666,low_prior
+projective,10,7938,admit,3,emily,C,admit,Emily never has any money,block1,0.86,5.568966666666666,low_prior
+projective,11,6629,MC,3,ballet,MC,MC,Ballet is a type of dance,block1,0.09,5.568966666666666,
+projective,12,9249,think,3,zoe,C,think,Zoe is a math major,block1,0.48,5.568966666666666,high_prior
+projective,13,5250,say,3,mia,C,say,Mia is a college student,block1,0.58,5.568966666666666,high_prior
+projective,14,6539,establish,3,sophia,C,establish,Sophia is a high end fashion model,block1,0.39,5.568966666666666,low_prior
+projective,15,7791,pretend,3,mary,C,pretend,Mary is taking a prenatal yoga class,block1,0.09,5.568966666666666,high_prior
+projective,16,6735,suggest,3,charley,C,suggest,Charley lives in Mexico,block1,0.36,5.568966666666666,high_prior
+projective,17,4389,demonstrate,3,olivia,C,demonstrate,Olivia works the third shift,block1,0.51,5.568966666666666,high_prior
+projective,18,5709,MC,3,garage,MC,MC,Garages are used to store cars and other things,block1,0.13,5.568966666666666,
+projective,19,3774,MC,3,pizza,MC,MC,Pizza is sold at the pizzeria,block1,0.01,5.568966666666666,
+projective,20,6363,announce,3,tony,C,announce,Tony has been sober for 20 years,block1,0.68,5.568966666666666,low_prior
+projective,21,11126,reveal,3,jon,C,reveal,Jon lives 2 blocks away from work,block1,0.86,5.568966666666666,high_prior
+projective,22,7048,inform,3,owen,C,inform,Owen lives in Chicago,block1,0.76,5.568966666666666,high_prior
+projective,23,6795,acknowledge,3,jackson,C,acknowledge,Jackson is obese,block1,0.09,5.568966666666666,low_prior
+projective,24,7421,hear,3,julian,C,hear,Julian is Cuban,block1,0.67,5.568966666666666,high_prior
+projective,25,6374,discover,3,josh,C,discover,Josh is a 75-year old man,block1,0.36,5.568966666666666,low_prior
+projective,26,7783,MC,3,hat,MC,MC,Hats are worn on the head,block1,0.42,5.568966666666666,
+projective,27,5817,confirm,3,jayden,C,confirm,Jayden's car is in the shop,block1,0.73,5.568966666666666,high_prior
+projective,28,8623,MC,3,muffins,MC,MC,Muffins are sold at the bakery,block1,0.27,5.568966666666666,
+projective,29,9484,MC,3,kids,MC,MC,Many children like ice cream,block1,0.43,5.568966666666666,
+projective,30,6541,know,3,grace,C,know,Grace loves her sister,block1,0.9,5.568966666666666,high_prior
+prior,32,4876,see,3,isabella,C,see,Isabella is a vegetarian,block2,0.13,5.568966666666666,low_prior
+prior,33,2904,be_annoyed,3,danny,C,be_annoyed,Danny is a diabetic,block2,0.53,5.568966666666666,low_prior
+prior,34,4948,MC,3,pizza,MC,MC,Pizza is sold at the pizzeria,block2,0.69,5.568966666666666,
+prior,35,4535,establish,3,sophia,C,establish,Sophia is a high end fashion model,block2,0.16,5.568966666666666,low_prior
+prior,36,2895,confirm,3,jayden,C,confirm,Jayden's car is in the shop,block2,0.89,5.568966666666666,high_prior
+prior,37,2816,acknowledge,3,jackson,C,acknowledge,Jackson is obese,block2,0.11,5.568966666666666,low_prior
+prior,38,3540,say,3,mia,C,say,Mia is a college student,block2,0.69,5.568966666666666,high_prior
+prior,39,3911,admit,3,emily,C,admit,Emily never has any money,block2,0.17,5.568966666666666,low_prior
+prior,40,5602,MC,3,kids,MC,MC,Many children like ice cream,block2,0.46,5.568966666666666,
+prior,41,3050,discover,3,josh,C,discover,Josh is a 75-year old man,block2,0.23,5.568966666666666,low_prior
+prior,42,3422,reveal,3,jon,C,reveal,Jon lives 2 blocks away from work,block2,0.8,5.568966666666666,high_prior
+prior,43,4087,confess,3,josie,C,confess,Josie doesn't have a passport,block2,0.23,5.568966666666666,low_prior
+prior,44,4684,inform,3,owen,C,inform,Owen lives in Chicago,block2,0.89,5.568966666666666,high_prior
+prior,45,2532,know,3,grace,C,know,Grace loves her sister,block2,0.95,5.568966666666666,high_prior
+prior,46,5290,MC,3,ballet,MC,MC,Ballet is a type of dance,block2,0.51,5.568966666666666,
+prior,47,3373,demonstrate,3,olivia,C,demonstrate,Olivia works the third shift,block2,0.78,5.568966666666666,high_prior
+prior,48,8541,MC,3,garage,MC,MC,Garages are used to store cars and other things,block2,0.44,5.568966666666666,
+prior,49,4449,pretend,3,mary,C,pretend,Mary is taking a prenatal yoga class,block2,0.69,5.568966666666666,high_prior
+prior,50,2777,MC,3,hat,MC,MC,Hats are worn on the head,block2,0.74,5.568966666666666,
+prior,51,3559,suggest,3,charley,C,suggest,Charley lives in Mexico,block2,0.84,5.568966666666666,high_prior
+prior,52,3853,be_right,3,emma,C,be_right,Emma is in first grade,block2,0.57,5.568966666666666,low_prior
+prior,53,3470,prove,3,frank,C,prove,Frank is allergic to cats,block2,0.17,5.568966666666666,low_prior
+prior,54,3129,think,3,zoe,C,think,Zoe is a math major,block2,0.58,5.568966666666666,high_prior
+prior,55,3442,MC,3,muffins,MC,MC,Muffins are sold at the bakery,block2,0.78,5.568966666666666,
+prior,56,3852,hear,3,julian,C,hear,Julian is Cuban,block2,0.74,5.568966666666666,high_prior
+prior,57,5358,announce,3,tony,C,announce,Tony has been sober for 20 years,block2,0.41,5.568966666666666,low_prior
+projective,5,18603,suggest,4,emily,C,suggest,Emily never has any money,block1,0.1,7.407666666666667,low_prior
+projective,6,11875,announce,4,julian,C,announce,Julian is Cuban,block1,0.58,7.407666666666667,high_prior
+projective,7,11217,hear,4,sophia,C,hear,Sophia is a hipster,block1,0.81,7.407666666666667,high_prior
+projective,8,7259,establish,4,grace,C,establish,Grace hates her sister,block1,0.18,7.407666666666667,low_prior
+projective,9,5344,MC,4,hat,MC,MC,Hats are worn on the head,block1,0,7.407666666666667,
+projective,10,9990,prove,4,olivia,C,prove,Olivia works the third shift,block1,0.48,7.407666666666667,high_prior
+projective,11,9664,admit,4,isabella,C,admit,Isabella is a vegetarian,block1,0.63,7.407666666666667,low_prior
+projective,12,7100,see,4,danny,C,see,Danny is a diabetic,block1,0.77,7.407666666666667,low_prior
+projective,13,10058,acknowledge,4,jayden,C,acknowledge,Jayden's car is in the shop,block1,0.84,7.407666666666667,high_prior
+projective,14,5776,think,4,mia,C,think,Mia is a nun,block1,0.29,7.407666666666667,low_prior
+projective,15,5666,say,4,charley,C,say,Charley lives in Korea,block1,0.22,7.407666666666667,low_prior
+projective,16,4400,MC,4,pizza,MC,MC,Pizza is sold at the pizzeria,block1,0,7.407666666666667,
+projective,17,6826,confirm,4,emma,C,confirm,Emma is in law school,block1,0.37,7.407666666666667,high_prior
+projective,18,14096,MC,4,garage,MC,MC,Garages are used to store cars and other things,block1,0,7.407666666666667,
+projective,19,5676,be_annoyed,4,tony,C,be_annoyed,Tony has been sober for 20 years,block1,0.78,7.407666666666667,low_prior
+projective,20,5628,know,4,jackson,C,know,Jackson is obese,block1,0.87,7.407666666666667,low_prior
+projective,21,4839,MC,4,kids,MC,MC,Many children like ice cream,block1,0.01,7.407666666666667,
+projective,22,10073,be_right,4,josie,C,be_right,Josie loves France,block1,0.17,7.407666666666667,high_prior
+projective,23,4090,MC,4,muffins,MC,MC,Muffins are sold at the bakery,block1,0,7.407666666666667,
+projective,24,53002,reveal,4,frank,C,reveal,Frank is allergic to cats,block1,0.76,7.407666666666667,low_prior
+projective,25,12069,pretend,4,josh,C,pretend,Josh is a 5-year old boy,block1,0,7.407666666666667,high_prior
+projective,26,8357,inform,4,mary,C,inform,Mary is taking a prenatal yoga class,block1,0.95,7.407666666666667,high_prior
+projective,27,13925,confess,4,zoe,C,confess,Zoe is a math major,block1,0.88,7.407666666666667,high_prior
+projective,28,4065,demonstrate,4,jon,C,demonstrate,Jon lives 2 blocks away from work,block1,0.72,7.407666666666667,high_prior
+projective,29,5025,MC,4,ballet,MC,MC,Ballet is a type of dance,block1,0,7.407666666666667,
+projective,30,8234,discover,4,owen,C,discover,Owen lives in New Orleans,block1,0.87,7.407666666666667,low_prior
+prior,32,4081,MC,4,muffins,MC,MC,Muffins are sold at the bakery,block2,0.5,7.407666666666667,
+prior,33,4300,admit,4,isabella,C,admit,Isabella is a vegetarian,block2,0.41,7.407666666666667,low_prior
+prior,34,3958,MC,4,hat,MC,MC,Hats are worn on the head,block2,0.5,7.407666666666667,
+prior,35,5578,confess,4,zoe,C,confess,Zoe is a math major,block2,0.66,7.407666666666667,high_prior
+prior,36,5256,MC,4,garage,MC,MC,Garages are used to store cars and other things,block2,0.5,7.407666666666667,
+prior,37,5274,be_right,4,josie,C,be_right,Josie loves France,block2,0.77,7.407666666666667,high_prior
+prior,38,4082,think,4,mia,C,think,Mia is a nun,block2,0.45,7.407666666666667,low_prior
+prior,39,4888,hear,4,sophia,C,hear,Sophia is a hipster,block2,0.58,7.407666666666667,high_prior
+prior,40,4575,prove,4,olivia,C,prove,Olivia works the third shift,block2,0.81,7.407666666666667,high_prior
+prior,41,5203,discover,4,owen,C,discover,Owen lives in New Orleans,block2,0.34,7.407666666666667,low_prior
+prior,42,3442,acknowledge,4,jayden,C,acknowledge,Jayden's car is in the shop,block2,0.7,7.407666666666667,high_prior
+prior,43,3766,announce,4,julian,C,announce,Julian is Cuban,block2,0.5,7.407666666666667,high_prior
+prior,44,3981,establish,4,grace,C,establish,Grace hates her sister,block2,0.26,7.407666666666667,low_prior
+prior,45,2868,reveal,4,frank,C,reveal,Frank is allergic to cats,block2,0.22,7.407666666666667,low_prior
+prior,46,6056,confirm,4,emma,C,confirm,Emma is in law school,block2,0.5,7.407666666666667,high_prior
+prior,47,6440,MC,4,kids,MC,MC,Many children like ice cream,block2,0.49,7.407666666666667,
+prior,48,4060,pretend,4,josh,C,pretend,Josh is a 5-year old boy,block2,0.5,7.407666666666667,high_prior
+prior,49,3425,be_annoyed,4,tony,C,be_annoyed,Tony has been sober for 20 years,block2,0.39,7.407666666666667,low_prior
+prior,50,4284,suggest,4,emily,C,suggest,Emily never has any money,block2,0.24,7.407666666666667,low_prior
+prior,51,4190,see,4,danny,C,see,Danny is a diabetic,block2,0.41,7.407666666666667,low_prior
+prior,52,4864,demonstrate,4,jon,C,demonstrate,Jon lives 2 blocks away from work,block2,0.54,7.407666666666667,high_prior
+prior,53,4516,know,4,jackson,C,know,Jackson is obese,block2,0.29,7.407666666666667,low_prior
+prior,54,4400,MC,4,pizza,MC,MC,Pizza is sold at the pizzeria,block2,0.51,7.407666666666667,
+prior,55,4090,inform,4,mary,C,inform,Mary is taking a prenatal yoga class,block2,0.86,7.407666666666667,high_prior
+prior,56,3184,MC,4,ballet,MC,MC,Ballet is a type of dance,block2,0.5,7.407666666666667,
+prior,57,6132,say,4,charley,C,say,Charley lives in Korea,block2,0.48,7.407666666666667,low_prior
+projective,5,12976,say,5,jackson,C,say,Jackson is obese,block1,0,7.684633333333333,low_prior
+projective,6,12276,be_right,5,owen,C,be_right,Owen lives in New Orleans,block1,0,7.684633333333333,low_prior
+projective,7,10947,MC,5,pizza,MC,MC,Pizza is sold at the pizzeria,block1,0.5,7.684633333333333,
+projective,8,10766,inform,5,jayden,C,inform,Jayden's car is in the shop,block1,0.99,7.684633333333333,high_prior
+projective,9,8463,MC,5,kids,MC,MC,Many children like ice cream,block1,0.02,7.684633333333333,
+projective,10,9721,reveal,5,frank,C,reveal,Frank has always wanted a pet,block1,0.99,7.684633333333333,high_prior
+projective,11,6986,MC,5,ballet,MC,MC,Ballet is a type of dance,block1,0,7.684633333333333,
+projective,12,11784,prove,5,mia,C,prove,Mia is a college student,block1,0.01,7.684633333333333,high_prior
+projective,13,8979,MC,5,hat,MC,MC,Hats are worn on the head,block1,0.02,7.684633333333333,
+projective,14,7631,MC,5,garage,MC,MC,Garages are used to store cars and other things,block1,0,7.684633333333333,
+projective,15,11440,suggest,5,julian,C,suggest,Julian is German,block1,0.26,7.684633333333333,low_prior
+projective,16,9267,confirm,5,emily,C,confirm,Emily never has any money,block1,0.5,7.684633333333333,low_prior
+projective,17,9712,announce,5,grace,C,announce,Grace loves her sister,block1,0.5,7.684633333333333,high_prior
+projective,18,7893,demonstrate,5,sophia,C,demonstrate,Sophia is a hipster,block1,0.72,7.684633333333333,high_prior
+projective,19,4472,MC,5,muffins,MC,MC,Muffins are sold at the bakery,block1,0,7.684633333333333,
+projective,20,8417,admit,5,tony,C,admit,Tony has been sober for 20 years,block1,0.51,7.684633333333333,low_prior
+projective,21,7034,hear,5,olivia,C,hear,Olivia has two small children,block1,0.85,7.684633333333333,low_prior
+projective,22,6995,see,5,isabella,C,see,Isabella is from Argentina,block1,1,7.684633333333333,high_prior
+projective,23,7933,establish,5,zoe,C,establish,Zoe is 5 years old,block1,0,7.684633333333333,low_prior
+projective,24,7780,confess,5,mary,C,confess,Mary is a middle school student,block1,0.32,7.684633333333333,low_prior
+projective,25,6889,acknowledge,5,josie,C,acknowledge,Josie doesn't have a passport,block1,0.71,7.684633333333333,low_prior
+projective,26,9704,discover,5,josh,C,discover,Josh is a 5-year old boy,block1,1,7.684633333333333,high_prior
+projective,27,11494,pretend,5,danny,C,pretend,Danny loves cake,block1,0.01,7.684633333333333,high_prior
+projective,28,8099,think,5,emma,C,think,Emma is in law school,block1,0,7.684633333333333,high_prior
+projective,29,5639,be_annoyed,5,jon,C,be_annoyed,Jon lives 10 miles away from work,block1,1,7.684633333333333,low_prior
+projective,30,30714,know,5,charley,C,know,Charley lives in Mexico,block1,0.99,7.684633333333333,high_prior
+prior,32,8594,say,5,jackson,C,say,Jackson is obese,block2,0.39,7.684633333333333,low_prior
+prior,33,6075,demonstrate,5,sophia,C,demonstrate,Sophia is a hipster,block2,0.65,7.684633333333333,high_prior
+prior,34,4349,think,5,emma,C,think,Emma is in law school,block2,0.79,7.684633333333333,high_prior
+prior,35,5436,suggest,5,julian,C,suggest,Julian is German,block2,0.29,7.684633333333333,low_prior
+prior,36,5855,admit,5,tony,C,admit,Tony has been sober for 20 years,block2,0.1,7.684633333333333,low_prior
+prior,37,5639,pretend,5,danny,C,pretend,Danny loves cake,block2,0.51,7.684633333333333,high_prior
+prior,38,7204,confess,5,mary,C,confess,Mary is a middle school student,block2,0.39,7.684633333333333,low_prior
+prior,39,7119,reveal,5,frank,C,reveal,Frank has always wanted a pet,block2,0.5,7.684633333333333,high_prior
+prior,40,7740,MC,5,garage,MC,MC,Garages are used to store cars and other things,block2,0.51,7.684633333333333,
+prior,41,4558,prove,5,mia,C,prove,Mia is a college student,block2,0.58,7.684633333333333,high_prior
+prior,42,6559,discover,5,josh,C,discover,Josh is a 5-year old boy,block2,0.63,7.684633333333333,high_prior
+prior,43,4633,hear,5,olivia,C,hear,Olivia has two small children,block2,0.07,7.684633333333333,low_prior
+prior,44,5178,confirm,5,emily,C,confirm,Emily never has any money,block2,0.16,7.684633333333333,low_prior
+prior,45,6529,know,5,charley,C,know,Charley lives in Mexico,block2,0.89,7.684633333333333,high_prior
+prior,46,4150,announce,5,grace,C,announce,Grace loves her sister,block2,0.8,7.684633333333333,high_prior
+prior,47,5655,establish,5,zoe,C,establish,Zoe is 5 years old,block2,0.04,7.684633333333333,low_prior
+prior,48,5770,MC,5,kids,MC,MC,Many children like ice cream,block2,0.51,7.684633333333333,
+prior,49,4225,see,5,isabella,C,see,Isabella is from Argentina,block2,0.51,7.684633333333333,high_prior
+prior,50,4451,MC,5,ballet,MC,MC,Ballet is a type of dance,block2,0.5,7.684633333333333,
+prior,51,6574,be_annoyed,5,jon,C,be_annoyed,Jon lives 10 miles away from work,block2,0.21,7.684633333333333,low_prior
+prior,52,5088,acknowledge,5,josie,C,acknowledge,Josie doesn't have a passport,block2,0,7.684633333333333,low_prior
+prior,53,3266,MC,5,hat,MC,MC,Hats are worn on the head,block2,0.5,7.684633333333333,
+prior,54,4728,be_right,5,owen,C,be_right,Owen lives in New Orleans,block2,0.13,7.684633333333333,low_prior
+prior,55,3598,MC,5,muffins,MC,MC,Muffins are sold at the bakery,block2,0.51,7.684633333333333,
+prior,56,3629,inform,5,jayden,C,inform,Jayden's car is in the shop,block2,0.64,7.684633333333333,high_prior
+prior,57,3490,MC,5,pizza,MC,MC,Pizza is sold at the pizzeria,block2,0.48,7.684633333333333,
+projective,5,13659,know,6,mary,C,know,Mary is a middle school student,block1,0.02,13.318,low_prior
+projective,6,14622,MC,6,ballet,MC,MC,Ballet is a type of dance,block1,0.05,13.318,
+projective,7,12686,MC,6,kids,MC,MC,Many children like ice cream,block1,0.07,13.318,
+projective,8,9861,suggest,6,sophia,C,suggest,Sophia is a hipster,block1,0.08,13.318,high_prior
+projective,9,9830,think,6,olivia,C,think,Olivia has two small children,block1,0.08,13.318,low_prior
+projective,10,30527,MC,6,hat,MC,MC,Hats are worn on the head,block1,0.22,13.318,
+projective,11,22524,confess,6,owen,C,confess,Owen lives in New Orleans,block1,0.86,13.318,low_prior
+projective,12,14108,demonstrate,6,mia,C,demonstrate,Mia is a nun,block1,0.1,13.318,low_prior
+projective,13,18406,see,6,josie,C,see,Josie loves France,block1,0.78,13.318,high_prior
+projective,14,10986,admit,6,grace,C,admit,Grace hates her sister,block1,0.1,13.318,low_prior
+projective,15,9871,prove,6,jayden,C,prove,Jayden's car is in the shop,block1,0.12,13.318,high_prior
+projective,16,14832,reveal,6,isabella,C,reveal,Isabella is from Argentina,block1,0.91,13.318,high_prior
+projective,17,9767,be_right,6,emma,C,be_right,Emma is in first grade,block1,0.06,13.318,low_prior
+projective,18,14140,hear,6,julian,C,hear,Julian is Cuban,block1,0.87,13.318,high_prior
+projective,19,13728,discover,6,frank,C,discover,Frank has always wanted a pet,block1,0.88,13.318,high_prior
+projective,20,13746,acknowledge,6,danny,C,acknowledge,Danny is a diabetic,block1,0.9,13.318,low_prior
+projective,21,16473,announce,6,jon,C,announce,Jon lives 2 blocks away from work,block1,0.31,13.318,high_prior
+projective,22,11191,be_annoyed,6,josh,C,be_annoyed,Josh is a 5-year old boy,block1,0.9,13.318,high_prior
+projective,23,11848,say,6,jackson,C,say,Jackson is training for a marathon,block1,0.07,13.318,high_prior
+projective,24,16829,confirm,6,charley,C,confirm,Charley lives in Korea,block1,0.12,13.318,low_prior
+projective,25,11124,MC,6,garage,MC,MC,Garages are used to store cars and other things,block1,0.1,13.318,
+projective,26,10275,establish,6,tony,C,establish,Tony really likes to party with his friends,block1,0.1,13.318,high_prior
+projective,27,10789,MC,6,muffins,MC,MC,Muffins are sold at the bakery,block1,0.1,13.318,
+projective,28,11920,inform,6,emily,C,inform,Emily never has any money,block1,0.93,13.318,low_prior
+projective,29,13376,pretend,6,zoe,C,pretend,Zoe is 5 years old,block1,0.1,13.318,low_prior
+projective,30,9449,MC,6,pizza,MC,MC,Pizza is sold at the pizzeria,block1,0.12,13.318,
+prior,32,12372,admit,6,grace,C,admit,Grace hates her sister,block2,0.34,13.318,low_prior
+prior,33,12534,prove,6,jayden,C,prove,Jayden's car is in the shop,block2,0.63,13.318,high_prior
+prior,34,9083,MC,6,ballet,MC,MC,Ballet is a type of dance,block2,0.5,13.318,
+prior,35,14022,MC,6,garage,MC,MC,Garages are used to store cars and other things,block2,0.38,13.318,
+prior,36,12660,confess,6,owen,C,confess,Owen lives in New Orleans,block2,0.2,13.318,low_prior
+prior,37,8727,pretend,6,zoe,C,pretend,Zoe is 5 years old,block2,0.23,13.318,low_prior
+prior,38,8237,establish,6,tony,C,establish,Tony really likes to party with his friends,block2,0.66,13.318,high_prior
+prior,39,6824,reveal,6,isabella,C,reveal,Isabella is from Argentina,block2,0.65,13.318,high_prior
+prior,40,7399,confirm,6,charley,C,confirm,Charley lives in Korea,block2,0.5,13.318,low_prior
+prior,41,7701,MC,6,muffins,MC,MC,Muffins are sold at the bakery,block2,0.48,13.318,
+prior,42,10896,know,6,mary,C,know,Mary is a middle school student,block2,0.24,13.318,low_prior
+prior,43,8410,hear,6,julian,C,hear,Julian is Cuban,block2,0.57,13.318,high_prior
+prior,44,7376,think,6,olivia,C,think,Olivia has two small children,block2,0.32,13.318,low_prior
+prior,45,17171,MC,6,kids,MC,MC,Many children like ice cream,block2,0.49,13.318,
+prior,46,12708,demonstrate,6,mia,C,demonstrate,Mia is a nun,block2,0.3,13.318,low_prior
+prior,47,6362,see,6,josie,C,see,Josie loves France,block2,0.76,13.318,high_prior
+prior,48,7606,discover,6,frank,C,discover,Frank has always wanted a pet,block2,0.7,13.318,high_prior
+prior,49,7626,inform,6,emily,C,inform,Emily never has any money,block2,0.29,13.318,low_prior
+prior,50,7418,be_right,6,emma,C,be_right,Emma is in first grade,block2,0.36,13.318,low_prior
+prior,51,6536,MC,6,pizza,MC,MC,Pizza is sold at the pizzeria,block2,0.48,13.318,
+prior,52,8491,announce,6,jon,C,announce,Jon lives 2 blocks away from work,block2,0.71,13.318,high_prior
+prior,53,10059,MC,6,hat,MC,MC,Hats are worn on the head,block2,0.53,13.318,
+prior,54,8759,say,6,jackson,C,say,Jackson is training for a marathon,block2,0.77,13.318,high_prior
+prior,55,5970,suggest,6,sophia,C,suggest,Sophia is a hipster,block2,0.5,13.318,high_prior
+prior,56,14102,acknowledge,6,danny,C,acknowledge,Danny is a diabetic,block2,0.35,13.318,low_prior
+prior,57,21084,be_annoyed,6,josh,C,be_annoyed,Josh is a 5-year old boy,block2,0.69,13.318,high_prior
+projective,5,17578,MC,7,kids,MC,MC,Many children like ice cream,block1,0.49,12.59025,
+projective,6,33687,suggest,7,josie,C,suggest,Josie doesn't have a passport,block1,0.97,12.59025,low_prior
+projective,7,24812,discover,7,frank,C,discover,Frank is allergic to cats,block1,0.01,12.59025,low_prior
+projective,8,14051,inform,7,jackson,C,inform,Jackson is obese,block1,0.98,12.59025,low_prior
+projective,9,18884,hear,7,zoe,C,hear,Zoe is a math major,block1,0.99,12.59025,high_prior
+projective,10,17328,prove,7,josh,C,prove,Josh is a 75-year old man,block1,0.21,12.59025,low_prior
+projective,11,15851,pretend,7,jayden,C,pretend,Jayden's car is in the shop,block1,0.02,12.59025,high_prior
+projective,12,15526,demonstrate,7,isabella,C,demonstrate,Isabella is a vegetarian,block1,0,12.59025,low_prior
+projective,13,11860,MC,7,garage,MC,MC,Garages are used to store cars and other things,block1,0.02,12.59025,
+projective,14,11042,confess,7,mia,C,confess,Mia is a college student,block1,0.99,12.59025,high_prior
+projective,15,9311,MC,7,muffins,MC,MC,Muffins are sold at the bakery,block1,0,12.59025,
+projective,16,12872,MC,7,pizza,MC,MC,Pizza is sold at the pizzeria,block1,0,12.59025,
+projective,17,14486,MC,7,hat,MC,MC,Hats are worn on the head,block1,0,12.59025,
+projective,18,16889,announce,7,charley,C,announce,Charley lives in Mexico,block1,0.99,12.59025,high_prior
+projective,19,14322,know,7,jon,C,know,Jon lives 10 miles away from work,block1,0.98,12.59025,low_prior
+projective,20,18826,admit,7,grace,C,admit,Grace loves her sister,block1,0.03,12.59025,high_prior
+projective,21,15399,say,7,mary,C,say,Mary is taking a prenatal yoga class,block1,1,12.59025,high_prior
+projective,22,14963,acknowledge,7,emily,C,acknowledge,Emily has been saving for a year,block1,0.98,12.59025,high_prior
+projective,23,13660,reveal,7,emma,C,reveal,Emma is in law school,block1,1,12.59025,high_prior
+projective,24,14714,confirm,7,julian,C,confirm,Julian is German,block1,0,12.59025,low_prior
+projective,25,9985,think,7,owen,C,think,Owen lives in Chicago,block1,0.97,12.59025,high_prior
+projective,26,16389,establish,7,olivia,C,establish,Olivia works the third shift,block1,0,12.59025,high_prior
+projective,27,16581,see,7,tony,C,see,Tony has been sober for 20 years,block1,0.98,12.59025,low_prior
+projective,28,9745,be_right,7,sophia,C,be_right,Sophia is a high end fashion model,block1,0,12.59025,low_prior
+projective,29,43089,be_annoyed,7,danny,C,be_annoyed,Danny is a diabetic,block1,1,12.59025,low_prior
+projective,30,6851,MC,7,ballet,MC,MC,Ballet is a type of dance,block1,0,12.59025,
+prior,32,10149,MC,7,garage,MC,MC,Garages are used to store cars and other things,block2,0.98,12.59025,
+prior,33,7951,inform,7,jackson,C,inform,Jackson is obese,block2,0.28,12.59025,low_prior
+prior,34,4624,hear,7,zoe,C,hear,Zoe is a math major,block2,0.98,12.59025,high_prior
+prior,35,3820,acknowledge,7,emily,C,acknowledge,Emily has been saving for a year,block2,0.97,12.59025,high_prior
+prior,36,5923,MC,7,pizza,MC,MC,Pizza is sold at the pizzeria,block2,0.82,12.59025,
+prior,37,8360,confess,7,mia,C,confess,Mia is a college student,block2,0.78,12.59025,high_prior
+prior,38,4466,confirm,7,julian,C,confirm,Julian is German,block2,0.5,12.59025,low_prior
+prior,39,4690,think,7,owen,C,think,Owen lives in Chicago,block2,0.91,12.59025,high_prior
+prior,40,7627,admit,7,grace,C,admit,Grace loves her sister,block2,0.93,12.59025,high_prior
+prior,41,4054,prove,7,josh,C,prove,Josh is a 75-year old man,block2,0.1,12.59025,low_prior
+prior,42,7321,demonstrate,7,isabella,C,demonstrate,Isabella is a vegetarian,block2,0.05,12.59025,low_prior
+prior,43,5811,MC,7,kids,MC,MC,Many children like ice cream,block2,0.93,12.59025,
+prior,44,3790,announce,7,charley,C,announce,Charley lives in Mexico,block2,0.99,12.59025,high_prior
+prior,45,4503,pretend,7,jayden,C,pretend,Jayden's car is in the shop,block2,0.53,12.59025,high_prior
+prior,46,8126,be_annoyed,7,danny,C,be_annoyed,Danny is a diabetic,block2,0.34,12.59025,low_prior
+prior,47,5656,discover,7,frank,C,discover,Frank is allergic to cats,block2,0,12.59025,low_prior
+prior,48,4832,suggest,7,josie,C,suggest,Josie doesn't have a passport,block2,0.83,12.59025,low_prior
+prior,49,5617,say,7,mary,C,say,Mary is taking a prenatal yoga class,block2,0.98,12.59025,high_prior
+prior,50,5585,establish,7,olivia,C,establish,Olivia works the third shift,block2,0.95,12.59025,high_prior
+prior,51,5217,MC,7,ballet,MC,MC,Ballet is a type of dance,block2,0.49,12.59025,
+prior,52,3967,MC,7,muffins,MC,MC,Muffins are sold at the bakery,block2,0.5,12.59025,
+prior,53,4014,know,7,jon,C,know,Jon lives 10 miles away from work,block2,0.17,12.59025,low_prior
+prior,54,4264,reveal,7,emma,C,reveal,Emma is in law school,block2,0.86,12.59025,high_prior
+prior,55,7739,MC,7,hat,MC,MC,Hats are worn on the head,block2,1,12.59025,
+prior,56,7235,be_right,7,sophia,C,be_right,Sophia is a high end fashion model,block2,0.49,12.59025,low_prior
+prior,57,6547,see,7,tony,C,see,Tony has been sober for 20 years,block2,0.34,12.59025,low_prior
+projective,5,9416,demonstrate,8,owen,C,demonstrate,Owen lives in New Orleans,block1,0.53,7.974216666666667,low_prior
+projective,6,9521,discover,8,jayden,C,discover,Jayden doesn't have a driver's license,block1,0.08,7.974216666666667,low_prior
+projective,7,7119,know,8,frank,C,know,Frank is allergic to cats,block1,0.2,7.974216666666667,low_prior
+projective,8,7481,MC,8,kids,MC,MC,Many children like ice cream,block1,0.27,7.974216666666667,
+projective,9,4443,suggest,8,grace,C,suggest,Grace loves her sister,block1,0.74,7.974216666666667,high_prior
+projective,10,4444,see,8,emily,C,see,Emily never has any money,block1,0.23,7.974216666666667,low_prior
+projective,11,4288,say,8,tony,C,say,Tony really likes to party with his friends,block1,0.84,7.974216666666667,high_prior
+projective,12,4727,confirm,8,charley,C,confirm,Charley lives in Mexico,block1,0.64,7.974216666666667,high_prior
+projective,13,5138,MC,8,pizza,MC,MC,Pizza is sold at the pizzeria,block1,0.18,7.974216666666667,
+projective,14,3870,think,8,sophia,C,think,Sophia is a hipster,block1,0.51,7.974216666666667,high_prior
+projective,15,28245,MC,8,muffins,MC,MC,Muffins are sold at the bakery,block1,0.11,7.974216666666667,
+projective,16,4678,announce,8,jackson,C,announce,Jackson is training for a marathon,block1,0.74,7.974216666666667,high_prior
+projective,17,3142,acknowledge,8,danny,C,acknowledge,Danny is a diabetic,block1,0.32,7.974216666666667,low_prior
+projective,18,5248,be_annoyed,8,mia,C,be_annoyed,Mia is a nun,block1,0.23,7.974216666666667,low_prior
+projective,19,6883,inform,8,jon,C,inform,Jon lives 2 blocks away from work,block1,0.9,7.974216666666667,high_prior
+projective,20,5097,MC,8,ballet,MC,MC,Ballet is a type of dance,block1,0.11,7.974216666666667,
+projective,21,3358,confess,8,emma,C,confess,Emma is in law school,block1,0.64,7.974216666666667,high_prior
+projective,22,3150,MC,8,hat,MC,MC,Hats are worn on the head,block1,0.15,7.974216666666667,
+projective,23,4798,establish,8,zoe,C,establish,Zoe is 5 years old,block1,0.04,7.974216666666667,low_prior
+projective,24,6162,prove,8,julian,C,prove,Julian is German,block1,0.06,7.974216666666667,low_prior
+projective,25,15779,hear,8,josh,C,hear,Josh is a 5-year old boy,block1,0.71,7.974216666666667,high_prior
+projective,26,3472,pretend,8,isabella,C,pretend,Isabella is a vegetarian,block1,0.08,7.974216666666667,low_prior
+projective,27,7330,MC,8,garage,MC,MC,Garages are used to store cars and other things,block1,0.55,7.974216666666667,
+projective,28,2846,be_right,8,josie,C,be_right,Josie loves France,block1,0.81,7.974216666666667,high_prior
+projective,29,3538,admit,8,mary,C,admit,Mary is taking a prenatal yoga class,block1,0.79,7.974216666666667,high_prior
+projective,30,28639,reveal,8,olivia,C,reveal,Olivia has two small children,block1,0.26,7.974216666666667,low_prior
+prior,32,14271,reveal,8,olivia,C,reveal,Olivia has two small children,block2,0.12,7.974216666666667,low_prior
+prior,33,36160,MC,8,hat,MC,MC,Hats are worn on the head,block2,0.13,7.974216666666667,
+prior,34,7886,pretend,8,isabella,C,pretend,Isabella is a vegetarian,block2,0.07,7.974216666666667,low_prior
+prior,35,4186,MC,8,ballet,MC,MC,Ballet is a type of dance,block2,0.51,7.974216666666667,
+prior,36,2878,MC,8,muffins,MC,MC,Muffins are sold at the bakery,block2,0.48,7.974216666666667,
+prior,37,2518,see,8,emily,C,see,Emily never has any money,block2,0.07,7.974216666666667,low_prior
+prior,38,2534,be_annoyed,8,mia,C,be_annoyed,Mia is a nun,block2,0.03,7.974216666666667,low_prior
+prior,39,3880,MC,8,pizza,MC,MC,Pizza is sold at the pizzeria,block2,0.5,7.974216666666667,
+prior,40,5985,be_right,8,josie,C,be_right,Josie loves France,block2,0.74,7.974216666666667,high_prior
+prior,41,18089,establish,8,zoe,C,establish,Zoe is 5 years old,block2,0.1,7.974216666666667,low_prior
+prior,42,6134,admit,8,mary,C,admit,Mary is taking a prenatal yoga class,block2,0.89,7.974216666666667,high_prior
+prior,43,6575,MC,8,garage,MC,MC,Garages are used to store cars and other things,block2,0.35,7.974216666666667,
+prior,44,3222,inform,8,jon,C,inform,Jon lives 2 blocks away from work,block2,0.84,7.974216666666667,high_prior
+prior,45,3222,confirm,8,charley,C,confirm,Charley lives in Mexico,block2,0.81,7.974216666666667,high_prior
+prior,46,4602,prove,8,julian,C,prove,Julian is German,block2,0.51,7.974216666666667,low_prior
+prior,47,3636,hear,8,josh,C,hear,Josh is a 5-year old boy,block2,0.76,7.974216666666667,high_prior
+prior,48,4214,demonstrate,8,owen,C,demonstrate,Owen lives in New Orleans,block2,0.09,7.974216666666667,low_prior
+prior,49,6802,announce,8,jackson,C,announce,Jackson is training for a marathon,block2,0.86,7.974216666666667,high_prior
+prior,50,3399,MC,8,kids,MC,MC,Many children like ice cream,block2,0.48,7.974216666666667,
+prior,51,2301,think,8,sophia,C,think,Sophia is a hipster,block2,0.52,7.974216666666667,high_prior
+prior,52,2748,acknowledge,8,danny,C,acknowledge,Danny is a diabetic,block2,0.24,7.974216666666667,low_prior
+prior,53,16679,confess,8,emma,C,confess,Emma is in law school,block2,0.8,7.974216666666667,high_prior
+prior,54,23980,say,8,tony,C,say,Tony really likes to party with his friends,block2,0.86,7.974216666666667,high_prior
+prior,55,34352,discover,8,jayden,C,discover,Jayden doesn't have a driver's license,block2,0.05,7.974216666666667,low_prior
+prior,56,2890,know,8,frank,C,know,Frank is allergic to cats,block2,0.02,7.974216666666667,low_prior
+prior,57,2614,suggest,8,grace,C,suggest,Grace loves her sister,block2,0.89,7.974216666666667,high_prior

@@ -1,0 +1,10 @@
+gender,comments,language,american,age,workerid
+male,,English,Yes,29,0
+male,,English,Yes,64,1
+female,"I didn't notice any check figures, if they were present, they weren't obvious to me.",English,Yes,35,2
+female,,english,Yes,37,3
+female,,English,Yes,48,4
+female,,English,Yes,44,5
+male,I have no comments.,English,Yes,38,6
+male,none,English,Yes,65,7
+female,,English,Yes,22,8
