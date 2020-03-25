@@ -52,6 +52,17 @@ d = d %>%
 
 nrow(d) #468 / 9 Turkers = 52
 
+# age and gender info
+length(which(is.na(d$age))) #0
+table(d$age) #22-65
+median(d$age,na.rm=TRUE) #38
+d %>% 
+  select(gender, workerid) %>% 
+  unique() %>% 
+  group_by(gender) %>% 
+  summarize(count=n())
+#5 female, 4 male, 0 other
+
 # no recoding of responses
 #table(d$question_type,d$response)
 #d[d$question_type == "ai",]$response = 1 - d[d$question_type == "ai",]$response
@@ -85,23 +96,18 @@ table(d$american)
 #   droplevels()
 # length(unique(d$workerid)) #277 (data from 3 Turkers excluded)
 
-# exclude Turkers based on main clause controls 
+# exclude Turkers based on main clause controls in projection block
+# same exclusion criterion as in XPRAG 2019 projection experiment
 table(d$short_trigger,d$question_type)
 
-# main clauses
+# main clause controls in projection block
 names(d)
-d.MC <- d %>%
-  filter(short_trigger == "MC") %>%
-  droplevels()
-nrow(d.MC) #108 / 9 Turkers = 12 (6 main clause controls in each of the two blocks)
-
-# projection of main clause data
 table(d$question_type)
 
-d.MC.Proj <- d.MC %>%
-  filter(question_type == "projective") %>%
+d.MC.Proj <- d %>%
+  filter(short_trigger == "MC" & question_type == "projective") %>%
   droplevels()
-nrow(d.MC.Proj) #54 / 9 Turkers = 6 main clause controls in projection block
+nrow(d.MC.Proj) #54 / 9 Turkers = 6 controls
 
 # group projection mean (all Turkers, all clauses)
 round(mean(d.MC.Proj$response),2) #0.11
@@ -120,10 +126,7 @@ ggplot(p.means, aes(x=workerid,y=Mean)) +
   geom_text(aes(label=workerid), vjust = 1, cex= 5)+
   ylab("Projection response mean")
 
-# look at Turkers whose response mean on projection of main clauses is more than 2
-# standard deviations above group mean
-
-# get the Turkers who are more than 2 standard deviations above the mean on projection 
+# Turkers with mean response more than 2 standard deviations above group mean
 p <- p.means[p.means$Mean > (mean(p.means$Mean) + 2*sd(p.means$Mean)),]
 p #0 Turkers
 
@@ -139,79 +142,16 @@ d <- d %>%
   droplevels()
 length(unique(d$workerid)) # 9 remaining Turkers (0 Turkers excluded)
 
-# exclude Turkers based on responses to controls in prior block
-
-# projection of main clause data
-table(d$question_type)
-
-d.MC.Prior <- d.MC %>%
-  filter(question_type == "prior") %>%
-  droplevels()
-nrow(d.MC.Prior) #54 / 9 Turkers = 6 main clause controls in prior block
-
-# group projection mean (all Turkers, all clauses)
-round(mean(d.MC.Prior$response),2) #0.55
-
-# calculate each Turkers mean response to the projection of main clauses
-p.means = d.MC.Prior %>%
-  group_by(workerid) %>%
-  summarize(Mean = mean(response), CI.Low=ci.low(response), CI.High=ci.high(response)) %>%
-  ungroup() %>%
-  mutate(YMin = Mean-CI.Low, YMax = Mean+CI.High)
-p.means
-
-ggplot(p.means, aes(x=workerid,y=Mean)) +
-  geom_point() +
-  geom_errorbar(aes(ymin=YMin, ymax=YMax))+
-  geom_text(aes(label=workerid), vjust = 1, cex= 5)+
-  ylab("Prior response mean")
-
-# exclude turkers whose variance on the controls is more than 2sd above 
-# mean by-participant variance
-variances = d.MC.Prior %>%
-  group_by(workerid) %>%
-  summarize(Variance = var(response)) %>%
-  mutate(TooBig = Variance > mean(Variance) + 2*sd(Variance))
-
-highvarworkers = as.character(variances[variances$TooBig,]$workerid)
-summary(variances)
-highvarworkers # 1 turker had much more variance on controls than the others
-
-hvw = d.MC.Prior %>%
-  filter(as.character(workerid) %in% highvarworkers) %>%
-  droplevels() %>%
-  mutate(Participant = as.factor(as.character(workerid)))
-
-ggplot(hvw,aes(x=Participant,y=response)) +
-  geom_point()
-
-# exclude the high variance turkers
-d <- droplevels(subset(d, !(d$workerid %in% highvarworkers)))
-length(unique(d$workerid)) #8 turkers remain
-
-
-# look at Turkers whose response mean on prior of main clauses is more than 2
-# standard deviations above group mean
-
-# get the Turkers who are more than 2 standard deviations above the mean on projection 
-p <- p.means[p.means$Mean > (mean(p.means$Mean) + 2*sd(p.means$Mean)),]
-p #0 Turkers
-
-# make data subset of just the outliers
-outliers <- d.MC %>%
-  filter(workerid %in% p$workerid)
-outliers = droplevels(outliers)
-nrow(outliers) #0 / 12 = 0 outlier Turkers
-
-# exclude all outlier Turkers identified above
-d <- d %>%
-  filter(!(workerid %in% p$workerid)) %>%
-  droplevels()
-length(unique(d$workerid)) # 9 remaining Turkers (0 Turkers excluded)
-
-# look at age again (and gender!)
-mean(ds$age) #42
-median(ds$age) #38
+# age and gender info of remaining Turkers
+length(which(is.na(d$age))) #0
+table(d$age) #22-65
+median(d$age,na.rm=TRUE) #38
+d %>% 
+  select(gender, workerid) %>% 
+  unique() %>% 
+  group_by(gender) %>% 
+  summarize(count=n())
+#5 female, 4 male, 0 other
 
 # write cleaned dataset to file
 write_csv(d, path="../data/data_preprocessed.csv")

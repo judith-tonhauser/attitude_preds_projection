@@ -19,7 +19,7 @@ library(zoo)  # needed for function na_locf() which replaces each NA with the ne
 theme_set(theme_bw())
 
 d = read_csv("../data/data_preprocessed.csv")
-nrow(d) #416/52 = 8 turker
+nrow(d) #468/52 = 9 turkers
 
 summary(d)
 table(d$prior) # half is high_prior, half is low_prior
@@ -51,10 +51,10 @@ head(cd)
 
 table(cd$block_proj) 
 # block1 block2 
-# 156    52
+# 182    52
 
 nrow(cd)
-#208 = 8 turkers x 26 rows (each row has prior and projection)
+#234 = 9 turkers x 26 rows (each row has prior and projection)
 
 
 # there's no need to change cd verb names to match veridicality names but it's helpful to
@@ -172,10 +172,7 @@ ggsave("../graphs/means-projectivity-by-predicate-and-prior.pdf",height=4,width=
 
 
 #### plot projectivity by prior probability on a by-participant level ----
-# these graphs are relevant for Lehnhardt's thesis, which explores the hypothesis that some projection variability
-# is due to by-participant in prior content probability
 
-# IMPORTANT: order levels of "verb" to make them fit the veridicality colors
 cd$verb <- factor(cd$verb, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
 cd$verb
 
@@ -261,3 +258,4 @@ ggplot(target, aes(x=prior, y=projective, fill=verb)) +
   ylim(0,1) +
   facet_wrap(~verb)
 ggsave(f="../graphs/projectivity-by-prior_facet-wrap-verb.pdf",height=8,width=10)
+
