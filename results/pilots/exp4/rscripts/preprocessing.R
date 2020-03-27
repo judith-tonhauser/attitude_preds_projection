@@ -50,6 +50,9 @@ median(ds$age) #38
 d = d %>%
   left_join(ds, by=c("workerid"))
 
+mean(d$Answer.time_in_minutes) #8.49
+median(d$Answer.time_in_minutes) #7.68
+
 nrow(d) #468 / 9 Turkers = 52
 
 # age and gender info
