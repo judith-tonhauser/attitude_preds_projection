@@ -1,5 +1,6 @@
-# preprocessing file for experiment investigating whether at-issueness predicts projection
+# experiment investigating whether at-issueness predicts projection
 # for the contents of the complements of 20 predicates
+# preprocessing.R
 
 # set working directory to directory of script
 this.dir <- dirname(rstudioapi::getSourceEditorContext()$path)
@@ -168,30 +169,28 @@ ggplot(ai.means, aes(x=workerid,y=Mean)) +
   geom_text(aes(label=workerid), vjust = 1, cex= 5)+
   ylab("NAI response mean")
 
-# look at Turkers whose response mean on projection and ainess of main clauses is more than 3
+# look at Turkers whose response mean on projection and ainess of main clauses is more than 2
 # standard deviations away from the overall mean
-# 3sd is what we did in JoS paper
-# 2sd is what we did for XPRAG 2019 talk
 
-# get the Turkers who are more than 3 standard deviations above the mean on projection 
-p <- p.means[p.means$Mean > (mean(p.means$Mean) + 3*sd(p.means$Mean)),]
-p #6 Turkers 
+# get the Turkers who are more than 2 standard deviations above the mean on projection 
+p <- p.means[p.means$Mean > (mean(p.means$Mean) + 2*sd(p.means$Mean)),]
+p #23 Turkers 
 
-# get the Turkers who are more than 3 standard deviations above the mean on ai 
-ai <- ai.means[ai.means$Mean > (mean(ai.means$Mean) + 3*sd(ai.means$Mean)),]
-ai #11 Turkers
+# get the Turkers who are more than 2 standard deviations above the mean on ai 
+ai <- ai.means[ai.means$Mean > (mean(ai.means$Mean) + 2*sd(ai.means$Mean)),]
+ai #17 Turkers
 
 # make data subset of just the outliers
 outliers <- d.MC %>%
   filter(workerid %in% p$workerid | workerid %in% ai$workerid)
 outliers = droplevels(outliers)
-nrow(outliers) #204 / 12 = 17 outlier Turkers
+nrow(outliers) #420 / 12 = 35 outlier Turkers
 
 # exclude all outlier Turkers identified above
 d <- d %>%
   filter(!(workerid %in% p$workerid | workerid %in% ai$workerid)) %>%
   droplevels()
-length(unique(d$workerid)) # 260 remaining Turkers (17 Turkers excluded)
+length(unique(d$workerid)) # 242 remaining Turkers (35 Turkers excluded)
 
 # write cleaned dataset to file
-write_csv(d, path="../data/data_preprocessed.csv")
+write_csv(d, path="../data/cd.csv")
