@@ -85,6 +85,575 @@ t = cd %>%
   droplevels()
 nrow(t) #10100 / 505 Turkers = 20 rows (one for each predicate, each with prior, proj, ai)
 
+# PLOTS FOR CEP workshop talk (factive predicates in orange) ----
+
+proj.means = cd %>%
+  group_by(short_trigger) %>%
+  summarize(Mean = mean(projective), CILow = ci.low(projective), CIHigh = ci.high(projective)) %>%
+  mutate(YMin = Mean - CILow, YMax = Mean + CIHigh, verb = fct_reorder(as.factor(short_trigger),Mean))
+proj.means
+
+ai.means = cd %>%
+  group_by(short_trigger) %>%
+  summarize(Mean = mean(ai), CILow = ci.low(ai), CIHigh = ci.high(ai)) %>%
+  mutate(YMin = Mean - CILow, YMax = Mean + CIHigh, verb = fct_reorder(as.factor(short_trigger),Mean))
+ai.means
+
+proj.means.prior = t %>%
+  group_by(short_trigger,prior_type) %>%
+  summarize(Mean = mean(projective), CILow = ci.low(projective), CIHigh = ci.high(projective)) %>%
+  mutate(YMin = Mean - CILow, YMax = Mean + CIHigh, verb = fct_reorder(as.factor(short_trigger),Mean))
+proj.means.prior
+
+ai.means.prior = t %>%
+  group_by(short_trigger,prior_type) %>%
+  summarize(Mean = mean(ai), CILow = ci.low(ai), CIHigh = ci.high(ai)) %>%
+  mutate(YMin = Mean - CILow, YMax = Mean + CIHigh, verb = fct_reorder(as.factor(short_trigger),Mean))
+ai.means.prior
+
+# define colors for the predicates
+cols = data.frame(V=levels(proj.means$verb))
+
+cols$VeridicalityGroup = as.factor(
+  ifelse(cols$V %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+cols      
+
+levels(cols$V)
+cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+
+cols$Colors =  ifelse(cols$VeridicalityGroup == "F", "tomato1", "black")
+
+
+cols$Colors
+cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+levels(cols$V)
+
+proj.means$VeridicalityGroup = as.factor(
+  ifelse(proj.means$verb %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+
+ai.means$VeridicalityGroup = as.factor(
+  ifelse(ai.means$verb %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+
+t$VeridicalityGroup = as.factor(
+  ifelse(t$short_trigger %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+
+proj.means.prior$VeridicalityGroup = as.factor(
+  ifelse(proj.means.prior$verb %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+
+ai.means.prior$VeridicalityGroup = as.factor(
+  ifelse(ai.means.prior$verb %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+
+
+proj.means
+ai.means
+
+# **plot of projection by predicate ----
+
+# mean projectivity by predicate, including the main clause controls
+         
+# by-participant projection responses for their items, including main clause controls 
+proj.subjmeans = cd %>%
+  group_by(short_trigger,workerid) %>%
+  summarize(Mean = mean(projective)) 
+proj.subjmeans$verb <- factor(proj.subjmeans$short_trigger, levels = unique(levels(proj.means$verb)))
+levels(proj.subjmeans$verb)
+
+
+# plot of projection means, 95% bootstrapped CIs and participants' ratings 
+ggplot(proj.means, aes(x=verb, y=Mean, fill=VeridicalityGroup)) +
+  geom_point(shape=21,fill="gray60",data=proj.subjmeans, alpha=.07, color="gray40") +
+  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=0.1,color="black") +
+  geom_point(shape=21,stroke=.5,size=2.5,color="black") +
+  scale_y_continuous(limits = c(0,1),breaks = c(0,0.2,0.4,0.6,0.8,1.0)) +
+  scale_alpha(range = c(.3,1)) +
+  scale_fill_manual(values=c("tomato1","black")) +
+  guides(fill=FALSE) +
+  theme(text = element_text(size=12), axis.text.x = element_text(size = 12, angle = 45, hjust = 1, 
+                                                                 color=cols$Colors)) +
+  theme(legend.position="top") +
+  ylab("Mean certainty rating") +
+  xlab("Predicate") +
+  theme(axis.text.x = element_text(size = 12, angle = 45, hjust = 1)) 
+ggsave("../graphs/CEP-projection-by-predicate.pdf",height=4,width=7)
+
+# **plot of mean projection by mean at-issueness and predicate ----
+
+# combine at-issueness and projection means
+tmp.ai = ai.means %>%
+  rename(AIMean="Mean",AIYMin="YMin",AIYMax="YMax",VG = "VeridicalityGroup") %>%
+  select(-verb)
+tmp.ai
+
+tmp.proj = proj.means %>%
+  rename(ProjMean="Mean",ProjYMin="YMin",ProjYMax="YMax") 
+#%>%  select(-verb)
+tmp.proj
+
+toplot = tmp.ai %>%
+  left_join(tmp.proj, by=c("short_trigger")) %>%
+  filter(short_trigger != "MC")
+# unite("verb_prior",short_trigger,prior) %>%
+# mutate(verb_prior = recode(verb_prior,MC_ = "MC"))
+
+summary(toplot)
+toplot
+
+# toplot already has VeridicalityGroup, just need to define colors
+# cols = data.frame(V=levels(as.factor(toplot$verb_prior)))
+cols = data.frame(V=levels(as.factor(toplot$short_trigger)))
+cols
+
+cols$VeridicalityGroup = as.factor(
+  ifelse(cols$V %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+        
+levels(cols$V)
+# cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+
+cols$Colors =  ifelse(cols$VeridicalityGroup == "F", "tomato1", "black")
+                      
+
+cols$Colors
+table(toplot$short_trigger)
+
+# toplot$short_trigger <- factor(toplot$short_trigger, levels = toplot[order(as.character(proj.means$verb)),]$short_trigger, ordered = TRUE)
+# levels(toplot$short_trigger)
+
+#fill_cols = c("darkorchid","black","gray60","tomato1","dodgerblue","black")
+fill_cols = c("tomato1","black")
+
+ggplot(toplot, aes(x=AIMean,y=ProjMean,fill=VeridicalityGroup)) +
+  geom_point(shape=21,stroke=.5,size=2.5,color="black") +
+  scale_fill_manual(values=fill_cols) +
+  geom_abline(intercept=0,slope=1,linetype="dashed",color="gray60") +
+  geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax)) +
+  geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax)) +
+  guides(fill=FALSE) +
+  geom_text_repel(aes(label=short_trigger),color=cols$Colors,alpha=1,size=4) +
+  ylab("Mean projectivity rating") +
+  xlab("Mean not-at-issueness rating") 
+ggsave("../graphs/CEP-mean-projectivity-by-at-issueness.pdf",height=5,width=5)
+
+
+# **prior ratings by content (no main clause content) ----
+means = t %>%
+  group_by(prior_type,eventItemNr) %>%
+  summarise(Mean=mean(prior),CILow=ci.low(prior),CIHigh=ci.high(prior)) %>%
+  ungroup() %>%
+  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh)
+means
+
+names(means)
+table(means$prior_type)
+
+high = means %>%
+  filter(prior_type == "high_prior") %>%
+  mutate(eventItem = fct_reorder(eventItemNr,Mean))
+
+means = means %>%
+  mutate(eventItemNr = fct_relevel(eventItemNr,levels(high$eventItemNr))) %>% 
+  mutate(prior_type = fct_relevel(prior_type,"low_prior"))
+means
+
+subjmeans = t %>%
+  group_by(eventItemNr,workerid,prior_type) %>%
+  summarize(Mean = mean(prior)) %>% 
+  ungroup() %>% 
+  mutate(prior_type = fct_relevel(as.factor(as.character(prior_type)),"low_prior"))
+subjmeans$eventItemNr <- factor(subjmeans$eventItemNr, levels = unique(levels(means$eventItemNr)))
+nrow(subjmeans)
+levels(subjmeans$eventItemNr)
+names(subjmeans)
+
+ggplot(means, aes(x=eventItemNr, y=Mean, color=prior_type,shape=prior_type,fill=prior_type)) + 
+  geom_point(data=subjmeans,aes(fill=prior_type,color=prior_type),shape=21,alpha=.05) +
+  geom_point(stroke=.5,size=3,color="black") +
+  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.25) +
+  scale_shape_manual(values=c(25, 24),labels=c("lower probability","higher probability"),name="Fact") +
+  scale_fill_manual(values=c("#56B4E9","#E69F00"),labels=c("lower probability","higher probability"),name="Fact") +
+  scale_y_continuous(limits = c(0,1),breaks = c(0,.2,.4,.6,.8,1), labels=c("0", ".2", ".4", ".6", ".8", "1")) +
+  scale_color_manual(name="Fact",labels=c("lower probability", "higher probability"), values=c("#56B4E9","#E69F00")) +
+  coord_flip() +
+  theme(legend.position = "top", legend.text=element_text(size=12)) +
+  # theme(text = element_text(size=12), axis.text.x = element_text(size = 12, angle = 75, hjust = 1)) +
+  ylab("Mean prior probability rating") +
+  xlab("Content") 
+ggsave(f="../graphs/CEP-prior-ratings.pdf",height=5,width=8)
+
+
+# **plot projection by prior type collapsing over predicate (with main clause content) ----
+
+# mean projectivity by predicate and prior type, with main clause controls
+proj.means = cd %>%
+  group_by(short_trigger,prior_type) %>%
+  summarize(Mean = mean(projective), CILow = ci.low(projective), CIHigh = ci.high(projective)) %>%
+  ungroup() %>%
+  mutate(YMin = Mean - CILow, YMax = Mean + CIHigh, verb = fct_reorder(as.factor(short_trigger),Mean))  
+proj.means
+
+cols = data.frame(V=levels(proj.means$verb))
+
+cols$VeridicalityGroup = as.factor(
+  ifelse(cols$V %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+cols      
+
+levels(cols$V)
+cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+
+cols$Colors =  ifelse(cols$VeridicalityGroup == "F", "tomato1", "black")
+
+
+cols$Colors
+cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+levels(cols$V)
+
+proj.means$VeridicalityGroup = as.factor(
+  ifelse(proj.means$verb %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+
+# order predicates by high_prior
+high = proj.means %>%
+  filter(prior_type != "low_prior") %>%
+  mutate(short_trigger = fct_reorder(short_trigger,Mean))
+high
+levels(high$short_trigger)
+
+proj.means = proj.means %>%
+  mutate(short_trigger = fct_relevel(short_trigger,levels(high$short_trigger)))
+levels(proj.means$short_trigger)
+
+# change factor levels for prior_type for plotting
+proj.means = proj.means %>%
+  mutate(prior_type = fct_relevel(prior_type, "main_clause", "low_prior", "high_prior"))
+levels(proj.means$prior_type)
+
+# to plot MC in different color and shape, copy MC data to new data frame and 
+# remove MC data, but not factor level, from proj.means
+mc.data = droplevels(subset(proj.means, proj.means$verb == "MC"))
+mc.data
+#View(mc.data)
+
+proj.means[proj.means$short_trigger == "MC",]$Mean <- NA
+proj.means[proj.means$short_trigger == "MC",]$YMin <- NA
+proj.means[proj.means$short_trigger == "MC",]$YMax <- NA
+
+# to add participants' ratings
+subjmeans = cd %>%
+  group_by(workerid,short_trigger,prior_type) %>%
+  summarize(Mean = mean(projective))
+subjmeans$short_trigger <- factor(subjmeans$short_trigger, levels = unique(levels(proj.means$short_trigger)))
+levels(subjmeans$short_trigger)
+subjmeans
+subjmeans$prior_type <- as.factor(subjmeans$prior_type)
+
+# change factor levels for prior_type for plotting
+subjmeans = subjmeans %>%
+  mutate(prior_type = fct_relevel(prior_type, "main_clause", "low_prior", "high_prior"))
+levels(subjmeans$prior_type)
+
+levels(proj.means$prior_type)
+# [1] "main_clause"
+# [2] "low_prior"  
+# [3] "high_prior" 
+
+ggplot(proj.means, aes(x=short_trigger, y=Mean, color=prior_type,fill=prior_type,shape=prior_type)) + 
+  theme(legend.position = "top", legend.text=element_text(size=12)) +
+  geom_point(data=subjmeans,aes(fill=prior_type,color=prior_type),shape=21,alpha=.08) +
+  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.25) +
+  geom_point(size = 3,color="black") +
+  scale_shape_manual(values=rev(c(24, 25, 21)),labels=rev(c("higher probability","lower probability","main clause")),name="Fact") +
+  scale_fill_manual(values=rev(c("#E69F00","#56B4E9","black")),labels=rev(c("higher probability","lower probability","main clause")),name="Fact") +
+  scale_color_manual(values=rev(c("#E69F00","#56B4E9","black")),labels=rev(c("higher probability","lower probability","main clause")),name="Fact") +  
+  scale_alpha(range = c(.3,1)) +
+  scale_y_continuous(limits = c(0,1),breaks = c(0,.2,.4,.6,.8,1), labels=c("0", ".2", ".4", ".6", ".8", "1")) +
+  theme(text = element_text(size=12), axis.text.x = element_text(size = 12, angle = 45, hjust = 1, color=cols$Colors)) +
+  geom_errorbar(aes(x=1,ymin=mc.data$YMin,ymax=mc.data$YMax,width=.25),color="black",width=0) +  # set x to the position of MC
+  geom_point(shape=20,size=4,aes(x=1,y=mc.data$Mean),color="black",show.legend = FALSE ) +  # set x to the position of MC
+  ylab("Mean certainty rating") +
+  xlab("Predicate")
+ggsave("../graphs/CEP-means-projectivity-by-predicate-and-prior-cep.pdf",height=5,width=7)
+
+# **plot not-at-issue by prior on a by-participant level (no MC content) ----
+
+proj.means = t %>%
+  group_by(short_trigger,prior_type) %>%
+  summarize(Mean = mean(projective), CILow = ci.low(projective), CIHigh = ci.high(projective)) %>%
+  ungroup() %>%
+  mutate(YMin = Mean - CILow, YMax = Mean + CIHigh, short_trigger = fct_reorder(as.factor(short_trigger),Mean))  
+proj.means
+
+nrow(proj.means) #40 (high_prior and low_prior for each of the 20 predicates)
+
+rev.high = proj.means %>%
+  filter(prior_type == "high_prior") %>%
+  mutate(short_trigger = fct_rev(fct_reorder(short_trigger,Mean)))
+
+t = t %>%
+  mutate(short_trigger = fct_relevel(short_trigger,levels(rev.high$short_trigger)))
+table(t$short_trigger)
+
+ggplot(t, aes(x=prior, y=ai)) +
+  #geom_abline(intercept=0,slope=1,linetype="dashed",color="gray50") +
+  geom_smooth(method="lm",colour="blue") +
+  geom_point(shape=20, size=1, alpha=.3) +
+  #scale_color_manual(values=c("#56B4E9","#E69F00"),labels=c("lower probability","higher probability"),name="Fact") +
+  xlab("Prior probability rating") +
+  ylab("Not-at-issue rating") +
+  theme(legend.position = "top", legend.text=element_text(size=12)) +
+  guides(colour = guide_legend(override.aes = list(alpha = 1,size=3))) +
+  #xlim(0,1) +
+  #ylim(0,1) +
+  scale_x_continuous(breaks=c(0,.5,1),labels=c("0",".5","1")) +
+  scale_y_continuous(breaks=c(0,.5,1),labels=c("0",".5","1")) +
+  theme(panel.spacing.x = unit(4, "mm")) +
+  coord_fixed(ratio = 1) +
+  facet_wrap(~short_trigger)
+ggsave(f="../graphs/CEP-nai-by-prior.pdf",height=7,width=7)
+
+# **plot projectivity by prior probability on a by-participant level (no MC content) ----
+
+proj.means = t %>%
+  group_by(short_trigger,prior_type) %>%
+  summarize(Mean = mean(projective), CILow = ci.low(projective), CIHigh = ci.high(projective)) %>%
+  ungroup() %>%
+  mutate(YMin = Mean - CILow, YMax = Mean + CIHigh, short_trigger = fct_reorder(as.factor(short_trigger),Mean))  
+proj.means
+
+nrow(proj.means) #40 (high_prior and low_prior for each of the 20 predicates)
+
+rev.high = proj.means %>%
+  filter(prior_type == "high_prior") %>%
+  mutate(short_trigger = fct_rev(fct_reorder(short_trigger,Mean)))
+
+t = t %>%
+  mutate(short_trigger = fct_relevel(short_trigger,levels(rev.high$short_trigger)))
+table(t$short_trigger)
+
+# change factor levels for prior_type for plotting
+t = t %>%
+  mutate(prior_type = fct_relevel(prior_type, "low_prior", "high_prior"))
+levels(t$prior_type)
+
+ggplot(t, aes(x=prior, y=projective)) +
+  #geom_abline(intercept=0,slope=1,linetype="dashed",color="gray50") +
+  geom_smooth(method="lm",colour="blue") +
+  geom_point(shape=20, size=1, alpha=.3) +
+  #scale_color_manual(values=c("#56B4E9","#E69F00"),labels=c("lower probability","higher probability"),name="Fact") +
+  xlab("Prior probability rating") +
+  ylab("Certainty rating") +
+  theme(legend.position = "top", legend.text=element_text(size=12)) +
+  guides(colour = guide_legend(override.aes = list(alpha = 1,size=3))) +
+  #xlim(0,1) +
+  #ylim(0,1) +
+  scale_x_continuous(breaks=c(0,.5,1),labels=c("0",".5","1")) +
+  scale_y_continuous(breaks=c(0,.5,1),labels=c("0",".5","1")) +
+  theme(panel.spacing.x = unit(4, "mm")) +
+  coord_fixed(ratio = 1) +
+  facet_wrap(~short_trigger)
+ggsave(f="../graphs/CEP-projection-by-prior.pdf",height=7,width=7)
+
+# **plot projectivity by ai on a by-participant level (no MC content) ----
+
+rev.high = proj.means %>%
+  filter(prior_type == "high_prior") %>%
+  mutate(short_trigger = fct_rev(fct_reorder(short_trigger,Mean)))
+
+t = t %>%
+  mutate(short_trigger = fct_relevel(short_trigger,levels(rev.high$short_trigger)))
+table(t$short_trigger)
+
+ggplot(t, aes(x=ai, y=projective)) +
+  #geom_abline(intercept=0,slope=1,linetype="dashed",color="gray50") +
+  geom_smooth(method="lm",colour="blue") +
+  geom_point(shape=20, size=1, alpha=.3) +
+  #scale_color_manual(values=c("#56B4E9","#E69F00"),labels=c("lower probability","higher probability"),name="Fact") +
+  xlab("Not-at-issueness rating") +
+  ylab("Certainty rating") +
+  theme(legend.position = "top", legend.text=element_text(size=12)) +
+  #theme(strip.background = element_rect(fill="blue")) +
+  #theme(strip.text = element_text(color = cols$Colors)) +
+  guides(colour = guide_legend(override.aes = list(alpha = 1,size=3))) +
+  #xlim(0,1) +
+  #ylim(0,1) +
+  scale_x_continuous(breaks=c(0,.5,1),labels=c("0",".5","1")) +
+  scale_y_continuous(breaks=c(0,.5,1),labels=c("0",".5","1")) +
+  theme(panel.spacing.x = unit(4, "mm")) +
+  coord_fixed(ratio = 1) +
+  facet_wrap(~short_trigger)
+ggsave(f="../graphs/CEP-projection-by-ai.pdf",height=7,width=7)
+
+# **CEP: plot change in at-issueness by prior, predicate order by projection -----
+
+# target data
+nrow(t) #10100
+
+# mean change in ai by prior
+proj.means.t = t %>%
+  group_by(short_trigger) %>%
+  summarize(Mean = mean(projective)) %>%
+  ungroup() %>%
+  mutate(verb = fct_reorder(as.factor(short_trigger),Mean))  
+proj.means.t
+levels(proj.means.t$verb)
+
+ai.diff.means = t %>%
+  group_by(short_trigger,prior_type) %>%
+  summarize(Mean = mean(ai), CILow = ci.low(ai), CIHigh = ci.high(ai)) %>%
+  ungroup() %>%
+  select(short_trigger,prior_type,Mean) %>%
+  spread(prior_type, Mean) %>%
+  mutate(MeanDiff = high_prior-low_prior, verb_p = fct_reorder(as.factor(short_trigger),proj.means.t$Mean),
+         verb_diff = fct_reorder(as.factor(short_trigger),MeanDiff)) 
+ai.diff.means
+
+levels(ai.diff.means$verb_p)
+
+ggplot(ai.diff.means, aes(x=verb_diff,y=MeanDiff)) +
+  geom_bar(stat = "identity") +
+  #geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax,alpha = prior_type)) +
+  #geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax,alpha = prior_type)) +
+  #scale_alpha_manual(values = c(1, 0.5), guide = FALSE) +
+  #geom_point(shape=21,stroke=.5,size=2.5,color="black") +
+  #geom_line(aes(group = short_trigger)) +
+  #scale_fill_manual(values=fill_cols) +
+  geom_abline(intercept=0,slope=0,linetype="dashed",color="gray60") +
+  guides(fill=FALSE) +
+  coord_flip() +
+  theme(legend.position = "none") +
+  #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors),alpha=1,size=4,
+  #data = toplot[toplot$prior_type == "L",]) +
+  #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors,each=2),alpha=1,size=4) +
+  ylab("Mean change in at-issueness (high prior - low prior)") +
+  xlab("Predicate") 
+ggsave("../graphs/CEP-mean-change-in-ai-by-prior.pdf",height=5,width=5)
+
+# **CEP: plot change in projection by prior, predicate order by projection -----
+
+proj.means = t %>%
+  group_by(short_trigger) %>%
+  summarize(Mean = mean(projective)) %>%
+  ungroup() %>%
+  mutate(verb = fct_reorder(as.factor(short_trigger),Mean))  
+proj.means
+levels(proj.means$verb)
+
+proj.diff.means = t %>%
+  group_by(short_trigger,prior_type) %>%
+  summarize(Mean = mean(projective), CILow = ci.low(projective), CIHigh = ci.high(projective)) %>%
+  ungroup() %>%
+  select(short_trigger,prior_type,Mean) %>%
+  spread(prior_type, Mean) %>%
+  mutate(MeanDiff = high_prior-low_prior, verb_p = fct_reorder(as.factor(short_trigger),proj.means$Mean),
+         verb_diff = fct_reorder(as.factor(short_trigger),MeanDiff)) 
+proj.diff.means
+
+ggplot(proj.diff.means, aes(x=verb_diff,y=MeanDiff)) +
+  geom_bar(stat = "identity") +
+  #geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax,alpha = prior_type)) +
+  #geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax,alpha = prior_type)) +
+  #scale_alpha_manual(values = c(1, 0.5), guide = FALSE) +
+  #geom_point(shape=21,stroke=.5,size=2.5,color="black") +
+  #geom_line(aes(group = short_trigger)) +
+  #scale_fill_manual(values=fill_cols) +
+  geom_abline(intercept=0,slope=0,linetype="dashed",color="gray60") +
+  guides(fill=FALSE) +
+  coord_flip() +
+  theme(legend.position = "none") +
+  #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors),alpha=1,size=4,
+  #data = toplot[toplot$prior_type == "L",]) +
+  #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors,each=2),alpha=1,size=4) +
+  ylab("Mean change in projection (high prior - low prior)") +
+  xlab("Predicate") 
+ggsave("../graphs/mean-change-in-proj-by-prior.pdf",height=5,width=5)
+
+
+
+### **plot mean projection by mean ai and prior ----
+
+ai.means.prior
+proj.means.prior
+
+# combine at-issueness and projection means
+tmp.ai = ai.means.prior %>%
+  rename(AIMean="Mean",AIYMin="YMin",AIYMax="YMax",VG = "VeridicalityGroup") %>%
+  select(-verb)
+tmp.ai
+
+tmp.proj = proj.means.prior %>%
+  rename(ProjMean="Mean",ProjYMin="YMin",ProjYMax="YMax") 
+#%>%  select(-verb)
+tmp.proj
+
+
+toplot = tmp.ai %>%
+  left_join(tmp.proj, by=c("short_trigger","prior_type")) %>%
+  mutate(prior_type = replace_na(prior_type, "")) %>%
+  mutate(prior_type=recode(prior_type,low_prior="L",high_prior="H")) 
+# unite("verb_prior",short_trigger,prior) %>%
+# mutate(verb_prior = recode(verb_prior,MC_ = "MC"))
+
+summary(ai.diff.means)
+nrow(ai.diff.means) #20
+nrow(toplot) #40
+
+toplot2 = toplot %>%
+  left_join(ai.diff.means, by=c("short_trigger"))
+  
+summary(toplot2)
+table(toplot$)
+toplot
+
+# toplot already has VeridicalityGroup, just need to define colors
+# cols = data.frame(V=levels(as.factor(toplot$verb_prior)))
+cols = data.frame(V=levels(as.factor(toplot$short_trigger)))
+cols
+
+cols$VeridicalityGroup = as.factor(
+  ifelse(cols$V %in% c("know", "discover", "reveal", "see", "be_annoyed","know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+         
+levels(cols$V)
+# cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+
+cols$Colors =  ifelse(cols$VeridicalityGroup == "F", "tomato1", "black") 
+                      
+
+cols$Colors
+# cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+
+
+levels(cols$V)
+
+table(toplot2$short_trigger)
+
+# toplot$short_trigger <- factor(toplot$short_trigger, levels = toplot[order(as.character(proj.means$verb)),]$short_trigger, ordered = TRUE)
+# levels(toplot$short_trigger)
+
+#fill_cols = c("darkorchid","black","gray60","tomato1","dodgerblue","black")
+fill_cols = c("tomato1","black")
+
+toplot2$alpha <- ifelse(toplot2$prior_type == "H", 0.9, 0.35)
+
+# if higher prior leads to higher not-at-issueness: dodgerblue, otherwise green
+toplot2$direction <- ifelse(toplot2$MeanDiff > 0, "higher", "lower")
+table(toplot2$direction)
+
+
+ggplot(toplot2, aes(x=AIMean,y=ProjMean,alpha=prior_type)) +
+  geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax,alpha = prior_type)) +
+  geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax,alpha = prior_type)) +
+  scale_alpha_manual(values = c(1, 0.5), guide = FALSE) +
+  geom_point(shape=21,stroke=.5,size=2.5,color="black") +
+  geom_line(aes(group = short_trigger,color=direction)) +
+  scale_color_manual(values=c('dodgerblue','green')) +
+  scale_fill_manual(values=fill_cols) +
+  geom_abline(intercept=0,slope=1,linetype="dashed",color="gray60") +
+  guides(fill=FALSE) +
+  theme(legend.position = "none") +
+  geom_text_repel(aes(label=short_trigger),color=rep(cols$Colors),alpha=1,size=4,
+                  data = toplot[toplot$prior_type == "L",]) +
+  #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors,each=2),alpha=1,size=4) +
+  ylab("Mean projectivity rating") +
+  xlab("Mean not-at-issueness rating") 
+ggsave("../graphs/CEP-mean-projectivity-by-at-issueness-and-prior2.pdf",height=5,width=5)
+
 # prior ratings by content (no main clause content) ----
 means = t %>%
   group_by(prior_type,eventItemNr) %>%
@@ -401,7 +970,7 @@ ggsave("../graphs/mean-projectivity-by-at-issueness-and-prior.pdf",height=5,widt
 
 
 
-# one plot for effect of at-issueness and prior ----
+# plot for effect of at-issueness and prior on projection ----
 toplot
 toplot$alpha <- ifelse(toplot$prior_type == "H", 0.9, 0.35)
 
