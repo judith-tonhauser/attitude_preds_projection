@@ -76,6 +76,30 @@ cd = cd %>%
                         ifelse(prior_fact == "Zoe is 5 years old" | prior_fact == "Zoe is a math major", "10: Zoe calculated the tip",
                                        NA)))))))))))))))))))))
 
+# reconstruct 'eventItem' using 'prior_fact'
+cd = cd %>%
+  mutate(eventItem = ifelse(prior_fact == "Charley lives in Mexico" | prior_fact == "Charley lives in Korea", "Charley speaks Spanish",
+                              ifelse(prior_fact == "Danny is a diabetic" | prior_fact == "Danny loves cake", "Danny ate the last cupcake",
+                                     ifelse(prior_fact == "Emily has been saving for a year" | prior_fact == "Emily never has any money", "Emily bought a car yesterday",
+                                            ifelse(prior_fact == "Emma is in first grade" | prior_fact == "Emma is in law school", "Emma studied on Saturday morning",
+                                                   ifelse(prior_fact == "Frank has always wanted a pet" | prior_fact == "Frank is allergic to cats", "Frank got a cat",
+                                                          ifelse(prior_fact == "Grace hates her sister" | prior_fact == "Grace loves her sister", "Grace visited her sister",
+                                                                 ifelse(prior_fact == "Isabella is a vegetarian" | prior_fact == "Isabella is from Argentina", "Isabella ate a steak on Sunday",
+                                                                        ifelse(prior_fact == "Jackson is obese" | prior_fact == "Jackson is training for a marathon", "Jackson ran 10 miles",
+                                                                               ifelse(prior_fact == "Jayden's car is in the shop" | prior_fact == "Jayden doesn't have a driver's license", "Jayden rented a car",
+                                                                                      ifelse(prior_fact == "Jon lives 10 miles away from work" | prior_fact == "Jon lives 2 blocks away from work", "Jon walks to work",
+                                                                                             ifelse(prior_fact == "Josh is a 5-year old boy" | prior_fact == "Josh is a 75-year old man", "Josh learned to ride a bike yesterday",
+                                                                                                    ifelse(prior_fact == "Josie doesn't have a passport" | prior_fact == "Josie loves France", "Josie went on vacation to France",
+                                                                                                           ifelse(prior_fact == "Julian is Cuban" | prior_fact == "Julian is German", "Julian dances salsa",
+                                                                                                                  ifelse(prior_fact == "Mary is a middle school student" | prior_fact == "Mary is taking a prenatal yoga class", "Mary is pregnant",
+                                                                                                                         ifelse(prior_fact == "Mia is a college student" | prior_fact == "Mia is a nun", "Mia drank 2 cocktails last night",
+                                                                                                                                ifelse(prior_fact == "Olivia has two small children" | prior_fact == "Olivia works the third shift", "Olivia sleeps until noon",
+                                                                                                                                       ifelse(prior_fact == "Owen lives in Chicago" | prior_fact == "Owen lives in New Orleans", "Owen shoveled snow last winter",
+                                                                                                                                              ifelse(prior_fact == "Sophia is a high end fashion model" | prior_fact == "Sophia is a hipster", "Sophia got a tattoo",
+                                                                                                                                                     ifelse(prior_fact == "Tony has been sober for 20 years" | prior_fact == "Tony really likes to party with his friends", "Tony had a drink last night",
+                                                                                                                                                            ifelse(prior_fact == "Zoe is 5 years old" | prior_fact == "Zoe is a math major", "Zoe calculated the tip",
+                                                                                                                                                                   NA)))))))))))))))))))))
+
 # color-blind-friendly palette
 cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7") # c("#999999",
 
@@ -86,6 +110,8 @@ t = cd %>%
 nrow(t) #10100 / 505 Turkers = 20 rows (one for each predicate, each with prior, proj, ai)
 
 # PLOTS FOR CEP workshop talk (factive predicates in orange) ----
+
+# create needed means
 
 proj.means = cd %>%
   group_by(short_trigger) %>%
@@ -144,8 +170,6 @@ ai.means.prior$VeridicalityGroup = as.factor(
   ifelse(ai.means.prior$verb %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
 
 
-proj.means
-ai.means
 
 # **plot of projection by predicate ----
 
@@ -229,14 +253,14 @@ ggplot(toplot, aes(x=AIMean,y=ProjMean,fill=VeridicalityGroup)) +
   geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax)) +
   guides(fill=FALSE) +
   geom_text_repel(aes(label=short_trigger),color=cols$Colors,alpha=1,size=4) +
-  ylab("Mean projectivity rating") +
+  ylab("Mean certainty rating") +
   xlab("Mean not-at-issueness rating") 
 ggsave("../graphs/CEP-mean-projectivity-by-at-issueness.pdf",height=5,width=5)
 
 
 # **prior ratings by content (no main clause content) ----
 means = t %>%
-  group_by(prior_type,eventItemNr) %>%
+  group_by(prior_type,eventItem) %>%
   summarise(Mean=mean(prior),CILow=ci.low(prior),CIHigh=ci.high(prior)) %>%
   ungroup() %>%
   mutate(YMin=Mean-CILow,YMax=Mean+CIHigh)
@@ -247,24 +271,25 @@ table(means$prior_type)
 
 high = means %>%
   filter(prior_type == "high_prior") %>%
-  mutate(eventItem = fct_reorder(eventItemNr,Mean))
+  mutate(eventItem = fct_reorder(eventItem,Mean))
 
 means = means %>%
-  mutate(eventItemNr = fct_relevel(eventItemNr,levels(high$eventItemNr))) %>% 
+  mutate(eventItem = fct_relevel(eventItem,levels(high$eventItem))) %>% 
   mutate(prior_type = fct_relevel(prior_type,"low_prior"))
 means
 
 subjmeans = t %>%
-  group_by(eventItemNr,workerid,prior_type) %>%
+  group_by(eventItem,workerid,prior_type) %>%
   summarize(Mean = mean(prior)) %>% 
   ungroup() %>% 
   mutate(prior_type = fct_relevel(as.factor(as.character(prior_type)),"low_prior"))
-subjmeans$eventItemNr <- factor(subjmeans$eventItemNr, levels = unique(levels(means$eventItemNr)))
+subjmeans$eventItem <- factor(subjmeans$eventItem, levels = unique(levels(means$eventItem)))
 nrow(subjmeans)
-levels(subjmeans$eventItemNr)
+levels(subjmeans$eventItem)
 names(subjmeans)
+summary(subjmeans)
 
-ggplot(means, aes(x=eventItemNr, y=Mean, color=prior_type,shape=prior_type,fill=prior_type)) + 
+ggplot(means, aes(x=eventItem, y=Mean, color=prior_type,shape=prior_type,fill=prior_type)) + 
   geom_point(data=subjmeans,aes(fill=prior_type,color=prior_type),shape=21,alpha=.05) +
   geom_point(stroke=.5,size=3,color="black") +
   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.25) +
@@ -406,6 +431,23 @@ ggplot(t, aes(x=prior, y=ai)) +
   theme(panel.spacing.x = unit(4, "mm")) +
   coord_fixed(ratio = 1) +
   facet_wrap(~short_trigger)
+ggsave(f="../graphs/CEP-nai-by-prior-by-predicate.pdf",height=7,width=7)
+
+ggplot(t, aes(x=prior, y=ai)) +
+  #geom_abline(intercept=0,slope=1,linetype="dashed",color="gray50") +
+  geom_smooth(method="lm",colour="blue") +
+  geom_point(shape=20, size=1, alpha=.3) +
+  #scale_color_manual(values=c("#56B4E9","#E69F00"),labels=c("lower probability","higher probability"),name="Fact") +
+  xlab("Prior probability rating") +
+  ylab("Not-at-issue rating") +
+  theme(legend.position = "top", legend.text=element_text(size=12)) +
+  guides(colour = guide_legend(override.aes = list(alpha = 1,size=3))) +
+  #xlim(0,1) +
+  #ylim(0,1) +
+  scale_x_continuous(breaks=c(0,.5,1),labels=c("0",".5","1")) +
+  scale_y_continuous(breaks=c(0,.5,1),labels=c("0",".5","1")) +
+  theme(panel.spacing.x = unit(4, "mm")) +
+  coord_fixed(ratio = 1)
 ggsave(f="../graphs/CEP-nai-by-prior.pdf",height=7,width=7)
 
 # **plot projectivity by prior probability on a by-participant level (no MC content) ----
@@ -506,7 +548,35 @@ ai.diff.means
 
 levels(ai.diff.means$verb_p)
 
-ggplot(ai.diff.means, aes(x=verb_diff,y=MeanDiff)) +
+# predicate ordered by difference
+ggplot(ai.diff.means, aes(x=verb_p,y=MeanDiff)) +
+  geom_bar(stat = "identity") +
+  #geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax,alpha = prior_type)) +
+  #geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax,alpha = prior_type)) +
+  #scale_alpha_manual(values = c(1, 0.5), guide = FALSE) +
+  #geom_point(shape=21,stroke=.5,size=2.5,color="black") +
+  #geom_line(aes(group = short_trigger)) +
+  #scale_fill_manual(values=fill_cols) +
+  geom_abline(intercept=0,slope=0,linetype="dashed",color="gray60") +
+  guides(fill=FALSE) +
+  coord_flip() +
+  scale_y_continuous(limits = c(-0.12, 0.12)) +
+  theme(legend.position = "none") +
+  #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors),alpha=1,size=4,
+  #data = toplot[toplot$prior_type == "L",]) +
+  theme(text = element_text(size=12), axis.text.y = element_text(size = 12, color=cols$Colors)) +
+  ylab("Mean change in not-at-issueness (high-low prior)") +
+  xlab("Predicate") 
+ggsave("../graphs/CEP-mean-change-in-ai-by-prior-ordered-by-change.pdf",height=5,width=5)
+
+# **CEP: plot of what is predicted from non-redundancy principle ----
+
+ai.diff.means2 <- ai.diff.means %>%
+  mutate(MeanDiff2 = abs(MeanDiff))
+ai.diff.means2
+
+# predicate ordered by projection
+ggplot(ai.diff.means2, aes(x=verb_p,y=MeanDiff2)) +
   geom_bar(stat = "identity") +
   #geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax,alpha = prior_type)) +
   #geom_errorbarh(aes(xmin=AIYMin,xmax=AIYMax,alpha = prior_type)) +
@@ -518,12 +588,14 @@ ggplot(ai.diff.means, aes(x=verb_diff,y=MeanDiff)) +
   guides(fill=FALSE) +
   coord_flip() +
   theme(legend.position = "none") +
+  scale_y_continuous(limits = c(-0.12, 0.12)) +
+  theme(text = element_text(size=12), axis.text.y = element_text(size = 12, color=cols$Colors)) +
   #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors),alpha=1,size=4,
   #data = toplot[toplot$prior_type == "L",]) +
   #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors,each=2),alpha=1,size=4) +
-  ylab("Mean change in at-issueness (high prior - low prior)") +
+  ylab("Mean change in not-at-issueness (high-low prior)") +
   xlab("Predicate") 
-ggsave("../graphs/CEP-mean-change-in-ai-by-prior.pdf",height=5,width=5)
+ggsave("../graphs/CEP-predicted-change-in-ai-by-prior.pdf",height=5,width=5)
 
 # **CEP: plot change in projection by prior, predicate order by projection -----
 
@@ -545,6 +617,26 @@ proj.diff.means = t %>%
          verb_diff = fct_reorder(as.factor(short_trigger),MeanDiff)) 
 proj.diff.means
 
+cols = data.frame(V=levels(proj.means$verb))
+
+cols$VeridicalityGroup = as.factor(
+  ifelse(cols$V %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+cols      
+
+levels(cols$V)
+cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+
+cols$Colors =  ifelse(cols$VeridicalityGroup == "F", "tomato1", "black")
+
+
+cols$Colors
+cols$V <- factor(cols$V, levels = cols[order(as.character(proj.means$verb)),]$V, ordered = TRUE)
+levels(cols$V)
+
+proj.diff.means$VeridicalityGroup = as.factor(
+  ifelse(proj.diff.means$verb_p %in% c("know", "discover", "reveal", "see", "be_annoyed"), "F", "NF"))
+
+
 ggplot(proj.diff.means, aes(x=verb_diff,y=MeanDiff)) +
   geom_bar(stat = "identity") +
   #geom_errorbar(aes(ymin=ProjYMin,ymax=ProjYMax,alpha = prior_type)) +
@@ -557,9 +649,7 @@ ggplot(proj.diff.means, aes(x=verb_diff,y=MeanDiff)) +
   guides(fill=FALSE) +
   coord_flip() +
   theme(legend.position = "none") +
-  #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors),alpha=1,size=4,
-  #data = toplot[toplot$prior_type == "L",]) +
-  #geom_text_repel(aes(label=short_trigger),color=rep(cols2$Colors,each=2),alpha=1,size=4) +
+  theme(text = element_text(size=12), axis.text.y = element_text(size = 12, color=cols$Colors)) +
   ylab("Mean change in projection (high prior - low prior)") +
   xlab("Predicate") 
 ggsave("../graphs/mean-change-in-proj-by-prior.pdf",height=5,width=5)

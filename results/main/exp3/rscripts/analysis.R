@@ -48,7 +48,7 @@ contrasts(t_nomc$block_ai)
 contrasts(t_nomc$predicate_type)
 
 # center prior probability, projectivity, and at-issueness
-t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("prior","projective","ai","block_ai")]))
+t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("prior","projective","ai","block_ai","prior_type")]))
 summary(t_nomc)
 
 # define item
@@ -69,8 +69,6 @@ summary(m.prior)
 # prior_type1 5.141e-01  9.979e-03 7.566e+02   51.52   <2e-16 ***
 
 # analysis 1a: does block order predict prior ratings beyond high/low prob fact?
-# center fixed effects predictors first to reduce collinearity
-t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("prior_type")]))
 
 m.prior.block = lmer(prior ~ cprior_type*cblock_ai + (1+cprior_type+cblock_ai|item) + (1+cprior_type|workerid), data=t_nomc, REML=F)
 summary(m.prior.block)
@@ -105,6 +103,8 @@ summary(m.proj.block)
 # cprior_type:cblock_ai  -0.050412   0.014274 502.956515  -3.532 0.000451 ***
 
 # analysis 2b: does the prior effect hold independently of predicate?
+t_nomc$short_trigger <- relevel(t_nomc$short_trigger, ref = "pretend")
+
 m.proj.pred = lmer(projective ~ cprior_type*short_trigger + (1|content) + (1+cprior_type|workerid), data=t_nomc, REML=F)
 summary(m.proj.pred)
 # PRIOR PAPER answer: yes! lots of main effects of predicate, but no significant interactions with prior type (except for marginal interaction for know, p < .1, but not to be taken seriously)
@@ -152,6 +152,84 @@ anova(m.proj.ind,m.proj.ind.plus) #plus marginally better
 anova(m.proj,m.proj.ind.plus) #plus better
 # both the BIC comparison and the likelihood ratio comparison indicate that 
 # the individual-level prior model is better than the population-level or categorical one
+
+# # analysis 5: projection from mean at-issueness and predicate ----
+# does mean at-issueness predict projection ratings?
+ai.means = t_nomc %>%
+  group_by(short_trigger) %>%
+  summarize(AImean = mean(ai)) %>%
+  ungroup()
+ai.means
+
+proj.means = t_nomc %>%
+  group_by(short_trigger) %>%
+  summarize(Projmean = mean(projective)) %>%
+  ungroup()
+proj.means
+
+agr = t_nomc %>%
+  group_by(short_trigger) %>%
+  summarise(mean_ai = mean(ai), ci.low.ai=ci.low(ai), ci.high.ai=ci.high(ai), mean_proj = mean(projective), ci.low.proj=ci.low(projective),ci.high.proj=ci.high(projective))
+agr = as.data.frame(agr)
+agr$YMin = agr$mean_proj - agr$ci.low.proj
+agr$YMax = agr$mean_proj + agr$ci.high.proj
+agr$XMin = agr$mean_ai - agr$ci.low.ai
+agr$XMax = agr$mean_ai + agr$ci.high.ai
+
+#correlation (as in JoS paper)
+cor(agr$mean_ai,agr$mean_proj) #.73
+
+
+
+# merge mean at-issueness with data
+t_nomc <- merge(t_nomc,ai.means,by="short_trigger")
+t_nomc <- merge(t_nomc,proj.means,by="short_trigger")
+head(t_nomc)
+
+# center the block and at-issueness variables
+t_nomc = cbind(t_nomc,myCenter(t_nomc[,c("ai","AImean")]))
+summary(t_nomc)
+
+# predict mean projection from mean at-issueness, predicate and interaction
+m.proj = lmer(projective ~ cAImean + short_trigger + (1|item) + (1|workerid), data=t_nomc, REML=F)
+summary(m.proj)
+#cAImean     9.114e-01  5.083e-02 5.521e+02   17.93   <2e-16 ***
+  
+ranef(m.proj)
+
+# analysis 1b: does block order predict projection ratings beyond high/low prob fact?
+
+m.proj.block = lmer(projective ~ cAImean*cblock_ai + (1|item) + (1|workerid), data=t_nomc, REML=F)
+summary(m.proj.block)
+# effect of block order
+#(Intercept)          0.50784    0.01150  503.19578  44.155   <2e-16 ***
+#cAImean              1.08638    0.04771  397.55227  22.769   <2e-16 ***
+#cblock_ai            0.03237    0.01607  240.60395   2.014   0.0451 *  
+#cAImean:cblock_ai   -0.02796    0.04059 4314.77252  -0.689   0.4910 
+
+# analysis 2: does the at-issueness effect hold independently of predicate?
+m.proj.pred = lmer(projective ~ cAImean*short_trigger + (1|content) + (1|workerid), data=t_nomc, REML=F)
+# does not converge, removing by-content RE
+m.proj.pred = lmer(projective ~ cAImean*short_trigger + (1|workerid), data=t_nomc, REML=F)
+# does not converge
+summary(m.proj.pred)
+# answer FROM PRIOR PAPER: yes! lots of main effects of predicate, but no significant interactions with prior type 
+# (except for marginal interaction for know, p < .1, but not to be taken seriously)
+
+# analysis 3: projection (individual at-issueness ratings) ----
+# do individual at-issueness ratings predict projection, 
+# and do they do so better than mean at-issueness?
+t_nomc$short_trigger <- relevel(t_nomc$short_trigger, ref = "confirm")
+
+m.proj.ind = lmer(projective ~ cai*short_trigger + (1|item) + (1+cai|workerid), data=t_nomc, REML=F)
+summary(m.proj.ind)
+#cai           0.22082    0.01737 307.80260   12.71   <2e-16 ***
+summary(m.proj)
+
+# BIC: lower is better, so the mean model is better than the individual model
+BIC(m.proj.ind) #1870.491
+BIC(m.proj) #1861.387
+
 
 ### ANALYSES WITH AT-ISSUENESS ----
 
